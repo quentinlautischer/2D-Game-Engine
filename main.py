@@ -10,7 +10,8 @@ git add --all
 git commit -m "S"
 git push
 """
-
+def update_draw():
+	pygame.draw.rect(None, (0, 25, 25), box, 0)
 
 def main():
 	# Initialise screen
@@ -50,5 +51,4 @@ if __name__ == '__main__': main()
 
 
 
-def update_draw():
-	pygame.draw.rect(None, (0, 25, 25), box, 0)
+
