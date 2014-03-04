@@ -5,6 +5,13 @@
 import pygame
 from pygame.locals import *
 
+"""
+git add --all
+git commit -m "S"
+git push
+"""
+
+
 def main():
 	# Initialise screen
 	pygame.init()
@@ -18,7 +25,7 @@ def main():
 
 	# Display some text
 	font = pygame.font.Font(None, 36)
-	text = font.render("Hello There", 1, (10, 10, 10))
+	text = font.render("Welcome", 1, (10, 10, 10))
 	textpos = text.get_rect()
 	textpos.centerx = background.get_rect().centerx
 	background.blit(text, textpos)
@@ -35,6 +42,13 @@ def main():
 
 		screen.blit(background, (0, 0))
 		pygame.display.flip()
+		update_logic()
+		update_draw()
 
 
 if __name__ == '__main__': main()
+
+
+
+def update_draw():
+	pygame.draw.rect(None, (0, 25, 25), box, 0)
