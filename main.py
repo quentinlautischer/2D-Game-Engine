@@ -8,7 +8,7 @@ from pygame.locals import *
 def main():
 	# Initialise screen
 	pygame.init()
-	screen = pygame.display.set_mode((150, 50))
+	screen = pygame.display.set_mode((1000, 800))
 	pygame.display.set_caption('Basic Pygame program')
 
 	# Fill background
