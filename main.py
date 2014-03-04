@@ -42,7 +42,7 @@ def main():
 
 		screen.blit(background, (0, 0))
 		pygame.display.flip()
-		update_logic()
+
 		update_draw()
 
 
