@@ -14,7 +14,7 @@ def main():
 	# Fill background
 	background = pygame.Surface(screen.get_size())
 	background = background.convert()
-	background.fill((250, 250, 250))
+	background.fill((100, 250, 250))
 
 	# Display some text
 	font = pygame.font.Font(None, 36)
