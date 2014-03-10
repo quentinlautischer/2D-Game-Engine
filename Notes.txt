@@ -1,0 +1,16 @@
+#Notes
+
+Framwork is pretty much done... could use some cleanup...
+
+implement:
+
+Sorting Method unit_roster for depth of feild drawing (TOPIC: SORTING)
+
+scrolling map
+bosses
+implement attacking range (TOPIC: SHORTEST DISTANCE KINDA CALCS)
+attack animations
+
+AI!!! for monsters (TOPIC: PATHFINDING)
+
+Arduino controller (TOPIC: SERVER)

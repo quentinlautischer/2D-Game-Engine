@@ -1,39 +1,30 @@
 # Main File
 
-#!/usr/bin/python
-
-import pygame
+import pygame, random
 from pygame.locals import *
-
-"""
-git add --all
-git commit -m "S"
-git push
-"""
-def update_draw():
-	pygame.draw.rect(None, (0, 25, 25), box, 0)
+from gui import GUI
+from engine import ENGINE
+from unit.spellweaver_unit import SpellWeaverUnit
+from unit.armsmen_unit import ArmsmenUnit
+from unit.player_unit import PlayerUnit
+from map import Map
 
 def main():
 	# Initialise screen
 	pygame.init()
-	screen = pygame.display.set_mode((1000, 800))
-	pygame.display.set_caption('Basic Pygame program')
+	screen = pygame.display.set_mode((1024, 600))
+	pygame.display.set_caption('Switch & If')
 
-	# Fill background
-	background = pygame.Surface(screen.get_size())
-	background = background.convert()
-	background.fill((100, 250, 250))
+	unit_roster = []
+	unit_roster.append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/"))
+	unit_roster.append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/player2/"))
 
-	# Display some text
-	font = pygame.font.Font(None, 36)
-	text = font.render("Welcome", 1, (10, 10, 10))
-	textpos = text.get_rect()
-	textpos.centerx = background.get_rect().centerx
-	background.blit(text, textpos)
-
-	# Blit everything to the screen
-	screen.blit(background, (0, 0))
-	pygame.display.flip()
+	gui = GUI(screen, unit_roster)
+	map = Map(screen)
+	engine = ENGINE(screen, gui, unit_roster, map)
+	
+	#init
+	gui.draw(unit_roster)
 
 	# Event loop
 	while 1:
@@ -41,13 +32,15 @@ def main():
 			if event.type == QUIT:
 				return
 
-		screen.blit(background, (0, 0))
-		pygame.display.flip()
+		#MAIN LOOPER BRAH
+		if random.randint(0, 1000) > 990:
+			unit_roster.append(PlayerUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/enemy/"))
 
-		update_draw()
-
+		engine.update_logic()
+		engine.update_draw()
 
 if __name__ == '__main__': main()
+
 
 
 
