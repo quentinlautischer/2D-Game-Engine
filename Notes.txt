@@ -10,6 +10,11 @@ scrolling map
 bosses
 implement attacking range (TOPIC: SHORTEST DISTANCE KINDA CALCS)
 attack animations
+Sounds
+
+DUEL MODE
+STORY MODE
+ARENA MODE
 
 AI!!! for monsters (TOPIC: PATHFINDING)
 
