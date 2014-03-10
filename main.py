@@ -17,8 +17,8 @@ def main():
 	pygame.display.set_caption('Switch & If')
 
 	unit_roster = []
-	unit_roster.append(GladiatorUnit(unit_roster, 500, 400, "Switch", 1, "images/Josh_Switch/"))
-	unit_roster.append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/Quentin/"))
+	unit_roster.append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/"))
+	unit_roster.append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/player2/"))
 
 	gui = GUI(screen, unit_roster)
 	map = Map(screen)
