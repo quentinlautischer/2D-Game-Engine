@@ -4,13 +4,13 @@ from operator import itemgetter, attrgetter
 
 class ENGINE(object):
 
-	def __init__(self, screen, gui, unit_roster, map):
+	def __init__(self, screen, gui, unit_roster, maps):
 		self.unit_roster = unit_roster
 		self.screen = screen
 		self.gui = gui
-		self.map = map
+		self.maps = maps
 
-		self.FPS = 25
+		self.FPS = 30
 		self.controller1 = self.Controller1(unit_roster[0])
 		self.controller2 = self.Controller2(unit_roster[1])
 
@@ -20,9 +20,15 @@ class ENGINE(object):
 		player1 = self.unit_roster[0]
 		player2 = self.unit_roster[1]
 
+		if (player1.xpos > 800 or player2.xpos > 800) and 1:#scroll_available <- comes from game script
+			self.maps.is_map_scrolling = 1
+			player1.xpos = 100
+			player2.xpos = 100
+
+
 		#current_time  = pygame.time.get_ticks()
 		if player1.get_health() > 0:	
-			player1.lose_health(0.1)
+			#player1.lose_health(0.1)
 			self.controller1.update(player1)
 			player1.gain_energy(0.3)
 			if not player1.dmg_dealt:
@@ -33,7 +39,7 @@ class ENGINE(object):
 
 			#current_time  = pygame.time.get_ticks()
 		if player2.get_health() > 0:	
-			player2.lose_health(0.1)
+			#player2.lose_health(0.1)
 			self.controller2.update(player2)
 			player2.gain_energy(0.3)
 			if not player2.dmg_dealt:
@@ -64,12 +70,15 @@ class ENGINE(object):
 
 	def update_draw(self):
 
-		self.map.sky_draw()
+		self.maps.sky_draw()
+		self.screen.blit(self.maps.current_bg, (0, 150))
 
 		if self.unit_roster[0].dead and self.unit_roster[1].dead:
-			self.map.sky_color_default = (150, 50, 50)
+			self.maps.sky_color_default = (150, 50, 50)
 
-		self.screen.blit(self.map.bg, (0, 150))
+		if self.maps.is_map_scrolling:
+			self.maps.scroll_map_right()
+		
 		# Draw GUI
 		self.gui.draw(self.unit_roster)
 		#self.gui.draw_update(self.unit_roster)
@@ -102,31 +111,17 @@ class ENGINE(object):
 				#pygame.draw.rect(self.screen, (200, 200, 200), ((player.xpos, player.ypos-player.height), (player.width, player.height)), 0)
 				#pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
 				#self.screen.blit(player.anim_standing[0], (player.xpos, player.ypos-player.height))
-				Animation(self.screen, player, player.anim_standing, 10).animate()
+				Animation(self.screen, player, 0, player.anim_standing, 10).animate()
 			
 			if player.is_walking and player.attack_status == "none" :
-				rate = 5
-				Animation(self.screen, player, player.anim_walking, rate).animate()
-				if player.anim_walking[-2] == len(player.anim_walking) - 3 and player.anim_walking[-1] == rate-1:
-					Animation(self.screen, player, player.anim_walking, 5).animate()
-					player.anim_walking[-2] = 0
-				player.is_walking = 0
+				player.draw_walking(self.screen)
 
-			if player.attack_status == "stab":
-				rate = 3
-				Animation(self.screen, player, player.anim_atk_stab, rate).animate()
-				if player.anim_atk_stab[-2] == len(player.anim_atk_stab) - 3 and player.anim_atk_stab[-1] == rate-1:
-					Animation(self.screen, player, player.anim_atk_stab, 5).animate()
-					player.anim_atk_stab[-2] = 0
-					player.attack_status = "none"
+			if player.attack_status == "one":
+				player.draw_atk1(self.screen)
 			
-			if player.attack_status == "slash":
-				rate = 3
-				Animation(self.screen, player, player.anim_atk_slash, rate).animate()
-				if player.anim_atk_slash[-2] == len(player.anim_atk_slash) - 3 and player.anim_atk_slash[-1] == rate-1:
-					Animation(self.screen, player, player.anim_atk_slash, 5).animate()
-					player.anim_atk_slash[-2] = 0
-					player.attack_status = "none"
+			if player.attack_status == "two":
+				player.draw_atk2(self.screen)
+			
 			if player.attack_status == "DOOM":
 				for i in self.unit_roster:
 					if i.name != "Switch" and i.name != "If":
@@ -181,11 +176,11 @@ class ENGINE(object):
 
 		def _1(self, keys, player):	
 			if keys[self.K_1]:
-				player.attack_spell("slash")
+				player.attack_spell("one")
 		
 		def _2(self, keys, player):	
 			if keys[self.K_2]:
-				player.attack_spell("stab")
+				player.attack_spell("two")
 
 		def _9(self, keys, player):
 			if keys[self.K_9]:
@@ -221,20 +216,29 @@ class LoadImages(object):
 		sequence.append(1) #rate tracker
 		return sequence
 
-def in_range(unit, target, range_x, range_y, direction):
-	if (unit.ypos+(range_y)) >= target.ypos > (unit.ypos - (range_y)):
-		if direction == 'right':
-			if target.xpos <= unit.xpos + unit.width + range_x:
-				return True
-			return False
+def in_range_cross(unit, target, range_x, range_y, direction):
+	xdist = abs(unit.xpos - target.xpos)
+	ydist = abs(unit.ypos - target.ypos)
+	print("xdist: " + str(xdist) + " ydist: " + str(ydist))
 
-		if direction == 'left':
-			if target.xpos >= unit.xpos - target.width - range_x:
-				return True
-			return False
+	if ydist < range_y:
+		if direction == 'right':
+			if target.xpos > unit.xpos:
+				if range_x + unit.width > abs(xdist) :
+					return True
+				return False
+
+		else: #Directection == 'left'
+			if target.xpos < unit.xpos:
+				if xdist < range_x + target.width:
+					return True
+				return False
 
 def detect_collision(unit, objects):
 	for obj in objects:
 		if obj != unit:
-			#return in_range(unit, obj, 30, 20, unit.direction)
-			return False
+			return in_range_cross(unit, obj, 0, 40, unit.direction)
+		return False
+
+def straight_line_dist(x1, y1, x2, y2):
+	return ((x2-x1)**2 + (y2-y1)**2)**0.5

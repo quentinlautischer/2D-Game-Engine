@@ -1,16 +1,19 @@
 import pygame
 import math
 
-class Map(object):
+class Maps(object):
 
 	def __init__(self, screen):
 		self.screen = screen
 		self.bg = pygame.image.load("images/BackgroundCastle1.png")
+		self.bg1 = pygame.transform.flip(self.bg,True,False)
 		self.sky = pygame.image.load("images/sky2.png")
 		self.sky_pos = [0, -1024]
 		self.sky_speed = 1
 		self.sky_color_default = (100, 100, 200)
 		self.sky_color = (100, 100, 200)
+		self.is_map_scrolling = 0
+		self.current_bg = self.bg
 
 	def update_sky(self):
 
@@ -44,3 +47,13 @@ class Map(object):
 		for i in range(len(self.sky_pos)):
 			self.screen.blit(self.sky, (self.sky_pos[i], 0))
 
+
+
+	def scroll_map_right(self):
+		for i in range(256):
+			self.sky_draw()
+			self.screen.blit(self.bg, (0-i*4, 150))
+			self.screen.blit(self.bg1, (1024-i*4, 150))
+			pygame.display.update()
+		self.is_map_scrolling = 0
+		self.current_bg = self.bg1

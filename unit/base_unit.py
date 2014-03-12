@@ -4,13 +4,14 @@ from engine import *
 class BaseUnit(object):
 
 
-	def __init__(self, xpos, ypos, **keywords):
+	def __init__(self, unit_roster, xpos, ypos, name, number, dir, **keywords):
 		self.health = 100
 		self.health_max = self.health
 		self.energy = 100
 		self.energy_max = self.energy
 		self.xpos = xpos
 		self.ypos = ypos
+		self.number = number
 		self.width = 60
 		self.step_vert = 5
 		self.height = 100
@@ -20,6 +21,15 @@ class BaseUnit(object):
 		self.is_walking = 0
 		self.direction = 'left'
 		self.dead_time = 0
+		self.unit_roster = unit_roster
+		self.name = name
+		self.anim_death = pygame.transform.rotate((pygame.image.load(dir + "rope_Frame_0.png")), 90)
+		self.dead = False
+		self.dmg_dealt = True
+		self.attack_status = "none"
+		self.attacks_dict = {"one": {"energy": 10, "dmg": 10, "x_range": 60, "y_range": 40},
+						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 40},
+						"DOOM": {"energy": 0, "dmg": 100}}
 
 	def get_position(self):
 		return self.xpos, self.ypos
@@ -33,20 +43,17 @@ class BaseUnit(object):
 
 		if not detect_collision(self, self.unit_roster):
 			self.xpos -= self.step_horz
-		
 
 	def move_right(self):
 		self.is_walking = 1
 		self.direction = 'right'
 		if not detect_collision(self, self.unit_roster):
 			self.xpos += self.step_horz
-		
 
 	def move_down(self):
 		self.is_walking = 1
 		if self.ypos - self.step_vert < 650:
 			self.ypos += self.step_vert
-
 
 	def move_up(self):
 		self.is_walking = 1
@@ -76,3 +83,42 @@ class BaseUnit(object):
 		if self.energy > 100:
 			self.energy = 100
 
+	def attack_spell(self, atk):
+		if self.energy >= self.attacks_dict.get(atk).get("energy"):
+			if self.attack_status == "none":
+				self.attack_status = atk
+				self.dmg_dealt = False
+				self.lose_energy(self.attacks_dict.get(atk).get("energy"))
+
+	def check_dmg_done(self, roster):
+		x_range = self.attacks_dict.get(self.attack_status).get("x_range")
+		y_range = self.attacks_dict.get(self.attack_status).get("y_range")
+
+		for enemy in roster:
+			if enemy.name != self.name:
+				if in_range_cross(self, enemy, x_range, y_range, self.direction):
+					enemy.lose_health(self.attacks_dict.get(self.attack_status).get("dmg"))
+
+	def draw_walking(self, screen):
+		rate = 5
+		Animation(screen, self, 0, self.anim_walking, rate).animate()
+		if self.anim_walking[-2] == len(self.anim_walking) - 3 and self.anim_walking[-1] == rate-1:
+			Animation(screen, self, 0, self.anim_walking, 5).animate()
+			self.anim_walking[-2] = 0
+		self.is_walking = 0
+
+	def draw_atk1(self, screen):
+		rate = 3
+		Animation(screen, self, 0, self.anim_atk1, rate).animate()
+		if self.anim_atk1[-2] == len(self.anim_atk1) - 3 and self.anim_atk1[-1] == rate-1:
+			Animation(screen, self, 0, self.anim_atk1, 5).animate()
+			self.anim_atk1[-2] = 0
+			self.attack_status = "none"
+
+	def draw_atk2(self, screen):
+		rate = 3
+		Animation(screen, self, 0, self.anim_atk2, rate).animate()
+		if self.anim_atk2[-2] == len(self.anim_atk2) - 3 and self.anim_atk2[-1] == rate-1:
+			Animation(screen, self, 0, self.anim_atk2, 5).animate()
+			self.anim_atk2[-2] = 0
+			self.attack_status = "none"

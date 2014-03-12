@@ -7,8 +7,7 @@ from engine import ENGINE
 from unit.spellweaver_unit import SpellWeaverUnit
 from unit.armsmen_unit import ArmsmenUnit
 from unit.gladiator_unit import GladiatorUnit
-from unit.player_unit import PlayerUnit
-from map import Map
+from maps import Maps
 
 def main():
 	# Initialise screen
@@ -17,12 +16,12 @@ def main():
 	pygame.display.set_caption('Switch & If')
 
 	unit_roster = []
-	unit_roster.append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/"))
-	unit_roster.append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/player2/"))
+	unit_roster.append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/Player1/"))
+	unit_roster.append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/Player2/"))
 
 	gui = GUI(screen, unit_roster)
-	map = Map(screen)
-	engine = ENGINE(screen, gui, unit_roster, map)
+	maps = Maps(screen)
+	engine = ENGINE(screen, gui, unit_roster, maps)
 	
 	#init
 	gui.draw(unit_roster)
@@ -35,7 +34,7 @@ def main():
 
 		#MAIN LOOPER BRAH
 		if random.randint(0, 1000) > 990:
-			unit_roster.append(PlayerUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/enemy/"))
+			unit_roster.append(ArmsmenUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/enemy/"))
 
 		engine.update_logic()
 		engine.update_draw()
