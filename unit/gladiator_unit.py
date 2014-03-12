@@ -14,7 +14,7 @@ class GladiatorUnit(BaseUnit):
 		self.twoH_atk2_effect = LoadImages("images/", ["2h_atk_effect.png","2h_atk_effect.png","2h_atk_effect.png","2h_atk_effect.png"]).sequence
 		self.attacks_dict = {"one": {"energy": 10, "dmg": 10, "x_range": 80, "y_range": 40},
 						"two": {"energy": 10, "dmg": 10, "x_range": 50, "y_range": 40},
-						"DOOM": {"energy": 0, "dmg": 100}}
+						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
 
 	def draw_atk1(self, screen):
 		#Stab

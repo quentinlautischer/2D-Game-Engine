@@ -7,6 +7,8 @@ from engine import ENGINE
 from unit.spellweaver_unit import SpellWeaverUnit
 from unit.armsmen_unit import ArmsmenUnit
 from unit.gladiator_unit import GladiatorUnit
+from unit.werewolf_unit import WerewolfUnit
+from unit.golem_unit import GolemUnit
 from maps import Maps
 
 def main():
@@ -34,7 +36,7 @@ def main():
 
 		#MAIN LOOPER BRAH
 		if random.randint(0, 1000) > 990:
-			unit_roster.append(ArmsmenUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/enemy/"))
+			unit_roster.append(GolemUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/enemy/"))
 
 		engine.update_logic()
 		engine.update_draw()

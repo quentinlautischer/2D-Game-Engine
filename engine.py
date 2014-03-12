@@ -108,8 +108,8 @@ class ENGINE(object):
 				
 				#Uncomment for hitbox
 
-				#pygame.draw.rect(self.screen, (200, 200, 200), ((player.xpos, player.ypos-player.height), (player.width, player.height)), 0)
-				#pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
+				pygame.draw.rect(self.screen, (200, 200, 200), ((player.xpos, player.ypos-player.height), (player.width, player.height)), 0)
+				pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
 				#self.screen.blit(player.anim_standing[0], (player.xpos, player.ypos-player.height))
 				Animation(self.screen, player, 0, player.anim_standing, 10).animate()
 			
@@ -215,6 +215,28 @@ class LoadImages(object):
 		sequence.append(0) #frame tracker
 		sequence.append(1) #rate tracker
 		return sequence
+
+class LoadImagesSheet(object):
+
+	def __init__(self, dir, images):
+		self.dir = dir
+		self.images = images
+
+	def load_images_sheet(self, sprt_len_x, sprt_len_y, crnr_x, crnr_y, length):
+		sequence = []
+		###########
+		sheet = pygame.image.load(self.dir + self.images)
+
+		for i in range(length):
+			sheet.set_clip(pygame.Rect(crnr_x, crnr_y, sprt_len_x, sprt_len_y))
+			sequence.append(sheet.subsurface(sheet.get_clip()))
+			crnr_x += sprt_len_x  
+
+		###########
+		sequence.append(0) #frame tracker
+		sequence.append(1) #rate tracker
+		return sequence
+
 
 def in_range_cross(unit, target, range_x, range_y, direction):
 	xdist = abs(unit.xpos - target.xpos)

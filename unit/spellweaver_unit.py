@@ -15,7 +15,7 @@ class SpellWeaverUnit(BaseUnit):
 		self.firearrow_move = -20
 		self.attacks_dict = {"one": {"energy": 10, "dmg": 50, "x_range": 1000, "y_range": 40},
 						"two": {"energy": 10, "dmg": 70, "x_range": 70, "y_range": 40},
-						"DOOM": {"energy": 0, "dmg": 100}}
+						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
 
 
 	def draw_atk1(self, screen):

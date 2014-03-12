@@ -4,13 +4,13 @@ Framwork is pretty much done... could use some cleanup...
 
 implement:
 
-Sorting Method unit_roster for depth of feild drawing (TOPIC: SORTING)
+DONE: Sorting Method unit_roster for depth of feild drawing (TOPIC: SORTING)
+DONE: scrolling map
+DONE: implement attacking range (TOPIC: SHORTEST DISTANCE KINDA CALCS)
+DONE: attack animations
 
-scrolling map
-bosses
-implement attacking range (TOPIC: SHORTEST DISTANCE KINDA CALCS)
-attack animations
 Sounds
+bosses
 
 DUEL MODE
 STORY MODE
