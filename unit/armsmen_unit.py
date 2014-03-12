@@ -6,7 +6,7 @@ import unit
 class ArmsmenUnit(BaseUnit):
 
 	def __init__(self, unit_roster, xpos, ypos, name, number, dir, **keywords):
-		super().__init__(unit_roster, xpos, ypos, name, number, dir, **keywords)
+		super().__init__(unit_roster, xpos, ypos, name, number, **keywords)
 		self.anim_standing = LoadImages(dir, ["stand1_Frame_0.png", "stand1_Frame_1.png", "stand1_Frame_2.png"]).sequence
 		self.anim_atk1 = LoadImages(dir, ["stabOF_Frame_0.png","stabOF_Frame_1.png","stabOF_Frame_2.png"]).sequence
 		self.anim_atk2 = LoadImages(dir, ["swingO1_Frame_0.png","swingO1_Frame_1.png","swingO1_Frame_2.png","swingO1_Frame_2.png"]).sequence

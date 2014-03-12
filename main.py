@@ -18,8 +18,8 @@ def main():
 	pygame.display.set_caption('Switch & If')
 
 	unit_roster = []
-	unit_roster.append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/Player1/"))
-	unit_roster.append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/Player2/"))
+	unit_roster.append(WerewolfUnit(unit_roster, 500, 400, "Switch", 1))
+	unit_roster.append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2))
 
 	gui = GUI(screen, unit_roster)
 	maps = Maps(screen)
@@ -36,7 +36,7 @@ def main():
 
 		#MAIN LOOPER BRAH
 		if random.randint(0, 1000) > 990:
-			unit_roster.append(GolemUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/enemy/"))
+			unit_roster.append(ArmsmenUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/enemy/"))
 
 		engine.update_logic()
 		engine.update_draw()

@@ -10,7 +10,7 @@ class ENGINE(object):
 		self.gui = gui
 		self.maps = maps
 
-		self.FPS = 30
+		self.FPS = 100
 		self.controller1 = self.Controller1(unit_roster[0])
 		self.controller2 = self.Controller2(unit_roster[1])
 
@@ -108,8 +108,8 @@ class ENGINE(object):
 				
 				#Uncomment for hitbox
 
-				pygame.draw.rect(self.screen, (200, 200, 200), ((player.xpos, player.ypos-player.height), (player.width, player.height)), 0)
-				pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
+				#pygame.draw.rect(self.screen, (200, 200, 200), ((player.xpos, player.ypos-player.height), (player.width, player.height)), 0)
+				#pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
 				#self.screen.blit(player.anim_standing[0], (player.xpos, player.ypos-player.height))
 				Animation(self.screen, player, 0, player.anim_standing, 10).animate()
 			
