@@ -4,9 +4,10 @@ from engine import *
 class BaseUnit(object):
 
 
-	def __init__(self, unit_roster, xpos, ypos, name, number, dir, **keywords):
+	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, **keywords):
 		self.health = 100
 		self.health_max = self.health
+		self.last_health = self.health
 		self.energy = 100
 		self.energy_max = self.energy
 		self.xpos = xpos
@@ -23,9 +24,9 @@ class BaseUnit(object):
 		self.dead_time = 0
 		self.unit_roster = unit_roster
 		self.name = name
-		self.anim_death = pygame.transform.rotate((pygame.image.load(dir + "rope_Frame_0.png")), 90)
 		self.dead = False
 		self.dmg_dealt = True
+		self.dmg_done_to_me = []
 		self.attack_status = "none"
 		self.attacks_dict = {"one": {"energy": 10, "dmg": 10, "x_range": 60, "y_range": 40},
 						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 40},
@@ -98,6 +99,7 @@ class BaseUnit(object):
 			if enemy.name != self.name:
 				if in_range_cross(self, enemy, x_range, y_range, self.direction):
 					enemy.lose_health(self.attacks_dict.get(self.attack_status).get("dmg"))
+					return self.attacks_dict.get(self.attack_status).get("dmg")
 
 	def draw_walking(self, screen):
 		rate = 5
@@ -122,3 +124,11 @@ class BaseUnit(object):
 			Animation(screen, self, 0, self.anim_atk2, 5).animate()
 			self.anim_atk2[-2] = 0
 			self.attack_status = "none"
+
+	def draw_death(self, screen):
+		#Stab
+		rate = 10
+		Animation(screen, self, 0, self.anim_death, rate).animate()
+		if self.anim_death[-2] == len(self.anim_death) - 3 and self.anim_death[-1] == rate-1:
+			Animation(screen, self, 0, self.anim_death, 5).animate()
+			self.anim_death[-2] = 0

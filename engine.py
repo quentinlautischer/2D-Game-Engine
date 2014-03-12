@@ -60,14 +60,25 @@ class ENGINE(object):
 				if not unit.dead:
 					unit.dead_time = pygame.time.get_ticks()
 				unit.dead = True
-				if unit.dead_time + 5000 < pygame.time.get_ticks():
+				if unit.dead_time + 4000 < pygame.time.get_ticks():
 					self.unit_roster.remove(unit)
 
 	def draw_overhead_health(self, unit):
 		bar_height = 10
+		if unit.health != unit.last_health:
+			unit.dmg_done_to_me.append((unit.last_health-unit.health,1))
+		for i in unit.dmg_done_to_me:
+			dmg, count = i
+			font = pygame.font.Font(None, 56)
+			text = font.render(str(dmg), 1, (255, 255, 255))
+			self.screen.blit(text, (unit.xpos, unit.ypos-unit.height-bar_height-bar_height-(10*count), unit.width, bar_height))
+			unit.dmg_done_to_me.pop(0)
+			if count < 10:
+				unit.dmg_done_to_me.append((dmg, count+1))
+
 		pygame.draw.rect(self.screen, (200, 50, 50), (unit.xpos, unit.ypos-unit.height-bar_height, unit.width, bar_height), 0)
 		pygame.draw.rect(self.screen, (0, 200, 50), (unit.xpos, unit.ypos-unit.height-bar_height, (unit.health / unit.health_max)*unit.width, bar_height), 0)
-
+		unit.last_health = unit.health
 	def update_draw(self):
 
 		self.maps.sky_draw()
@@ -128,7 +139,7 @@ class ENGINE(object):
 						i.health = 0
 				player.attack_status = "none"
 		else:
-			self.screen.blit(player.anim_death, (player.xpos, player.ypos-player.height))
+			player.draw_death(self.screen)
 
 
 	class Controller1(object):
@@ -202,8 +213,9 @@ class ENGINE(object):
 
 class LoadImages(object):
 
-	def __init__(self, dir, images):
-		self.dir = dir
+	def __init__(self, dirr, images, angle = 0):
+		self.dirr = dirr
+		self.angle = angle
 		self.images = images
 		self.sequence = self.load_images()
 	
@@ -211,21 +223,21 @@ class LoadImages(object):
 		sequence = []
 
 		for i in self.images:
-			sequence.append(pygame.image.load(self.dir + i))
+			sequence.append(pygame.transform.rotate(pygame.image.load(self.dirr + i), self.angle))
 		sequence.append(0) #frame tracker
 		sequence.append(1) #rate tracker
 		return sequence
 
 class LoadImagesSheet(object):
 
-	def __init__(self, dir, images):
-		self.dir = dir
+	def __init__(self, dirr, images):
+		self.dir = dirr
 		self.images = images
 
 	def load_images_sheet(self, sprt_len_x, sprt_len_y, crnr_x, crnr_y, length):
 		sequence = []
 		###########
-		sheet = pygame.image.load(self.dir + self.images)
+		sheet = pygame.image.load(self.dirr + self.images)
 
 		for i in range(length):
 			sheet.set_clip(pygame.Rect(crnr_x, crnr_y, sprt_len_x, sprt_len_y))

@@ -1,16 +1,16 @@
 from engine import LoadImages
 from unit.base_unit import BaseUnit
 from animation import Animation
-import unit
-
+import unit, pygame
 class SpellWeaverUnit(BaseUnit):
 
-	def __init__(self, unit_roster, xpos, ypos, name, number, dir, **keywords):
-		super().__init__(unit_roster, xpos, ypos, name, number, dir, **keywords)
-		self.anim_standing = LoadImages(dir, ["stand1_Frame_0.png", "stand1_Frame_1.png", "stand1_Frame_2.png"]).sequence
-		self.anim_atk1 = LoadImages(dir, ["stabO1_Frame_0.png","shootF_Frame_0.png","shootF_Frame_1.png","shootF_Frame_2.png"]).sequence
-		self.anim_atk2 = LoadImages(dir, ["swingO3_Frame_0.png","swingO3_Frame_1.png","swingO3_Frame_2.png"]).sequence
-		self.anim_walking = LoadImages(dir, ["walk1_Frame_0.png","walk1_Frame_1.png","walk1_Frame_2.png","walk1_Frame_3.png"]).sequence
+	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, **keywords):
+		super().__init__(unit_roster, xpos, ypos, name, number, dirr, **keywords)
+		self.anim_standing = LoadImages(dirr, ["stand1_Frame_0.png", "stand1_Frame_1.png", "stand1_Frame_2.png"]).sequence
+		self.anim_atk1 = LoadImages(dirr, ["stabO1_Frame_0.png","shootF_Frame_0.png","shootF_Frame_1.png","shootF_Frame_2.png"]).sequence
+		self.anim_atk2 = LoadImages(dirr, ["swingO3_Frame_0.png","swingO3_Frame_1.png","swingO3_Frame_2.png"]).sequence
+		self.anim_walking = LoadImages(dirr, ["walk1_Frame_0.png","walk1_Frame_1.png","walk1_Frame_2.png","walk1_Frame_3.png"]).sequence
+		self.anim_death = LoadImages(dirr, ["rope_Frame_0.png"], 90).sequence
 		self.firearrow_effect = LoadImages("images/", ["firearrow.png","firearrow.png","firearrow.png","firearrow.png"]).sequence
 		self.firearrow_move = -20
 		self.attacks_dict = {"one": {"energy": 10, "dmg": 50, "x_range": 1000, "y_range": 40},
@@ -20,7 +20,7 @@ class SpellWeaverUnit(BaseUnit):
 
 	def draw_atk1(self, screen):
 		#Bow
-		rate = 4
+		rate = 2
 		Animation(screen, self, 0, self.anim_atk1, rate).animate()
 		Animation(screen, self, self.width + self.firearrow_move, self.firearrow_effect, rate).animate()
 		self.firearrow_move += 60

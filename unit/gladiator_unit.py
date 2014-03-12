@@ -1,20 +1,22 @@
 from engine import LoadImages
 from unit.base_unit import BaseUnit
 from animation import Animation
-import unit
+import unit, pygame
 
 class GladiatorUnit(BaseUnit):
 
-	def __init__(self, unit_roster, xpos, ypos, name, number, dir, **keywords):
-		super().__init__(unit_roster, xpos, ypos, name, number, dir, **keywords)
-		self.anim_standing = LoadImages(dir, ["stand2_Frame_0.png", "stand2_Frame_1.png", "stand2_Frame_2.png"]).sequence
-		self.anim_atk1 = LoadImages(dir, ["stabOF_Frame_0.png","stabOF_Frame_1.png","stabOF_Frame_2.png"]).sequence
-		self.anim_atk2 = LoadImages(dir, ["swingT1_Frame_0.png","swingT1_Frame_1.png","swingT1_Frame_2.png"]).sequence
-		self.anim_walking = LoadImages(dir, ["walk1_Frame_0.png","walk1_Frame_1.png","walk1_Frame_2.png","walk1_Frame_3.png"]).sequence
+	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, **keywords):
+		super().__init__(unit_roster, xpos, ypos, name, number, dirr, **keywords)
+		self.anim_standing = LoadImages(dirr, ["stand2_Frame_0.png", "stand2_Frame_1.png", "stand2_Frame_2.png"]).sequence
+		self.anim_atk1 = LoadImages(dirr, ["stabOF_Frame_0.png","stabOF_Frame_1.png","stabOF_Frame_2.png"]).sequence
+		self.anim_atk2 = LoadImages(dirr, ["swingT1_Frame_0.png","swingT1_Frame_1.png","swingT1_Frame_2.png"]).sequence
+		self.anim_walking = LoadImages(dirr, ["walk1_Frame_0.png","walk1_Frame_1.png","walk1_Frame_2.png","walk1_Frame_3.png"]).sequence
 		self.twoH_atk2_effect = LoadImages("images/", ["2h_atk_effect.png","2h_atk_effect.png","2h_atk_effect.png","2h_atk_effect.png"]).sequence
+		self.anim_death = LoadImages(dirr, ["rope_Frame_0.png"], 90).sequence
 		self.attacks_dict = {"one": {"energy": 10, "dmg": 10, "x_range": 80, "y_range": 40},
 						"two": {"energy": 10, "dmg": 10, "x_range": 50, "y_range": 40},
 						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
+
 
 	def draw_atk1(self, screen):
 		#Stab
