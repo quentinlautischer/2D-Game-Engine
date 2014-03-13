@@ -67,6 +67,12 @@ class BaseUnit(object):
 
 	def get_health(self):
 		return self.health
+
+	def gain_health(self, hp):
+		if self.health < self.health_max:
+			self.health += hp
+		if self.health > 100:
+			self.health = 100
 	
 	def lose_health(self, dmg):
 		if self.health > 0:
@@ -80,7 +86,7 @@ class BaseUnit(object):
 
 	def gain_energy(self, gain):
 		if self.energy < 100:
-			self.energy = self.energy + gain
+			self.energy += gain
 		if self.energy > 100:
 			self.energy = 100
 
@@ -132,3 +138,7 @@ class BaseUnit(object):
 		if self.anim_death[-2] == len(self.anim_death) - 3 and self.anim_death[-1] == rate-1:
 			Animation(screen, self, 0, self.anim_death, 5).animate()
 			self.anim_death[-2] = 0
+
+	def queue_attack1(self):
+		self.dmg_dealt = False
+		self.attack_status = "one"

@@ -31,6 +31,7 @@ class ENGINE(object):
 			#player1.lose_health(0.1)
 			self.controller1.update(player1)
 			player1.gain_energy(0.3)
+			player1.gain_health(0.1)
 			if not player1.dmg_dealt:
 				player1.check_dmg_done(self.unit_roster)
 				player1.dmg_dealt = True
@@ -42,6 +43,7 @@ class ENGINE(object):
 			#player2.lose_health(0.1)
 			self.controller2.update(player2)
 			player2.gain_energy(0.3)
+			player1.gain_health(0.1)
 			if not player2.dmg_dealt:
 				player2.check_dmg_done(self.unit_roster)
 				player2.dmg_dealt = True
@@ -134,6 +136,9 @@ class ENGINE(object):
 			if player.attack_status == "two":
 				player.draw_atk2(self.screen)
 			
+			if player.attack_status == "warn1":
+				player.draw_warn1(self.screen)
+
 			if player.attack_status == "DOOM":
 				for i in self.unit_roster:
 					if i.name != "Switch" and i.name != "If":
