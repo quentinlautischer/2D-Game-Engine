@@ -13,8 +13,8 @@ class GladiatorUnit(BaseUnit):
 		self.anim_walking = LoadImages(dirr, ["walk1_Frame_0.png","walk1_Frame_1.png","walk1_Frame_2.png","walk1_Frame_3.png"]).sequence
 		self.twoH_atk2_effect = LoadImages("images/", ["2h_atk_effect.png","2h_atk_effect.png","2h_atk_effect.png","2h_atk_effect.png"]).sequence
 		self.anim_death = LoadImages(dirr, ["rope_Frame_0.png"], 90).sequence
-		self.attacks_dict = {"one": {"energy": 10, "dmg": 10, "x_range": 80, "y_range": 40},
-						"two": {"energy": 10, "dmg": 10, "x_range": 50, "y_range": 40},
+		self.attacks_dict = {"one": {"energy": 0, "dmg": 10, "x_range": 80, "y_range": 40},
+						"two": {"energy": 0, "dmg": 10, "x_range": 50, "y_range": 40},
 						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
 
 

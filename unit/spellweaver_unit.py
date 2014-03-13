@@ -13,8 +13,8 @@ class SpellWeaverUnit(BaseUnit):
 		self.anim_death = LoadImages(dirr, ["rope_Frame_0.png"], 90).sequence
 		self.firearrow_effect = LoadImages("images/", ["firearrow.png","firearrow.png","firearrow.png","firearrow.png"]).sequence
 		self.firearrow_move = -20
-		self.attacks_dict = {"one": {"energy": 10, "dmg": 50, "x_range": 1000, "y_range": 40},
-						"two": {"energy": 10, "dmg": 70, "x_range": 70, "y_range": 40},
+		self.attacks_dict = {"one": {"energy": 0, "dmg": 50, "x_range": 1000, "y_range": 70},
+						"two": {"energy": 0, "dmg": 70, "x_range": 70, "y_range": 100},
 						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
 
 

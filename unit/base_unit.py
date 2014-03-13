@@ -5,6 +5,7 @@ class BaseUnit(object):
 
 
 	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, **keywords):
+		self.image = pygame.image.load("images/player1/stand1_Frame_0.png")
 		self.health = 100
 		self.health_max = self.health
 		self.last_health = self.health
@@ -15,10 +16,9 @@ class BaseUnit(object):
 		self.number = number
 		self.width = 60
 		self.step_vert = 5
-		self.height = 100
+		self.height = self.image.get_rect().size[1]
 		self.step_horz = 10
 		self.position = self.position_update()
-		self.image = pygame.image.load("images/player.png")
 		self.is_walking = 0
 		self.direction = 'left'
 		self.dead_time = 0

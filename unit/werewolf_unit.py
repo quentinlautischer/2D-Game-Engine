@@ -3,6 +3,7 @@ from engine import LoadImages, LoadImagesSheet
 from unit.base_unit import BaseUnit
 from animation import Animation
 import unit
+from ai import AI
 
 class WerewolfUnit(BaseUnit):
 
@@ -16,8 +17,13 @@ class WerewolfUnit(BaseUnit):
 						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 40},
 						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
 
-		self.width = 150
-		self.height = 200
+		self.width = self.anim_standing[0].get_rect().size[0]
+		self.height = self.anim_standing[0].get_rect().size[1]
+
+		self.ai_sequence0 = [self.move_left, self.move_right, self.move_right]
+		self.ai_sequence1 = [self.move_left, self.move_left, self.move_left]
+
+		self.AI = AI(self, [self.ai_sequence0, self.ai_sequence1])
 	
 	def draw_atk1(self, screen):
 		#Stab
@@ -39,5 +45,10 @@ class WerewolfUnit(BaseUnit):
 			self.anim_atk2[-2] = 0
 			self.attack_status = "none"
 
+	def AI_update(self):
+		#self.attack_status = "one"
+		#self.check_dmg_done(self.unit_roster)
+		print(self.ai_sequence0[1])
+		self.AI.seq_execute(0)
 
 unit.unit_types["WerewolfUnit"] = WerewolfUnit

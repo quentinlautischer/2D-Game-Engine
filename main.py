@@ -11,15 +11,20 @@ from unit.werewolf_unit import WerewolfUnit
 from unit.golem_unit import GolemUnit
 from maps import Maps
 
+RESOLUTION_SCALE  = 1
+RESOLUTION_X = 1024 * RESOLUTION_SCALE
+RESOLUTION_Y = 600 * RESOLUTION_SCALE
+
 def main():
 	# Initialise screen
 	pygame.init()
-	screen = pygame.display.set_mode((1024, 600))
+	screen = pygame.display.set_mode((RESOLUTION_X, RESOLUTION_Y))
 	pygame.display.set_caption('Switch & If')
 
 	unit_roster = []
-	unit_roster.append(WerewolfUnit(unit_roster, 500, 400, "Switch", 1, "images/werewolf/"))
+	unit_roster.append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/"))
 	unit_roster.append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/player2/"))
+	unit_roster.append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/"))
 
 	gui = GUI(screen, unit_roster)
 	maps = Maps(screen)
@@ -35,8 +40,8 @@ def main():
 				return
 
 		#MAIN LOOPER BRAH
-		if random.randint(0, 1000) > 990:
-			unit_roster.append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/"))
+		#if random.randint(0, 1000) > 990:
+			#unit_roster.append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/"))
 
 		engine.update_logic()
 		engine.update_draw()

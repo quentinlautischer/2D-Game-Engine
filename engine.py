@@ -49,10 +49,10 @@ class ENGINE(object):
 			player2.dead = True
 
 		for unit in self.unit_roster[2::]:
-
 			#current_time  = pygame.time.get_ticks()
 			if unit.get_health() > 0:	
 				unit.gain_energy(0.3)
+				unit.AI_update()
 				if not unit.dmg_dealt:
 					unit.check_dmg_done(self.unit_roster)
 					unit.dmg_dealt = True
@@ -108,6 +108,7 @@ class ENGINE(object):
 		#self.draw_players(self.unit_roster[0])
 		#self.draw_players(self.unit_roster[1])
 		#Update whole screen
+		#pygame.transform.scale2x()
 		pygame.display.update()
 
 	def draw_players(self, player):
@@ -119,7 +120,7 @@ class ENGINE(object):
 				
 				#Uncomment for hitbox
 
-				pygame.draw.rect(self.screen, (200, 200, 200), ((player.xpos, player.ypos-player.height), (player.width, player.height)), 0)
+				#pygame.draw.rect(self.screen, (200, 200, 200), ((player.xpos, player.ypos-player.height), (player.width, player.height)), 0)
 				pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
 				#self.screen.blit(player.anim_standing[0], (player.xpos, player.ypos-player.height))
 				Animation(self.screen, player, 0, player.anim_standing, 10).animate()
@@ -269,10 +270,11 @@ def in_range_cross(unit, target, range_x, range_y, direction):
 				return False
 
 def detect_collision(unit, objects):
-	for obj in objects:
-		if obj != unit:
-			return in_range_cross(unit, obj, 0, 40, unit.direction)
-		return False
+	# for obj in objects:
+	# 	if obj != unit:
+	# 		return in_range_cross(unit, obj, 0, 40, unit.direction)
+	# 	return False
+	pass
 
 def straight_line_dist(x1, y1, x2, y2):
 	return ((x2-x1)**2 + (y2-y1)**2)**0.5
