@@ -9,6 +9,7 @@ from unit.armsmen_unit import ArmsmenUnit
 from unit.gladiator_unit import GladiatorUnit
 from unit.werewolf_unit import WerewolfUnit
 from unit.golem_unit import GolemUnit
+from unit.cleric_unit import ClericUnit
 from maps import Maps
 
 RESOLUTION_SCALE  = 1
@@ -65,7 +66,7 @@ def init_3p():
 
 def init_2p(screen, unit_roster):
 	unit_roster.append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/", "Good"))
-	unit_roster.append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/player2/", "Good"))
+	unit_roster.append(ClericUnit(unit_roster, 500, 600, "If", 2, "images/healer/", "Good"))
 	unit_roster.append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", "Bad"))
 
 def init_1p():
