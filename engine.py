@@ -10,9 +10,9 @@ class ENGINE(object):
 		self.gui = gui
 		self.maps = maps
 
-		self.FPS = 100
-		self.controller1 = self.Controller1(unit_roster[0])
-		self.controller2 = self.Controller2(unit_roster[1])
+		self.FPS = 25
+		self.controller1 = Controller1(unit_roster[0])
+		self.controller2 = Controller2(unit_roster[1])
 
 	def update_logic(self):
 		pygame.time.wait(int(1000/self.FPS))
@@ -24,7 +24,6 @@ class ENGINE(object):
 			self.maps.is_map_scrolling = 1
 			player1.xpos = 100
 			player2.xpos = 100
-
 
 		#current_time  = pygame.time.get_ticks()
 		if player1.get_health() > 0:	
@@ -43,7 +42,7 @@ class ENGINE(object):
 			#player2.lose_health(0.1)
 			self.controller2.update(player2)
 			player2.gain_energy(0.3)
-			player1.gain_health(0.1)
+			player2.gain_health(0.1)
 			if not player2.dmg_dealt:
 				player2.check_dmg_done(self.unit_roster)
 				player2.dmg_dealt = True
@@ -147,75 +146,109 @@ class ENGINE(object):
 		else:
 			player.draw_death(self.screen)
 
+class Controller(object):
+	def __init__(self, player):
+		pass
+		
+	def update(self, player):
+	#KEY DOWN REPEAT MOVES
+		keys = pygame.key.get_pressed()
+		self._LEFT(keys, player)
+		self._RIGHT(keys, player)
+		self._DOWN(keys, player)
+		self._UP(keys, player)
+		self._ENTER(keys, player)
 
-	class Controller1(object):
-	#This is the keyboard controller for Player 1
-		
-		def __init__(self, player):
-			self.player = player
-			self.K_LEFT = pygame.K_LEFT
-			self.K_RIGHT = pygame.K_RIGHT
-			self.K_DOWN = pygame.K_DOWN
-			self.K_UP = pygame.K_UP
+	def _LEFT(self, keys, player):
+		if keys[self.K_LEFT]:
+			pass
 
-			self.K_1 = pygame.K_1
-			self.K_2 = pygame.K_2
-			self.K_9 = pygame.K_9
+	def _RIGHT(self, keys, player):	
+		if keys[self.K_RIGHT]:  
+			pass
+
+	def _DOWN(self, keys, player):
+
+		pygame.time.wait(1000)
+		if keys[self.K_DOWN]:
+
+			return 1
+
+	def _UP(self, keys, player):
+		if keys[self.K_UP]:
+			return 1
+
+	def _ENTER(self, keys, player):	
+		if keys[self.K_1]:
+			return 1
+
+class Controller1(object):
+#This is the keyboard controller for Player 1
 		
+	def __init__(self, player):
+		self.player = player
+		self.K_LEFT = pygame.K_LEFT
+		self.K_RIGHT = pygame.K_RIGHT
+		self.K_DOWN = pygame.K_DOWN
+		self.K_UP = pygame.K_UP
+
+		self.K_1 = pygame.K_1
+		self.K_2 = pygame.K_2
+		self.K_9 = pygame.K_9
 		
-		def update(self, player):
+	def update(self, player):
 			
-			#KEY DOWN REPEAT MOVES
-			keys=pygame.key.get_pressed()
-			self._LEFT(keys, player)
-			self._RIGHT(keys, player)
-			self._DOWN(keys, player)
-			self._UP(keys, player)
-			self._1(keys, player)
-			self._2(keys, player)
-			self._9(keys, player)
+		#KEY DOWN REPEAT MOVES
+		keys = pygame.key.get_pressed()
+		self._LEFT(keys, player)
+		self._RIGHT(keys, player)
+		self._DOWN(keys, player)
+		self._UP(keys, player)
+		self._1(keys, player)
+		self._2(keys, player)
+		self._9(keys, player)
 
-		def _LEFT(self, keys, player):
-			if keys[self.K_LEFT]:
-			        player.move_left()
+	def _LEFT(self, keys, player):
+		if keys[self.K_LEFT]:
+			player.move_left()
 
-		def _RIGHT(self, keys, player):	
-			if keys[self.K_RIGHT]:  
-			        player.move_right()
+	def _RIGHT(self, keys, player):	
+		if keys[self.K_RIGHT]:  
+			player.move_right()
 
-		def _DOWN(self, keys, player):
-			if keys[self.K_DOWN]:
-			        player.move_down()
+	def _DOWN(self, keys, player):
+		if keys[self.K_DOWN]:
+			player.move_down()
 
-		def _UP(self, keys, player):	
-			if keys[self.K_UP]:
-			        player.move_up()
+	def _UP(self, keys, player):	
+		if keys[self.K_UP]:
+			player.move_up()
 
-		def _1(self, keys, player):	
-			if keys[self.K_1]:
-				player.attack_spell("one")
+	def _1(self, keys, player):	
+		if keys[self.K_1]:
+			player.attack_spell("one")
 		
-		def _2(self, keys, player):	
-			if keys[self.K_2]:
-				player.attack_spell("two")
+	def _2(self, keys, player):	
+		if keys[self.K_2]:
+			player.attack_spell("two")
 
-		def _9(self, keys, player):
-			if keys[self.K_9]:
-				player.attack_spell("DOOM")
+	def _9(self, keys, player):
+		if keys[self.K_9]:
+			player.attack_spell("DOOM")
 
 
-	class Controller2(Controller1):
-		#This is the arduino server controller
-		def __init__(self, player):
-			self.player = player
-			self.K_LEFT = pygame.K_j
-			self.K_RIGHT = pygame.K_l
-			self.K_DOWN = pygame.K_k
-			self.K_UP = pygame.K_i
+class Controller2(Controller1):
+#This is the arduino server controller
+	def __init__(self, player):
+		self.player = player
+		self.K_LEFT = pygame.K_j
+		self.K_RIGHT = pygame.K_l
+		self.K_DOWN = pygame.K_k
+		self.K_UP = pygame.K_i
 
-			self.K_1 = pygame.K_7
-			self.K_2 = pygame.K_8
-			self.K_9 = pygame.K_9
+		self.K_1 = pygame.K_7
+		self.K_2 = pygame.K_8
+		self.K_9 = pygame.K_9
 
 class LoadImages(object):
 
@@ -259,7 +292,7 @@ class LoadImagesSheet(object):
 def in_range_cross(unit, target, range_x, range_y, direction):
 	xdist = abs(unit.xpos - target.xpos)
 	ydist = abs(unit.ypos - target.ypos)
-	print("xdist: " + str(xdist) + " ydist: " + str(ydist))
+
 
 	if ydist < range_y:
 		if direction == 'right':

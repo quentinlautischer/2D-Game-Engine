@@ -7,8 +7,9 @@ from ai import AI
 
 class WerewolfUnit(BaseUnit):
 
-	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, **keywords):
-		super().__init__(unit_roster, xpos, ypos, name, number, dirr, **keywords)
+	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, **keywords):
+		
+		super().__init__(unit_roster, xpos, ypos, name, number, dirr, faction, **keywords)
 		self.anim_standing = LoadImages(dirr, ["stand_frame0.png","stand_frame1.png", "stand_frame2.png"]).sequence
 		self.anim_walking = LoadImages(dirr, ["walking_frame0.png","walking_frame1.png", "walking_frame2.png", "walking_frame3.png"]).sequence
 		self.anim_warn1 = LoadImages(dirr, ["Slash0_Frame0.png","Slash0_Frame1.png","Slash0_Frame2.png","Slash0_Frame3.png","Slash0_Frame3.png","Slash0_Frame2.png","Slash0_Frame1.png","Slash0_Frame0.png"]).sequence 
@@ -21,9 +22,9 @@ class WerewolfUnit(BaseUnit):
 		self.width = self.anim_standing[0].get_rect().size[0]
 		self.height = self.anim_standing[0].get_rect().size[1]
 		self.health_max = 1000
-		self.health = 1000 
+		self.health = self.health_max
 
-		self.ai_sequence0 = [self.move_left, self.move_right, self.move_right, self.queue_warn1, self.queue_warn1, self.queue_attack1]
+		self.ai_sequence0 = [self.move_right, self.move_right, self.move_right, self.queue_warn1, self.queue_warn1, self.queue_attack1]
 		self.ai_sequence1 = [self.move_left, self.move_left, self.move_left]
 
 		self.AI = AI(self, [self.ai_sequence0, self.ai_sequence1])
@@ -66,7 +67,6 @@ class WerewolfUnit(BaseUnit):
 	def AI_update(self):
 		#self.attack_status = "one"
 		#self.check_dmg_done(self.unit_roster)
-		print(self.ai_sequence0[1])
 		self.AI.seq_execute(0)
 
 	def queue_warn1(self):

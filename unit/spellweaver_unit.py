@@ -4,8 +4,8 @@ from animation import Animation
 import unit, pygame
 class SpellWeaverUnit(BaseUnit):
 
-	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, **keywords):
-		super().__init__(unit_roster, xpos, ypos, name, number, dirr, **keywords)
+	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, **keywords):
+		super().__init__(unit_roster, xpos, ypos, name, number, dirr, faction, **keywords)
 		self.anim_standing = LoadImages(dirr, ["stand1_Frame_0.png", "stand1_Frame_1.png", "stand1_Frame_2.png"]).sequence
 		self.anim_atk1 = LoadImages(dirr, ["stabO1_Frame_0.png","shootF_Frame_0.png","shootF_Frame_1.png","shootF_Frame_2.png"]).sequence
 		self.anim_atk2 = LoadImages(dirr, ["swingO3_Frame_0.png","swingO3_Frame_1.png","swingO3_Frame_2.png"]).sequence

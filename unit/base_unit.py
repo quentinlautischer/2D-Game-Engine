@@ -4,13 +4,14 @@ from engine import *
 class BaseUnit(object):
 
 
-	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, **keywords):
+	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, **keywords):
 		self.image = pygame.image.load("images/player1/stand1_Frame_0.png")
-		self.health = 100
-		self.health_max = self.health
+		self.faction = faction
+		self.health_max  = 100
+		self.health= self.health_max
 		self.last_health = self.health
-		self.energy = 100
-		self.energy_max = self.energy
+		self.energy_max = 100
+		self.energy = self.energy_max
 		self.xpos = xpos
 		self.ypos = ypos
 		self.number = number
@@ -102,7 +103,7 @@ class BaseUnit(object):
 		y_range = self.attacks_dict.get(self.attack_status).get("y_range")
 
 		for enemy in roster:
-			if enemy.name != self.name:
+			if enemy.faction != self.faction:
 				if in_range_cross(self, enemy, x_range, y_range, self.direction):
 					enemy.lose_health(self.attacks_dict.get(self.attack_status).get("dmg"))
 					return self.attacks_dict.get(self.attack_status).get("dmg")
