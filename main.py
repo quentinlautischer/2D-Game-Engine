@@ -24,7 +24,7 @@ def menu_screen(screen):
 	control = Controller(None)
 	game_mode_text_pos = (700, 100)
 
-	mode = [highlight, default, default, default]
+	mode = [[highlight, init_1p], [default, init_2p], [default, init_3p], [default, init_1v1]]
 	current_mode = 0
 
 
@@ -35,10 +35,10 @@ def menu_screen(screen):
 				return
 
 		screen.blit(font.render("Game Mode", 1, default[0]), game_mode_text_pos)
-		screen.blit(font.render("1 Player", 1,mode[0][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+50))
-		screen.blit(font.render("2 Player", 1,mode[1][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+100))
-		screen.blit(font.render("3 Player", 1,mode[2][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+150))
-		screen.blit(font.render("1v1 Duel", 1,mode[3][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+200))
+		screen.blit(font.render("1 Player", 1, mode[0][0][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+50))
+		screen.blit(font.render("2 Player", 1,mode[1][0][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+100))
+		screen.blit(font.render("3 Player", 1,mode[2][0][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+150))
+		screen.blit(font.render("1v1 Duel", 1,mode[3][0][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+200))
 
 		pygame.display.update()
 
@@ -47,20 +47,22 @@ def menu_screen(screen):
 
 		keys = pygame.key.get_pressed()
 		if keys[pygame.K_UP]:
-			mode[current_mode] = default
+			mode[current_mode][0] = default
 			current_mode -= 1
 			current_mode %= len(mode)
-			mode[current_mode] = highlight
+			mode[current_mode][0] = highlight
 		if keys[pygame.K_DOWN]:
-			mode[current_mode] = default
+			mode[current_mode][0] = default
 			current_mode += 1
 			current_mode %= len(mode)
-			mode[current_mode] = highlight
+			mode[current_mode][0] = highlight
 		if keys[pygame.K_RETURN]:
-			return init_2p
+			for m in mode:
+				if m[0] == highlight:
+					return m[1]
 
 
-def init_3p():
+def init_3p(screen, unit_roster):
 	pass
 
 def init_2p(screen, unit_roster):
@@ -68,10 +70,10 @@ def init_2p(screen, unit_roster):
 	unit_roster.append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/player2/", "Good"))
 	unit_roster.append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", "Bad"))
 
-def init_1p():
+def init_1p(screen, unit_roster):
 	pass
 
-def init_1v1():
+def init_1v1(screen, unit_roster):
 	pass
 
 def main():
@@ -86,9 +88,6 @@ def main():
 
 	
 	menu_screen(screen)(screen, unit_roster)
-	
-
-	#init_2p(screen, unit_roster)
 	
 	gui = GUI(screen, unit_roster)
 	maps = Maps(screen)
