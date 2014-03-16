@@ -11,14 +11,21 @@ class ENGINE(object):
 		self.maps = maps
 
 		self.FPS = 25
-		self.controller1 = Controller1(unit_roster[0])
-		self.controller2 = Controller2(unit_roster[1])
+		self.controller1 = Controller1(unit_roster.get("Players")[0])
+		try:
+			self.controller2 = Controller2(unit_roster.get("Players")[1])
+		except:
+			pass
+		try:
+			self.controller3 = Controller3(unit_roster.get("Players")[2])
+		except:
+			pass
 
 	def update_logic(self):
 		pygame.time.wait(int(1000/self.FPS))
 
-		player1 = self.unit_roster[0]
-		player2 = self.unit_roster[1]
+		player1 = self.unit_roster.get("Players")[0]
+		player2 = self.unit_roster.get("Players")[1]
 
 		if (player1.xpos > 800 or player2.xpos > 800) and 1:#scroll_available <- comes from game script
 			self.maps.is_map_scrolling = 1
@@ -32,7 +39,7 @@ class ENGINE(object):
 			player1.gain_energy(0.3)
 			player1.gain_health(0.1)
 			if not player1.dmg_dealt:
-				player1.check_dmg_done(self.unit_roster)
+				player1.check_dmg_done(self.unit_roster.get("Enemies"))
 				player1.dmg_dealt = True
 		else:
 			player1.dead = True
@@ -44,18 +51,18 @@ class ENGINE(object):
 			player2.gain_energy(0.3)
 			player2.gain_health(0.1)
 			if not player2.dmg_dealt:
-				player2.check_dmg_done(self.unit_roster)
+				player2.check_dmg_done(self.unit_roster.get("Enemies"))
 				player2.dmg_dealt = True
 		else:
 			player2.dead = True
 
-		for unit in self.unit_roster[2::]:
+		for unit in self.unit_roster.get("Enemies"):
 			#current_time  = pygame.time.get_ticks()
 			if unit.get_health() > 0:	
 				unit.gain_energy(0.3)
 				unit.AI_update()
 				if not unit.dmg_dealt:
-					unit.check_dmg_done(self.unit_roster)
+					unit.check_dmg_done(self.unit_roster.get("Players"))
 					unit.dmg_dealt = True
 			else:
 				if not unit.dead:
@@ -85,8 +92,9 @@ class ENGINE(object):
 		self.maps.sky_draw()
 		self.screen.blit(self.maps.current_bg, (0, 150))
 
-		if self.unit_roster[0].dead and self.unit_roster[1].dead:
-			self.maps.sky_color_default = (150, 50, 50)
+		for player in self.unit_roster.get("Players"):
+			if player.dead:
+				self.maps.sky_color_default = (150, 50, 50)
 
 		if self.maps.is_map_scrolling:
 			self.maps.scroll_map_right()
@@ -97,8 +105,10 @@ class ENGINE(object):
 
 		#Sort Roster from smallest ypos to largest This enable depth drawing.
 		depth_sort = []
-		for unit in self.unit_roster:
+		for unit in self.unit_roster.get("Players"):
 			depth_sort.append((unit, unit.ypos))
+		for unit in self.unit_roster.get("Enemies"):
+			depth_sort.append((unit, unit.ypos))	
 		depth_sort = sorted(depth_sort, key=lambda unit: unit[1])
 		for unit, ypos in depth_sort:
 			self.draw_players(unit)

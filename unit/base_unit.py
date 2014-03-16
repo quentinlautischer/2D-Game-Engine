@@ -42,7 +42,6 @@ class BaseUnit(object):
 	def move_left(self):
 		self.is_walking = 1
 		self.direction = 'left'
-
 		if not detect_collision(self, self.unit_roster):
 			self.xpos -= self.step_horz
 
@@ -103,7 +102,6 @@ class BaseUnit(object):
 		y_range = self.attacks_dict.get(self.attack_status).get("y_range")
 
 		for enemy in roster:
-			if enemy.faction != self.faction:
 				if in_range_cross(self, enemy, x_range, y_range, self.direction):
 					enemy.lose_health(self.attacks_dict.get(self.attack_status).get("dmg"))
 					return self.attacks_dict.get(self.attack_status).get("dmg")

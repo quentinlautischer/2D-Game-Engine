@@ -17,13 +17,13 @@ class GUI(object):
 
 		self.draw_update(unit_roster)
 
-		for member in unit_roster:
+		for member in unit_roster.get("Players"):
 			label = myfont.render(member.name, 1, (100,100,100))
 			self.screen.blit(label, (200+(225*(member.number-1)), 20))
 
 	def draw_update(self, unit_roster):
 		#The health bars and energy bars update
-		for member in unit_roster:
+		for member in unit_roster.get("Players"):
 			pygame.draw.rect(self.screen, (200, 50, 50), (200+(225*(member.number-1)), 20, self.health_bar_len, 30), 0)
 			pygame.draw.rect(self.screen, (0, 200, 50), (200+(225*(member.number-1)), 20, (member.health / member.health_max)*self.health_bar_len, 30), 0)
 

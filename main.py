@@ -64,18 +64,23 @@ def menu_screen(screen):
 
 
 def init_3p(screen, unit_roster):
-	pass
+	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/", "Good"))
+	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 500, 300, "If", 2, "images/player2/", "Good"))
+	unit_roster.get("Players").append(ClericUnit(unit_roster, 500, 600, "Elly", 3, "images/healer/", "Good"))
+	unit_roster.get("Enemies").append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", "Bad"))
 
 def init_2p(screen, unit_roster):
-	unit_roster.append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/", "Good"))
-	unit_roster.append(ClericUnit(unit_roster, 500, 600, "If", 2, "images/healer/", "Good"))
-	unit_roster.append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", "Bad"))
+	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/", "Good"))
+	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/player2/", "Good"))
+	unit_roster.get("Enemies").append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", "Bad"))
 
 def init_1p(screen, unit_roster):
-	pass
+	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/", "Good"))	
+	unit_roster.get("Enemies").append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", "Bad"))
 
 def init_1v1(screen, unit_roster):
-	pass
+	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/", "Good"))
+	unit_roster.get("Enemies").append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/player2/", "Bad"))
 
 def main():
 	# Initialise screen
@@ -85,7 +90,7 @@ def main():
 
 
 
-	unit_roster = []
+	unit_roster = {"Players": [], "Enemies": []}
 
 	
 	menu_screen(screen)(screen, unit_roster)
