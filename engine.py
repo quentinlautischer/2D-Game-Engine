@@ -10,7 +10,7 @@ class ENGINE(object):
 		self.gui = gui
 		self.maps = maps
 
-		self.FPS = 25
+		self.FPS = 100
 		self.controller1 = Controller1(unit_roster.get("Players")[0])
 		try:
 			self.controller2 = Controller2(unit_roster.get("Players")[1])
@@ -69,7 +69,7 @@ class ENGINE(object):
 					unit.dead_time = pygame.time.get_ticks()
 				unit.dead = True
 				if unit.dead_time + 4000 < pygame.time.get_ticks():
-					self.unit_roster.remove(unit)
+					self.unit_roster.get("Enemies").remove(unit)
 
 	def draw_overhead_health(self, unit):
 		bar_height = 10
