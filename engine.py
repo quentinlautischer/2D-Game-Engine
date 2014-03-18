@@ -92,6 +92,8 @@ class ENGINE(object):
 		self.maps.sky_draw()
 		self.screen.blit(self.maps.current_bg, (0, 150))
 
+		self.maps.draw_grid()
+
 		for player in self.unit_roster.get("Players"):
 			if player.dead:
 				self.maps.sky_color_default = (150, 50, 50)

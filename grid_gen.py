@@ -51,13 +51,7 @@ def generate_data(filename, array, RESOLUTION_X, RESOLUTION_Y, grid_delta):
 	
 	return vertices, vert_id_to_coord, edges
 
-
-
-
-
-
 def select_square(screen, surface, array, grid_delta, grid_bg):
-	print(pygame.mouse.get_pos())
 	x, y = pygame.mouse.get_pos()
 	x //= grid_delta
 	y //= grid_delta
@@ -79,8 +73,8 @@ def main():
 	#RESOLUTION_Y = int(input("input y size"))
 	RESOLUTION_Y = 600
 	#grid_delta = int(input("input grid box size"))
-	grid_delta = 8
-	grid_bg = pygame.image.load("images/dark_forest_by_vityar83-d4yjpvb.jpg")
+	grid_delta = 32
+	grid_bg = pygame.image.load("images/BackgroundCastle1.png")
 	
 
 	pygame.init()
@@ -112,7 +106,7 @@ def main():
 				select_square(screen, background, array, grid_delta, grid_bg) 
 			keys = pygame.key.get_pressed()
 			if  keys[pygame.K_LEFT]:
-				filename = "mapgraph.txt"
+				filename = "map1_grid.txt"
 				vert, vertId_cord, edges = generate_data(filename, array, RESOLUTION_X, RESOLUTION_Y, grid_delta)
 				for i in edges:
 					id1, id2 = i
