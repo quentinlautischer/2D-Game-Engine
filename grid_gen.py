@@ -66,6 +66,21 @@ def select_square(screen, surface, array, grid_delta, grid_bg):
 	screen.blit(grid_bg, (0, 0))
 	screen.blit(surface, (0, 0))
 
+def desel_square(screen, surface, array, grid_delta, grid_bg):
+	x, y = pygame.mouse.get_pos()
+	x //= grid_delta
+	y //= grid_delta
+
+	rect = (x*grid_delta, y*grid_delta, grid_delta, grid_delta)
+	pygame.draw.rect(surface, (0, 255, 0), rect)
+	rect = (x*grid_delta, y*grid_delta, grid_delta-1, grid_delta-1)
+	pygame.draw.rect(surface, (0, 0, 0), rect)
+
+	array[y][x] = 0
+
+	screen.blit(grid_bg, (0, 0))
+	screen.blit(surface, (0, 0))
+
 def main():
 	# Initialise screen
 	#RESOLUTION_X = int(input("input x size"))
@@ -103,7 +118,9 @@ def main():
 			if event.type == QUIT:
 				return
 			if pygame.mouse.get_pressed() == (1, 0, 0):
-				select_square(screen, background, array, grid_delta, grid_bg) 
+				select_square(screen, background, array, grid_delta, grid_bg)
+			if pygame.mouse.get_pressed() == (0, 0, 1):
+				desel_square(screen, background, array, grid_delta, grid_bg) 
 			keys = pygame.key.get_pressed()
 			if  keys[pygame.K_LEFT]:
 				filename = "map1_grid.txt"
