@@ -13,7 +13,7 @@ def generate_data(filename, array, RESOLUTION_X, RESOLUTION_Y, grid_delta):
 	vert_id = 0
 	for x in range(RESOLUTION_X//grid_delta):
 		for y in range(RESOLUTION_Y//grid_delta):
-			if array[y][x] == 1:
+			if array[y][x] == 0:
 
 				TL = (x*grid_delta, y*grid_delta)
 				TR = (x*grid_delta+grid_delta, y*grid_delta)
@@ -41,13 +41,14 @@ def generate_data(filename, array, RESOLUTION_X, RESOLUTION_Y, grid_delta):
 	for key, value in vertices.items():
 		vert_id_to_coord[value] = key
 
+	f = open(filename, 'w+')
 
 	for key, value in vertices.items():
-		print("V, " + str(value) + ", " + str(key[0]) + ", " + str(key[1]))
+		f.write("V, " + str(value) + ", " + str(key[0]) + ", " + str(key[1]) + "\n")
 
 	for key in edges:
-		print("E, " + str(key[0]) + ", " + str(key[1]) + ", None")		
-
+		f.write("E, " + str(key[0]) + ", " + str(key[1]) + ", None" + "\n")		
+	
 	return vertices, vert_id_to_coord, edges
 
 
@@ -117,7 +118,7 @@ def main():
 					id1, id2 = i
 					pygame.draw.line(background, (255, 0, 0), vertId_cord[id1], vertId_cord[id2], 5)
 				screen.blit(background, (0, 0))
-		
+				return
 		pygame.display.update()
 
 		#EVENT WHEN MOUSE CLICK DRAW RECT AND CHANGE ARRAY
