@@ -79,7 +79,7 @@ def main():
 	#RESOLUTION_Y = int(input("input y size"))
 	RESOLUTION_Y = 600
 	#grid_delta = int(input("input grid box size"))
-	grid_delta = 32
+	grid_delta = 8
 	grid_bg = pygame.image.load("images/dark_forest_by_vityar83-d4yjpvb.jpg")
 	
 

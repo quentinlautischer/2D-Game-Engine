@@ -14,7 +14,8 @@ class Maps(object):
 		self.sky_color = (100, 100, 200)
 		self.is_map_scrolling = 0
 		self.current_bg = self.bg
-
+		#graph, location, streetnames = load_edmonton_road_map("edmonton_roads.txt")
+		self.map1_grid = load_edmonton_road_map("map1_grid.txt")
 	def update_sky(self):
 
 		#Sky Color Change
@@ -57,3 +58,29 @@ class Maps(object):
 			pygame.display.update()
 		self.is_map_scrolling = 0
 		self.current_bg = self.bg1
+
+
+	def load_map_grid(filename):
+    """
+    Read in the Edmonton Road Map Data from the
+    given filename and create our Graph, a dictionary
+    for looking up the latitude and longitude information
+    for vertices and a dictionary for mapping streetnames
+    to their associated edges.
+    """
+    graph = Graph()
+    location = {}
+    streetnames = {}
+
+    with open(filename, 'r') as f:
+        for line in f:
+            elements = line.split(",")
+            if(elements[0] == "V"):
+                graph.add_vertex(int(elements[1]))
+                location[int(elements[1])] = (process_coord(elements[2]),
+                                              process_coord(elements[3]))
+            elif (elements[0] == "E"):
+                graph.add_edge((int(elements[1]), int(elements[2])))
+                streetnames[(int(elements[1]), int(elements[2]))] = elements[3]
+
+    return (graph, location)
