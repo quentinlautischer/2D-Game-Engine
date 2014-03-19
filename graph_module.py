@@ -356,4 +356,6 @@ def count_components(g):
         counter += 1
     return counter
 
+def get_closest_vert(g, locx, locy):
+    pass
 

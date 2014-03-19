@@ -42,7 +42,7 @@ class Maps(object):
 		self.is_map_scrolling = 0
 		self.current_bg = self.bg
 		#graph, location, streetnames = load_edmonton_road_map("edmonton_roads.txt")
-		self.map1_grid = self.load_map_grid("map1_grid.txt")
+		self.map1_grids = [self.load_map_grid("map1_grid1.txt")]
 	def update_sky(self):
 
 		#Sky Color Change
@@ -81,7 +81,7 @@ class Maps(object):
 		for i in self.map1_grid[0].edges():
 					id1, id2 = i
 					pygame.draw.line(self.screen, (255, 0, 0), self.map1_grid[1][id1], self.map1_grid[1][id2], 1)
-		
+
 	def scroll_map_right(self):
 		for i in range(64):
 			self.sky_draw()
