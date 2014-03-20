@@ -11,7 +11,7 @@ A 2.5D side scroller, with AI controlled monsters along the lines of Castle Cras
 
 The project will demonstrate sorting, pathfinding to determine movement of AI and basic inheritance in the form of different unit types, graph theory in the form of creating a grid like system for the map that determines where one can step and is used as a framework for AI movement. It will include server/serial communation by including an arduino as a controller for the game. Collision will be included for attacks to take effect (Box Exercise). We will have the game run on a sort of script allowing for a story like progression through the levels. 
 
-The project will be written in Python 3 using pygame and an additional controller using the arduino with a server communication with our python game.  The Arduino will be set up to use as a player 2 controller.
+The project will be written in Python 3 using pygame and an additional controller using the arduino with a server communication with our python game.
 
 
 Milestone 1:
