@@ -356,6 +356,16 @@ def count_components(g):
         counter += 1
     return counter
 
-def get_closest_vert(g, locx, locy):
-    pass
+
+def  straight_line_dist(lat1, lon1, lat2, lon2):
+    """
+    Computes the straightline distance between
+    two points (lat1, lon1) and (lat2, lon2)
+    """
+    return ((lat2-lat1)**2 + (lon2-lon1)**2)**0.5
+
+def get_closest_vert(location, lat, lon):
+    return min(location, key=lambda v:straight_line_dist(lat, lon, location[v][0], location[v][1]))
+
+
 
