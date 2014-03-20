@@ -5,8 +5,8 @@ import unit, pygame
 	
 class ArmsmenUnit(BaseUnit):
 
-	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, **keywords):
-		super().__init__(unit_roster, xpos, ypos, name, number, dirr, faction, **keywords)
+	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, maps, **keywords):
+		super().__init__(unit_roster, xpos, ypos, name, number, dirr, faction, maps, **keywords)
 		self.anim_standing = LoadImages(dirr, ["stand1_Frame_0.png", "stand1_Frame_1.png", "stand1_Frame_2.png"]).sequence
 		self.anim_atk1 = LoadImages(dirr, ["stabOF_Frame_0.png","stabOF_Frame_1.png","stabOF_Frame_2.png"]).sequence
 		self.anim_atk2 = LoadImages(dirr, ["swingO1_Frame_0.png","swingO1_Frame_1.png","swingO1_Frame_2.png","swingO1_Frame_2.png"]).sequence

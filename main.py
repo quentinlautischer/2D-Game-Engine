@@ -63,24 +63,24 @@ def menu_screen(screen):
 					return m[1]
 
 
-def init_3p(screen, unit_roster):
-	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/", "Good"))
-	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 500, 300, "If", 2, "images/player2/", "Good"))
-	unit_roster.get("Players").append(ClericUnit(unit_roster, 500, 600, "Elly", 3, "images/healer/", "Good"))
-	unit_roster.get("Enemies").append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", "Bad"))
+def init_3p(screen, unit_roster, maps):
+	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 32, 256, "Switch", 1, "images/player1/", "Good", maps))
+	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 500, 300, "If", 2, "images/player2/", "Good", maps))
+	unit_roster.get("Players").append(ClericUnit(unit_roster, 500, 600, "Elly", 3, "images/healer/", "Good", maps))
+	unit_roster.get("Enemies").append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", "Bad", maps))
 
-def init_2p(screen, unit_roster):
-	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/", "Good"))
-	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/player2/", "Good"))
-	unit_roster.get("Enemies").append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", "Bad"))
+def init_2p(screen, unit_roster, maps):
+	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 32, 256, "Switch", 1, "images/player1/", "Good", maps))
+	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/player2/", "Good", maps))
+	unit_roster.get("Enemies").append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", "Bad", maps))
 
-def init_1p(screen, unit_roster):
+def init_1p(screen, unit_roster, maps):
 	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/", "Good"))	
-	unit_roster.get("Enemies").append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", "Bad"))
+	unit_roster.get("Enemies").append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", "Bad", maps))
 
-def init_1v1(screen, unit_roster):
-	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/", "Good"))
-	unit_roster.get("Enemies").append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/player2/", "Bad"))
+def init_1v1(screen, unit_roster, maps):
+	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/", "Good", maps))
+	unit_roster.get("Enemies").append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/player2/", "Bad", maps))
 
 def main():
 	# Initialise screen
@@ -92,11 +92,11 @@ def main():
 
 	unit_roster = {"Players": [], "Enemies": []}
 
-	
-	menu_screen(screen)(screen, unit_roster)
+	maps = Maps(screen)
+	menu_screen(screen)(screen, unit_roster, maps)
 	
 	gui = GUI(screen, unit_roster)
-	maps = Maps(screen)
+	
 	engine = ENGINE(screen, gui, unit_roster, maps)
 
 	#init
@@ -110,7 +110,7 @@ def main():
 
 		#MAIN LOOPER BRAH
 		#if random.randint(0, 1000) > 990:
-			#unit_roster.append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/"))
+			#unit_roster.append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", maps))
 		#script
 		
 		engine.update_logic()

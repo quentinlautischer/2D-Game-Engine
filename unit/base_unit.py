@@ -4,7 +4,7 @@ from engine import *
 class BaseUnit(object):
 
 
-	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, **keywords):
+	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, maps, **keywords):
 		self.image = pygame.image.load("images/player1/stand1_Frame_0.png")
 		self.faction = faction
 		self.health_max  = 100
@@ -16,9 +16,10 @@ class BaseUnit(object):
 		self.ypos = ypos
 		self.number = number
 		self.width = 60
-		self.step_vert = 5
+		self.maps = maps
+		self.step_vert = 16
 		self.height = self.image.get_rect().size[1]
-		self.step_horz = 10
+		self.step_horz = 16
 		self.position = self.position_update()
 		self.is_walking = 0
 		self.direction = 'left'
@@ -42,23 +43,39 @@ class BaseUnit(object):
 	def move_left(self):
 		self.is_walking = 1
 		self.direction = 'left'
-		if not detect_collision(self, self.unit_roster):
+		
+		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
+		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
+
+		if grid_graph.is_vertex(grid_get_vert.get((self.xpos-self.step_horz, self.ypos))):
 			self.xpos -= self.step_horz
 
 	def move_right(self):
 		self.is_walking = 1
 		self.direction = 'right'
-		if not detect_collision(self, self.unit_roster):
+		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
+		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
+
+		if grid_graph.is_vertex(grid_get_vert.get((self.xpos+self.step_horz*3, self.ypos))):
 			self.xpos += self.step_horz
 
 	def move_down(self):
 		self.is_walking = 1
-		if self.ypos - self.step_vert < 650:
+		
+		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
+		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
+
+		if grid_graph.is_vertex(grid_get_vert.get((self.xpos, self.ypos+self.step_vert))):
 			self.ypos += self.step_vert
 
 	def move_up(self):
 		self.is_walking = 1
-		if self.ypos - self.step_vert > 350:
+		
+		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
+		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
+
+		if grid_graph.is_vertex(grid_get_vert.get((self.xpos, self.ypos-self.step_vert*6))):
+
 			self.ypos -= self.step_vert
 
 	def is_walking(self):

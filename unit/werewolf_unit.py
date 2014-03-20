@@ -7,9 +7,9 @@ from ai import AI
 
 class WerewolfUnit(BaseUnit):
 
-	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, **keywords):
+	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, maps, **keywords):
 		
-		super().__init__(unit_roster, xpos, ypos, name, number, dirr, faction, **keywords)
+		super().__init__(unit_roster, xpos, ypos, name, number, dirr, faction, maps, **keywords)
 		self.anim_standing = LoadImages(dirr, ["stand_frame0.png","stand_frame1.png", "stand_frame2.png"]).sequence
 		self.anim_walking = LoadImages(dirr, ["walking_frame0.png","walking_frame1.png", "walking_frame2.png", "walking_frame3.png"]).sequence
 		self.anim_warn1 = LoadImages(dirr, ["Slash0_Frame0.png","Slash0_Frame1.png","Slash0_Frame2.png","Slash0_Frame3.png","Slash0_Frame3.png","Slash0_Frame2.png","Slash0_Frame1.png","Slash0_Frame0.png"]).sequence 

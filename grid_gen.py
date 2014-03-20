@@ -87,10 +87,10 @@ def main():
 	RESOLUTION_X = 1024
 	#RESOLUTION_Y = int(input("input y size"))
 	RESOLUTION_Y = 600
-	#grid_delta = int(input("input grid box size"))
-	grid_delta = 32
-	grid_bg = pygame.image.load("images/BackgroundCastle1.png")
-	
+	grid_delta = int(input("input grid box size"))
+	img_file = input("input image filename")
+	grid_bg = pygame.image.load(img_file)
+	grid_name = input("Please provide output filename: Ex: outputfile.txt")
 
 	pygame.init()
 	screen = pygame.display.set_mode((RESOLUTION_X, RESOLUTION_Y))
@@ -111,8 +111,6 @@ def main():
 
 	screen.blit(background, (0, 0))
 
-	#print(array)
-
 	while 1:
 		for event in pygame.event.get():
 			if event.type == QUIT:
@@ -123,8 +121,7 @@ def main():
 				desel_square(screen, background, array, grid_delta, grid_bg) 
 			keys = pygame.key.get_pressed()
 			if  keys[pygame.K_LEFT]:
-				filename = "map1_grid.txt"
-				vert, vertId_cord, edges = generate_data(filename, array, RESOLUTION_X, RESOLUTION_Y, grid_delta)
+				vert, vertId_cord, edges = generate_data(grid_name, array, RESOLUTION_X, RESOLUTION_Y, grid_delta)
 				for i in edges:
 					id1, id2 = i
 					pygame.draw.line(background, (255, 0, 0), vertId_cord[id1], vertId_cord[id2], 5)

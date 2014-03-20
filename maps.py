@@ -15,6 +15,7 @@ class Maps(object):
 	    """
 	    graph = Graph()
 	    location = {}
+	    get_vert = {}
 	    streetnames = {}
 
 	    with open(filename, 'r') as f:
@@ -24,11 +25,12 @@ class Maps(object):
 	                graph.add_vertex(int(elements[1]))
 	                location[int(elements[1])] = (int(elements[2]),
 	                                              int(elements[3]))
+	                get_vert[(int(elements[2]), int(elements[3]))] = int(elements[1])
 	            elif (elements[0] == "E"):
 	                graph.add_edge((int(elements[1]), int(elements[2])))
 	                streetnames[(int(elements[1]), int(elements[2]))] = elements[3]
 
-	    return (graph, location)	
+	    return (graph, location, get_vert)	
 
 	def __init__(self, screen):
 		self.screen = screen
@@ -42,7 +44,12 @@ class Maps(object):
 		self.is_map_scrolling = 0
 		self.current_bg = self.bg
 		#graph, location, streetnames = load_edmonton_road_map("edmonton_roads.txt")
-		self.map1_grids = [self.load_map_grid("map1_grid1.txt")]
+		self.map_list = ["map1","map2"]
+		self.current_map = 0
+
+		self.current_grid = 0
+		self.map_grids = {"map1": [self.load_map_grid("map1_grid1.txt")],"map2": []}
+
 	def update_sky(self):
 
 		#Sky Color Change
@@ -78,9 +85,9 @@ class Maps(object):
 
 	def draw_grid(self):
 
-		for i in self.map1_grid[0].edges():
+		for i in self.map_grids.get(self.map_list[self.current_map])[self.current_grid][0].edges():
 					id1, id2 = i
-					pygame.draw.line(self.screen, (255, 0, 0), self.map1_grid[1][id1], self.map1_grid[1][id2], 1)
+					pygame.draw.line(self.screen, (255, 0, 0), self.map_grids.get(self.map_list[self.current_map])[self.current_grid][1][id1], self.map_grids.get(self.map_list[self.current_map])[self.current_grid][1][id2], 1)
 
 	def scroll_map_right(self):
 		for i in range(64):
