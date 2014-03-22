@@ -29,7 +29,6 @@ class AI(object):
 			pl_x, pl_y = player.get_position()
 			dist = straight_line_dist(unit_x, unit_y, pl_x, pl_y)
 			dist_enm_to_player[dist] = player
-
 		return dist_enm_to_player[min(dist_enm_to_player.keys())]
 
 	

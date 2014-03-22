@@ -71,8 +71,9 @@ def init_3p(screen, unit_roster, maps):
 
 def init_2p(screen, unit_roster, maps):
 	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 64, 512, "Switch", 1, "images/player1/", "Good", maps))
-	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 500, 600, "If", 2, "images/player2/", "Good", maps))
-	unit_roster.get("Enemies").append(WerewolfUnit(unit_roster, random.randint(0, 900), random.randint(350, 600), "enemy", -2, "images/werewolf/", "Bad", maps))
+	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 128, 512, "If", 2, "images/player2/", "Good", maps))
+	#random.randint(350, 600)%8
+	unit_roster.get("Enemies").append(WerewolfUnit(unit_roster, 512, 512, "enemy", -2, "images/werewolf/", "Bad", maps))
 
 def init_1p(screen, unit_roster, maps):
 	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 500, 400, "Switch", 1, "images/player1/", "Good"))	
