@@ -334,7 +334,6 @@ def straight_line_dist(x1, y1, x2, y2):
 
 def is_grid(grid_graph, grid_verts, points):
 	for i in points:
-		print(i)
-		if grid_graph.is_vertex(grid_verts.get(i)) == False:
+		if not grid_graph.is_vertex(grid_verts.get(i)):
 			return False
 	return True

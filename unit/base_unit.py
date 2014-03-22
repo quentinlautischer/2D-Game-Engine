@@ -18,7 +18,7 @@ class BaseUnit(object):
 		self.width = 64
 		self.maps = maps
 		self.step_vert = 16
-		self.height = self.image.get_rect().size[1]
+		self.height = 80 #self.image.get_rect().size[1]
 		self.step_horz = 16
 		self.position = self.position_update()
 		self.is_walking = 0
@@ -62,6 +62,7 @@ class BaseUnit(object):
 			self.xpos += self.step_horz
 
 	def move_down(self):
+		print(self.height)
 		self.is_walking = 1
 		
 		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
