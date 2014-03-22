@@ -17,6 +17,7 @@ class BaseUnit(object):
 		self.number = number
 		self.width = 64
 		self.maps = maps
+		self.scroll_available = 1
 		self.step_vert = 16
 		self.height = 80 #self.image.get_rect().size[1]
 		self.step_horz = 16
@@ -47,18 +48,17 @@ class BaseUnit(object):
 		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 
-		print(self.generate_unit_grid_frame(0,0))
-
-		if is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(0, 0)):
+		if is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(-self.maps.grid_size, 0)):
 			self.xpos -= self.step_horz
 
 	def move_right(self):
 		self.is_walking = 1
 		self.direction = 'right'
+		
 		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
-
-		if grid_graph.is_vertex(grid_get_vert.get((self.xpos+self.step_horz*3, self.ypos))):
+		
+		if is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(self.maps.grid_size*2, 0)):
 			self.xpos += self.step_horz
 
 	def move_down(self):
@@ -68,7 +68,7 @@ class BaseUnit(object):
 		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 
-		if grid_graph.is_vertex(grid_get_vert.get((self.xpos, self.ypos+self.step_vert))):
+		if is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(0, self.maps.grid_size*2)):
 			self.ypos += self.step_vert
 
 	def move_up(self):
@@ -77,8 +77,7 @@ class BaseUnit(object):
 		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 
-		if grid_graph.is_vertex(grid_get_vert.get((self.xpos, self.ypos-self.step_vert*6))):
-
+		if is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(0, -self.maps.grid_size*2)):
 			self.ypos -= self.step_vert
 
 	def is_walking(self):

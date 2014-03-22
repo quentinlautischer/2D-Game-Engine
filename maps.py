@@ -1,6 +1,7 @@
 import pygame
 import math
 from graph_module import Graph
+from animation import *
 
 class Maps(object):
 
@@ -35,24 +36,25 @@ class Maps(object):
 	def __init__(self, screen):
 		self.screen = screen
 		self.grid_size = 8
-		self.bg = pygame.image.load("images/BackgroundCastle1.png")
+		self.bg = pygame.image.load("images/BackgroundCastle2.png")
 		self.bg1 = pygame.transform.flip(self.bg,True,False)
 
+		self.backgrounds = {"map1": [self.bg, self.bg1]}
 
-		
 		self.sky = pygame.image.load("images/sky2.png")
 		self.sky_pos = [0, -1024]
 		self.sky_speed = 1
 		self.sky_color_default = (100, 100, 200)
 		self.sky_color = (100, 100, 200)
 		self.is_map_scrolling = 0
-		self.current_bg = self.bg
+		self.current_bg_index = 0
+		self.current_bg = self.backgrounds.get("map1")[self.current_bg_index]
 		#graph, location, streetnames = load_edmonton_road_map("edmonton_roads.txt")
 		self.map_list = ["map1","map2"]
 		self.current_map = 0
 
 		self.current_grid = 0
-		self.map_grids = {"map1": [self.load_map_grid("map1_grid1.txt")],"map2": []}
+		self.map_grids = {"map1": [self.load_map_grid("map1_grid1.txt"), self.load_map_grid("map1_grid2.txt")],"map2": []}
 
 	def update_sky(self):
 
@@ -100,4 +102,9 @@ class Maps(object):
 			self.screen.blit(self.bg1, (1024-i*16, 150))
 			pygame.display.update()
 		self.is_map_scrolling = 0
-		self.current_bg = self.bg1
+		self.current_bg_index += 1
+		self.current_bg_index %= len(self.backgrounds.get("map1"))
+		self.current_bg = self.backgrounds.get("map1")[self.current_bg_index]
+
+		self.current_grid += 1
+		self.current_grid %= len(self.map_grids.get("map1"))

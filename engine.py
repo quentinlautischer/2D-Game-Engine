@@ -27,10 +27,10 @@ class ENGINE(object):
 		player1 = self.unit_roster.get("Players")[0]
 		player2 = self.unit_roster.get("Players")[1]
 
-		if (player1.xpos > 800 or player2.xpos > 800) and 1:#scroll_available <- comes from game script
+		if (player1.xpos > 800 or player2.xpos > 800) and player1.scroll_available:#scroll_available <- comes from game script
 			self.maps.is_map_scrolling = 1
-			player1.xpos = 100
-			player2.xpos = 100
+			player1.xpos = 80
+			player2.xpos = 80
 
 		#current_time  = pygame.time.get_ticks()
 		if player1.get_health() > 0:	
@@ -90,7 +90,7 @@ class ENGINE(object):
 	def update_draw(self):
 
 		self.maps.sky_draw()
-		self.screen.blit(self.maps.current_bg, (0, 150))
+		self.screen.blit(self.maps.current_bg, (0, 0))
 
 		self.maps.draw_grid()
 
