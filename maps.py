@@ -37,6 +37,9 @@ class Maps(object):
 		self.grid_size = 8
 		self.bg = pygame.image.load("images/BackgroundCastle1.png")
 		self.bg1 = pygame.transform.flip(self.bg,True,False)
+
+
+		
 		self.sky = pygame.image.load("images/sky2.png")
 		self.sky_pos = [0, -1024]
 		self.sky_speed = 1

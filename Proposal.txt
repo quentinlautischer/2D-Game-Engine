@@ -1,0 +1,40 @@
+------------------------------------------------------------
+CMPUT 275 Winter 2014
+
+Title: Conditional Heroes 
+A Side Scrolling Hack n' Slash RPG 
+Team Members: Quentin Lautischer, Josh White
+
+
+Description:
+A 2.5D side scroller, with AI controlled monsters along the lines of Castle Crashers.
+
+The project will demonstrate sorting, pathfinding to determine movement of AI and basic inheritance in the form of different unit types, graph theory in the form of creating a grid like system for the map that determines where one can step and is used as a framework for AI movement. It will include server/serial communation by including an arduino as a controller for the game. Collision will be included for attacks to take effect (Box Exercise). We will have the game run on a sort of script allowing for a story like progression through the levels. 
+
+The project will be written in Python 3 using pygame and an additional controller using the arduino with a server communication with our python game.  The Arduino will be set up to use as a player 2 controller.
+
+
+Milestone 1:
+Basic rendering of game elements (maps, player units, enemy units) this includes a proper depth sorting algorithm to draw the items according to depth (ie: A unit that is close to the screen is drawn on top of something farther)
+
+Milestone 2:
+Unit movement/attack. Units will have health and spells that cause damage to enemies (Animated of course). 
+
+Milestone 3:
+Map grid system. Using graph theory we will have a customizable grid system that will allow movement only in certain areas with different maps. (This grid may also aid in AI design)
+
+Milestone 4:
+AI design. Monsters move according to a pre-determined script that is ajusted according to player position.
+
+Milestone 5:
+Arduino Controller. Server/Client implementation run during game logic.
+
+
+
+Optional:
+Scripting the game. Including a story that can be follow as you proceed through the game.  Also maybe some custom music for gameplay. Collision may also be extended to apply to characters passing through each other so that they can't.
+
+
+Our demonstration will be a playable version of the game.
+In the demo you will proceed through a rushed play through of the game.
+-------------------------------------------------------------
