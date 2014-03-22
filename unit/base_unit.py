@@ -62,7 +62,6 @@ class BaseUnit(object):
 			self.xpos += self.step_horz
 
 	def move_down(self):
-		print(self.height)
 		self.is_walking = 1
 		
 		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
