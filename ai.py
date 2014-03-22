@@ -1,5 +1,6 @@
 import pygame
 import tools
+from engine import *
 
 class AI(object):
 
@@ -21,4 +22,18 @@ class AI(object):
 			self.set_time = 0
 
 	def find_closest_player(self):
-		pass
+		dist_enm_to_player = {}
+		unit_x,unit_y = self.unit.get_position()
+
+		for player in self.unit.unit_roster.get("Players"):
+			pl_x, pl_y = player.get_position()
+			dist = straight_line_dist(unit_x, unit_y, pl_x, pl_y)
+			dist_enm_to_player[dist] = player
+
+		return dist_enm_to_player[min(dist_enm_to_player.keys())]
+
+	
+
+
+
+	#def Attack(self):

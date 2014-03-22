@@ -19,17 +19,23 @@ class WerewolfUnit(BaseUnit):
 						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 40},
 						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
 
-		self.width = self.anim_standing[0].get_rect().size[0]
-		self.height = self.anim_standing[0].get_rect().size[1]
+		self.width = 136  #self.anim_standing[0].get_rect().size[0] 
+		self.height = 160 #self.anim_standing[0].get_rect().size[1]
 		self.health_max = 1000
 		self.health = self.health_max
 
-		self.ai_sequence0 = [self.move_right, self.move_right, self.move_right, self.queue_warn1, self.queue_warn1, self.queue_attack1]
-		self.ai_sequence1 = [self.move_left, self.move_left, self.move_left]
+		self.AI = AI(self,[])
 
-		self.AI = AI(self, [self.ai_sequence0, self.ai_sequence1])
+		self.AI.sequence.append([self.Approach])
+
+		#self.ai_Attack
+		#self.ai_sequence0 = [self.move_right, self.move_right, self.move_right, self.queue_warn1, self.queue_warn1, self.queue_attack1]
+		#self.ai_sequence1 = [self.move_left, self.move_left, self.move_left]
+
+		#self.AI = AI(self, [self.ai_sequence0, self.ai_sequence1,self.ai_Approach])
 	
 	def draw_atk1(self, screen):
+		print(self.width)
 		#Stab
 		rate = 1
 		Animation(screen, self, 0, self.anim_atk1, rate).animate()
@@ -71,5 +77,23 @@ class WerewolfUnit(BaseUnit):
 
 	def queue_warn1(self):
 		self.attack_status = "warn1"
+
+
+	def Approach(self):
+
+		unit_x,unit_y = self.get_position()
+		player_ofa = self.AI.find_closest_player()
+		pl_x, pl_y = player_ofa.get_position()
+
+		if unit_x < pl_x:
+			self.move_right
+		elif unit_x > pl_x:
+			self.move_left
+
+		if unit_y < pl_y:
+			self.move_down
+		elif unit_y > pl_y:
+			self.move_up
+
 
 unit.unit_types["WerewolfUnit"] = WerewolfUnit
