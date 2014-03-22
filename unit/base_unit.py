@@ -15,7 +15,7 @@ class BaseUnit(object):
 		self.xpos = xpos
 		self.ypos = ypos
 		self.number = number
-		self.width = 60
+		self.width = 64
 		self.maps = maps
 		self.step_vert = 16
 		self.height = self.image.get_rect().size[1]
@@ -47,7 +47,9 @@ class BaseUnit(object):
 		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 
-		if grid_graph.is_vertex(grid_get_vert.get((self.xpos-self.step_horz, self.ypos))):
+		print(self.generate_unit_grid_frame(0,0))
+
+		if is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(0, 0)):
 			self.xpos -= self.step_horz
 
 	def move_right(self):
@@ -158,3 +160,10 @@ class BaseUnit(object):
 	def queue_attack1(self):
 		self.dmg_dealt = False
 		self.attack_status = "one"
+
+	def generate_unit_grid_frame(self, xoffset, yoffset):
+		unit_grid = []
+		for i in range(self.xpos,self.xpos+self.width,self.maps.grid_size):
+			for j in range(self.ypos-self.height,self.ypos,self.maps.grid_size):
+				unit_grid.append((i+xoffset, j+yoffset))
+		return unit_grid

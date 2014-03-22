@@ -34,6 +34,7 @@ class Maps(object):
 
 	def __init__(self, screen):
 		self.screen = screen
+		self.grid_size = 16
 		self.bg = pygame.image.load("images/BackgroundCastle1.png")
 		self.bg1 = pygame.transform.flip(self.bg,True,False)
 		self.sky = pygame.image.load("images/sky2.png")

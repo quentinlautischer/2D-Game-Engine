@@ -135,6 +135,9 @@ class ENGINE(object):
 
 				#pygame.draw.rect(self.screen, (200, 200, 200), ((player.xpos, player.ypos-player.height), (player.width, player.height)), 0)
 				pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
+				grid = player.generate_unit_grid_frame(0, 0)
+				for i in grid:
+					pygame.draw.rect(self.screen, (100, 100, 200), (i, (3,3)), 0)
 				#self.screen.blit(player.anim_standing[0], (player.xpos, player.ypos-player.height))
 				Animation(self.screen, player, 0, player.anim_standing, 10).animate()
 			
@@ -328,3 +331,10 @@ def detect_collision(unit, objects):
 
 def straight_line_dist(x1, y1, x2, y2):
 	return ((x2-x1)**2 + (y2-y1)**2)**0.5
+
+def is_grid(grid_graph, grid_verts, points):
+	for i in points:
+		print(i)
+		if grid_graph.is_vertex(grid_verts.get(i)) == False:
+			return False
+	return True
