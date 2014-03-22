@@ -35,7 +35,6 @@ class WerewolfUnit(BaseUnit):
 		#self.AI = AI(self, [self.ai_sequence0, self.ai_sequence1,self.ai_Approach])
 	
 	def draw_atk1(self, screen):
-		print(self.width)
 		#Stab
 		rate = 1
 		Animation(screen, self, 0, self.anim_atk1, rate).animate()
