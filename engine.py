@@ -10,7 +10,7 @@ class ENGINE(object):
 		self.gui = gui
 		self.maps = maps
 
-		self.FPS = 100
+		self.FPS = 25
 		self.controller1 = Controller1(unit_roster.get("Players")[0])
 		try:
 			self.controller2 = Controller2(unit_roster.get("Players")[1])
@@ -92,7 +92,7 @@ class ENGINE(object):
 		self.maps.sky_draw()
 		self.screen.blit(self.maps.current_bg, (0, 0))
 
-		self.maps.draw_grid()
+		#self.maps.draw_grid()
 
 		for player in self.unit_roster.get("Players"):
 			if player.dead:
