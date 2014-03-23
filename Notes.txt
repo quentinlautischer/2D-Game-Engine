@@ -23,3 +23,5 @@ DONE: ARENA MODE
 STARTED: AI!!! for monsters (TOPIC: PATHFINDING)
 
 Arduino controller (TOPIC: SERVER)
+
+http://img2.wikia.nocookie.net/__cb20080227234436/ssb/images/4/43/Shield.jpg

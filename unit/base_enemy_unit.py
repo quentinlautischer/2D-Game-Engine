@@ -11,7 +11,6 @@ class BaseEnemyUnit(BaseUnit):
 	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, maps, **keywords):
 		
 		super().__init__(unit_roster, xpos, ypos, name, number, dirr, faction, maps, **keywords)
-		self.anim_standing = LoadImages(dirr, ["stand_frame0.png","stand_frame1.png", "stand_frame2.png"]).sequence
 		self.anim_walking = LoadImages(dirr, []).sequence
 		self.anim_warn1 = LoadImages(dirr, []).sequence 
 		self.anim_atk1 = LoadImages(dirr, []).sequence
@@ -59,7 +58,6 @@ class BaseEnemyUnit(BaseUnit):
 			self.attack_status = "none"
 
 	def check_attack_1(self):
-		print("chk1")
 		unit_x,unit_y = self.get_position()
 		player_ofa = self.AI.find_closest_player()
 		pl_x, pl_y = player_ofa.get_position()
@@ -107,7 +105,6 @@ class BaseEnemyUnit(BaseUnit):
 			
 			elif y2_attk_rng*offset >= pl_to_enm_top and unit_y < pl_y:
 				return True
-		print("Falsy")
 		return False
 
 

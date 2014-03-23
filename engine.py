@@ -13,56 +13,43 @@ class ENGINE(object):
 		self.script = script
 
 		self.FPS = 25
-		self.controller1 = Controller1(unit_roster.get("Players")[0])
+		self.controllers = [Controller1(unit_roster.get("Players")[0])]
 		try:
-			self.controller2 = Controller2(unit_roster.get("Players")[1])
+			self.controllers.append(Controller2(unit_roster.get("Players")[1]))
 		except:
 			pass
 		try:
-			self.controller3 = Controller3(unit_roster.get("Players")[2])
+			self.controllers.append(Controller3(unit_roster.get("Players")[2]))
 		except:
 			pass
 
 	def update_logic(self):
 		pygame.time.wait(int(1000/self.FPS))
 
-		player1 = self.unit_roster.get("Players")[0]
-		player2 = self.unit_roster.get("Players")[1]
+		#Check if current grid quests are complete, if yes then allow scroll
+		self.script.update_script()
 
-		if (player1.xpos > 800 or player2.xpos > 800) and player1.scroll_available:#scroll_available <- comes from game script
-			self.maps.is_map_scrolling = 1
-			player1.xpos = 80
-			player2.xpos = 80
-	
-		#Check if current grid quests are complete, if yes then allow scroll.
-		#if self.maps.
-		
-		#self.script.update_script()
+		for player in self.unit_roster.get("Players"):
+			if player.xpos > 800 and self.script.scroll_available:
+				self.maps.is_map_scrolling = 1
+				player.xpos = 80
 
-
-		#current_time  = pygame.time.get_ticks()
-		if player1.get_health() > 0:	
-			#player1.lose_health(0.1)
-			self.controller1.update(player1)
-			player1.gain_energy(0.3)
-			player1.gain_health(0.1)
-			if not player1.dmg_dealt:
-				player1.check_dmg_done(self.unit_roster.get("Enemies"))
-				player1.dmg_dealt = True
-		else:
-			player1.dead = True
 
 			#current_time  = pygame.time.get_ticks()
-		if player2.get_health() > 0:	
-			#player2.lose_health(0.1)
-			self.controller2.update(player2)
-			player2.gain_energy(0.3)
-			player2.gain_health(0.1)
-			if not player2.dmg_dealt:
-				player2.check_dmg_done(self.unit_roster.get("Enemies"))
-				player2.dmg_dealt = True
-		else:
-			player2.dead = True
+			if player.get_health() > 0:	
+				#player.lose_health(0.1)
+				self.controllers[player.number-1].update(player)
+				if player.defending:
+					player.defend_spell()
+				else:
+					player.armor = 1
+				player.gain_energy(0.3)
+				player.gain_health(0.1)
+				if not player.dmg_dealt:
+					player.check_dmg_done(self.unit_roster.get("Enemies"))
+					player.dmg_dealt = True
+			else:
+				player.dead = True
 
 		for unit in self.unit_roster.get("Enemies"):
 			#current_time  = pygame.time.get_ticks()
@@ -139,6 +126,9 @@ class ENGINE(object):
 	def draw_players(self, player):
 
 		if not player.dead:
+
+			
+
 			if player.attack_status == "none" and player.is_walking == 0:
 				
 				player.position_update()
@@ -163,16 +153,16 @@ class ENGINE(object):
 				player.draw_atk2(self.screen)
 			
 			if player.attack_status == "warn1":
-				player.draw_warn1(self.screen)
+				player.draw_warn1(self.screen)	
 
-			if player.attack_status == "DOOM":
-				for i in self.unit_roster:
-					if i.name != "Switch" and i.name != "If":
-						i.health = 0
-				player.attack_status = "none"
+			if player.defending:
+				self.screen.blit(player.block_img, (player.xpos-player.width/2, player.ypos-player.height))
+				player.defending = 0
+
 		else:
 			player.draw_death(self.screen)
 
+		
 class Controller(object):
 	def __init__(self, player):
 		pass
@@ -221,7 +211,7 @@ class Controller1(object):
 
 		self.K_1 = pygame.K_1
 		self.K_2 = pygame.K_2
-		self.K_9 = pygame.K_9
+		self.K_3 = pygame.K_3
 		
 	def update(self, player):
 			
@@ -233,7 +223,7 @@ class Controller1(object):
 		self._UP(keys, player)
 		self._1(keys, player)
 		self._2(keys, player)
-		self._9(keys, player)
+		self._3(keys, player)
 
 	def _LEFT(self, keys, player):
 		if keys[self.K_LEFT]:
@@ -259,10 +249,9 @@ class Controller1(object):
 		if keys[self.K_2]:
 			player.attack_spell("two")
 
-	def _9(self, keys, player):
-		if keys[self.K_9]:
-			player.attack_spell("DOOM")
-
+	def _3(self, keys, player):	
+		if keys[self.K_3]:
+			player.defending = 1
 
 class Controller2(Controller1):
 #This is the arduino server controller
@@ -275,7 +264,7 @@ class Controller2(Controller1):
 
 		self.K_1 = pygame.K_7
 		self.K_2 = pygame.K_8
-		self.K_9 = pygame.K_9
+		self.K_3 = pygame.K_9
 
 
 class LoadImagesSheet(object):
@@ -334,6 +323,10 @@ def is_grid(grid_graph, grid_verts, points):
 			return False
 	return True
 
-def spawn_enemy(unit_roster, maps, enemy_type, number, enemy_sprites):
+def spawn_enemy_specified_loc(unit_roster, maps, enemy_type, number, enemy_sprites, xpos, ypos):
 		for i in range(number):
-			unit_roster.get("Enemies").append(enemy_type(unit_roster, 512, 512, "enemy", -2, enemy_sprites, "Bad", maps))
+			unit_roster.get("Enemies").append(enemy_type(unit_roster, xpos, ypos, "enemy", -2, enemy_sprites, "Bad", maps))
+
+def spawn_enemy_random_loc(unit_roster, maps, enemy_type, number, enemy_sprites, xpos, ypos):
+		for i in range(number):
+			unit_roster.get("Enemies").append(enemy_type(unit_roster, xpos, ypos, "enemy", -2, enemy_sprites, "Bad", maps))

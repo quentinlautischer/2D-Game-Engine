@@ -26,6 +26,8 @@ class BaseUnit(object):
 		self.is_walking = 0
 		self.direction = 'left'
 		self.dead_time = 0
+		self.defending = 0
+		self.armor = 1
 		self.unit_roster = unit_roster
 		self.name = name
 		self.dead = False
@@ -35,6 +37,7 @@ class BaseUnit(object):
 		self.attacks_dict = {"one": {"energy": 10, "dmg": 10, "x_range": 60, "y_range": 40},
 						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 40},
 						"DOOM": {"energy": 0, "dmg": 100}}
+		self.block_img = pygame.image.load("images/sheild_block.png")
 
 	def get_position(self):
 		return self.xpos, self.ypos
@@ -95,7 +98,7 @@ class BaseUnit(object):
 	
 	def lose_health(self, dmg):
 		if self.health > 0:
-			self.health =  self.health - dmg
+			self.health =  self.health - dmg/self.armor
 			if self.health < 0:
 				self.health = 0
 
@@ -115,6 +118,16 @@ class BaseUnit(object):
 				self.attack_status = atk
 				self.dmg_dealt = False
 				self.lose_energy(self.attacks_dict.get(atk).get("energy"))
+
+	def defend_spell(self):
+		if self.energy >= 15:
+			self.armor = 90
+			self.lose_energy(1)
+		else:
+			self.armor = 1
+		self.lose_energy(1)
+		
+
 
 	def check_dmg_done(self, roster):
 		x_range = self.attacks_dict.get(self.attack_status).get("x_range")
