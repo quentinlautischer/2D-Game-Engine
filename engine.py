@@ -1,14 +1,16 @@
 import sys, pygame, random
 from animation import Animation
 from operator import itemgetter, attrgetter
+from scripting import Script
 
 class ENGINE(object):
 
-	def __init__(self, screen, gui, unit_roster, maps):
+	def __init__(self, screen, gui, unit_roster, maps, script):
 		self.unit_roster = unit_roster
 		self.screen = screen
 		self.gui = gui
 		self.maps = maps
+		self.script = script
 
 		self.FPS = 25
 		self.controller1 = Controller1(unit_roster.get("Players")[0])
@@ -31,6 +33,11 @@ class ENGINE(object):
 			self.maps.is_map_scrolling = 1
 			player1.xpos = 80
 			player2.xpos = 80
+	
+		#Check if current grid quests are complete, if yes then allow scroll.
+		#if self.maps.
+		self.script.update_script(self.unit_roster, self.ma)
+
 
 		#current_time  = pygame.time.get_ticks()
 		if player1.get_health() > 0:	
@@ -93,6 +100,10 @@ class ENGINE(object):
 		self.screen.blit(self.maps.current_bg, (0, 0))
 
 		#self.maps.draw_grid()
+
+		if self.script.scroll_available:
+			arrow = pygame.image.load("images/arrow_scroll.png")
+			self.screen.blit(arrow, (975, 300))
 
 		for player in self.unit_roster.get("Players"):
 			if player.dead:
@@ -265,22 +276,6 @@ class Controller2(Controller1):
 		self.K_2 = pygame.K_8
 		self.K_9 = pygame.K_9
 
-class LoadImages(object):
-
-	def __init__(self, dirr, images, angle = 0):
-		self.dirr = dirr
-		self.angle = angle
-		self.images = images
-		self.sequence = self.load_images()
-	
-	def load_images(self):
-		sequence = []
-
-		for i in self.images:
-			sequence.append(pygame.transform.rotate(pygame.image.load(self.dirr + i), self.angle))
-		sequence.append(0) #frame tracker
-		sequence.append(1) #rate tracker
-		return sequence
 
 class LoadImagesSheet(object):
 
@@ -337,3 +332,7 @@ def is_grid(grid_graph, grid_verts, points):
 		if not grid_graph.is_vertex(grid_verts.get(i)):
 			return False
 	return True
+
+def spawn_enemy(unit_roster, maps, enemy_type, number, enemy_sprites):
+		for i in range(number):
+			unit_roster.get("Enemies").append(enemy_type(unit_roster, 512, 512, "enemy", -2, enemy_sprites, "Bad", maps))

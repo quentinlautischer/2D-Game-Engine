@@ -11,6 +11,7 @@ from unit.werewolf_unit import WerewolfUnit
 from unit.golem_unit import GolemUnit
 from unit.cleric_unit import ClericUnit
 from maps import Maps
+from scripting import Script
 
 RESOLUTION_SCALE  = 1
 RESOLUTION_X = 1024 * RESOLUTION_SCALE
@@ -95,8 +96,10 @@ def main():
 	menu_screen(screen)(screen, unit_roster, maps)
 	
 	gui = GUI(screen, unit_roster)
+
+	script = Script(unit_roster, maps)
 	
-	engine = ENGINE(screen, gui, unit_roster, maps)
+	engine = ENGINE(screen, gui, unit_roster, maps, script)
 
 	#init
 	gui.draw(unit_roster)
