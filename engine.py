@@ -36,7 +36,8 @@ class ENGINE(object):
 	
 		#Check if current grid quests are complete, if yes then allow scroll.
 		#if self.maps.
-		self.script.update_script(self.unit_roster, self.ma)
+		
+		#self.script.update_script()
 
 
 		#current_time  = pygame.time.get_ticks()

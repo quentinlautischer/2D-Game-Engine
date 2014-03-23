@@ -1,6 +1,6 @@
 import pygame
 import tools
-from engine import *
+import engine
 
 class AI(object):
 
@@ -27,7 +27,7 @@ class AI(object):
 
 		for player in self.unit.unit_roster.get("Players"):
 			pl_x, pl_y = player.get_position()
-			dist = straight_line_dist(unit_x, unit_y, pl_x, pl_y)
+			dist = engine.straight_line_dist(unit_x, unit_y, pl_x, pl_y)
 			dist_enm_to_player[dist] = player
 		return dist_enm_to_player[min(dist_enm_to_player.keys())]
 

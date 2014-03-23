@@ -1,5 +1,6 @@
 import pygame, unit#, effects
-from engine import *
+import engine
+from animation import Animation
 
 class BaseUnit(object):
 
@@ -48,7 +49,7 @@ class BaseUnit(object):
 		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 
-		if is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(-self.step_horz, 0)):
+		if engine.is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(-self.step_horz, 0)):
 			self.xpos -= self.step_horz
 
 	def move_right(self):
@@ -58,7 +59,7 @@ class BaseUnit(object):
 		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 		
-		if is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(self.step_horz, 0)):
+		if engine.is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(self.step_horz, 0)):
 			self.xpos += self.step_horz
 
 	def move_down(self):
@@ -67,7 +68,7 @@ class BaseUnit(object):
 		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 
-		if is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(0, self.step_vert)):
+		if engine.is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(0, self.step_vert)):
 			self.ypos += self.step_vert
 
 	def move_up(self):
@@ -76,7 +77,7 @@ class BaseUnit(object):
 		grid_graph = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][0]
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 
-		if is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(0, -self.step_vert)):
+		if engine.is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(0, -self.step_vert)):
 			self.ypos -= self.step_vert
 
 	def is_walking(self):
@@ -120,7 +121,7 @@ class BaseUnit(object):
 		y_range = self.attacks_dict.get(self.attack_status).get("y_range")
 
 		for enemy in roster:
-				if in_range_cross(self, enemy, x_range, y_range, self.direction):
+				if engine.in_range_cross(self, enemy, x_range, y_range, self.direction):
 					enemy.lose_health(self.attacks_dict.get(self.attack_status).get("dmg"))
 					return self.attacks_dict.get(self.attack_status).get("dmg")
 
