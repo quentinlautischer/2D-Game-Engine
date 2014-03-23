@@ -55,7 +55,7 @@ class Maps(object):
 
 		self.current_grid = 0
 		self.map_grids = {"map1": [self.load_map_grid("map1_grid1.txt"), self.load_map_grid("map1_grid2.txt")],"map2": []}
-
+		self.current_grid_quests = {0: []}
 	def update_sky(self):
 
 		#Sky Color Change

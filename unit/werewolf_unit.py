@@ -1,5 +1,5 @@
 #Werewolf
-from engine import LoadImages, LoadImagesSheet
+from animation import LoadImages
 from unit.base_unit import BaseUnit
 from unit.base_enemy_unit import BaseEnemyUnit
 from animation import Animation

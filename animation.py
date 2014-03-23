@@ -55,3 +55,20 @@ class Animation(object):
 			self.sequence[-1] += 1
 			if self.sequence[-1] >= self.rate:
 				self.sequence[-1] = 0 
+
+class LoadImages(object):
+
+	def __init__(self, dirr, images, angle = 0):
+		self.dirr = dirr
+		self.angle = angle
+		self.images = images
+		self.sequence = self.load_images()
+	
+	def load_images(self):
+		sequence = []
+
+		for i in self.images:
+			sequence.append(pygame.transform.rotate(pygame.image.load(self.dirr + i), self.angle))
+		sequence.append(0) #frame tracker
+		sequence.append(1) #rate tracker
+		return sequence
