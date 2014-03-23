@@ -27,9 +27,9 @@ class WerewolfUnit(BaseEnemyUnit):
 		self.step_horz = 8
 		self.step_vert = 8
 
-		self.AI = AI(self,[])
+		#self.AI = AI(self,[])
 
-		self.AI.sequence.append([self.Approach])
+		#self.AI.sequence.append([self.Approach])
 
 		#self.ai_Attack
 		#self.ai_sequence0 = [self.move_right, self.move_right, self.move_right, self.queue_warn1, self.queue_warn1, self.queue_attack1]
@@ -72,10 +72,6 @@ class WerewolfUnit(BaseEnemyUnit):
 		# extra fog rolls in boss disapears claws attack
 		pass
 
-	def AI_update(self):
-		#self.attack_status = "one"
-		#self.check_dmg_done(self.unit_roster)
-		self.AI.seq_execute(0)
 
 	def queue_warn1(self):
 		self.attack_status = "warn1"

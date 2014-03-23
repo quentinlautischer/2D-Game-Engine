@@ -4,6 +4,7 @@ from unit.base_unit import BaseUnit
 from animation import Animation
 import unit
 from ai import AI
+import engine
 
 class BaseEnemyUnit(BaseUnit):
 
@@ -58,69 +59,55 @@ class BaseEnemyUnit(BaseUnit):
 			self.attack_status = "none"
 
 	def check_attack_1(self):
+		print("chk1")
 		unit_x,unit_y = self.get_position()
 		player_ofa = self.AI.find_closest_player()
 		pl_x, pl_y = player_ofa.get_position()
-		pl_to_enm_right = player_ofa.width + (abs(pl_x-unit_x))
-		pl_to_enm_left = (abs(pl_x-unit_x)) 
-		pl_to_enm_top = player_ofa.height + (abs(pl_y-unit_y))
-		pl_to_enm_bottom = (abs(pl_y-unit_y))
+		pl_to_enm_right = (abs(pl_x-unit_x)) - player_ofa.width
+		pl_to_enm_left = (abs(unit_x-pl_x)) - self.width
+		pl_to_enm_top =  (abs(pl_y-unit_y)) - player_ofa.height
+		pl_to_enm_bottom = (abs(pl_y-unit_y)) - self.height
 
-		x1_attk_rng = self.attacks_dict[one][x_range]
-		y1_attk_rng = self.attacks_dict[one][y_range]
+		x1_attk_rng = self.attacks_dict["one"]["x_range"]
+		y1_attk_rng = self.attacks_dict["one"]["y_range"]
 		offset = 0.5
 
 		#Check if long attack in range:
-		if (x1_attk_rng*offset <= pl_to_enm_right and unit_x >= pl_x):
-
-			if y1_attk_rng*offset <= pl_to_enm_bottom and unit_y > pl_y:
-				return True
-			
-			elif y1_attk_rng*offset <= pl_to_enm_top and unit_y < pl_y:
-				return True
-
-		elif (x1_attk_rng*offset <= pl_to_enm_left and unit_x <= pl_x):
-
-			if y1_attk_rng*offset <= pl_to_enm_bottom and unit_y > pl_y:
-				return True
-			
-			elif y1_attk_rng*offset <= pl_to_enm_top and unit_y < pl_y:
-				return True
-
-		return False
+		
+		return engine.in_range_cross(self, player_ofa, x1_attk_rng, y1_attk_rng, self.direction)
 
 	def check_attack_2(self):
 
 		unit_x,unit_y = self.get_position()
 		player_ofa = self.AI.find_closest_player()
 		pl_x, pl_y = player_ofa.get_position()
-		pl_to_enm_right = player_ofa.width + (abs(pl_x-unit_x))
-		pl_to_enm_left = (abs(pl_x-unit_x))
-		pl_to_enm_top = player_ofa.height + (abs(pl_y-unit_y))
-		pl_to_enm_bottom = (abs(pl_y-unit_y))
+		pl_to_enm_right = (abs(pl_x-unit_x)) - player_ofa.width
+		pl_to_enm_left = (abs(unit_x-pl_x)) - self.width
+		pl_to_enm_top =  (abs(pl_y-unit_y)) - player_ofa.height
+		pl_to_enm_bottom = (abs(pl_y-unit_y)) - self.height
 
-		x2_attk_rng = self.attacks_dict[two][x_range]
-		y2_attk_rng = self.attacks_dict[two][y_range]
+		x2_attk_rng = self.attacks_dict["two"]["x_range"]
+		y2_attk_rng = self.attacks_dict["two"]["y_range"]
 		offset = 0.5
 
 
 		#Check if short attack in range:
-		if (x2_attk_rng*offset <= pl_to_enm_right and unit_x >= pl_x):
+		if (x2_attk_rng*offset >= pl_to_enm_right and unit_x >= pl_x):
 
-			if y2_attk_rng*offset <= pl_to_enm_bottom and unit_y > pl_y:
+			if y2_attk_rng*offset >= pl_to_enm_bottom and unit_y > pl_y:
 				return True
 			
-			elif y2_attk_rng*offset <= pl_to_enm_top and unit_y < pl_y:
+			elif y2_attk_rng*offset >= pl_to_enm_top and unit_y < pl_y:
 				return True
 
-		elif (x2_attk_rng*offset <= pl_to_enm_left and unit_x <= pl_x):
+		elif (x2_attk_rng*offset >= pl_to_enm_left and unit_x <= pl_x):
 
-			if y2_attk_rng*offset <= pl_to_enm_bottom and unit_y > pl_y:
+			if y2_attk_rng*offset >= pl_to_enm_bottom and unit_y > pl_y:
 				return True
 			
-			elif y2_attk_rng*offset <= pl_to_enm_top and unit_y < pl_y:
+			elif y2_attk_rng*offset >= pl_to_enm_top and unit_y < pl_y:
 				return True
-
+		print("Falsy")
 		return False
 
 
@@ -134,12 +121,12 @@ class BaseEnemyUnit(BaseUnit):
 	def AI_update(self):
 		#self.attack_status = "one"
 		#self.check_dmg_done(self.unit_roster)
-		
-		if self.check_attack_2:
+		if self.check_attack_2():
 			self.AI.seq_execute(2)
-		elif self.check_attack_1:
+		elif self.check_attack_1():
 			self.AI.seq_execute(1)
 		else:
+			self.AI.seq_count = 0
 			self.AI.seq_execute(0)
 
 	def queue_warn1(self):
