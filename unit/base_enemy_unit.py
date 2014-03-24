@@ -26,6 +26,15 @@ class BaseEnemyUnit(BaseUnit):
 
 		#self.AI = AI(self, [self.ai_sequence0, self.ai_sequence1,self.ai_Approach])
 	
+	def draw_walking(self, screen):
+		rate = 5
+		Animation(screen, self, 0, self.anim_walking, rate).animate()
+		if self.anim_walking[-2] == len(self.anim_walking) - 3 and self.anim_walking[-1] == rate-1:
+			Animation(screen, self, 0, self.anim_walking, 5).animate()
+			self.anim_walking[-2] = 0
+			self.is_walking = 0
+
+
 	def draw_atk1(self, screen):
 		#Stab
 		rate = 1

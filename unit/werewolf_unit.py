@@ -24,8 +24,8 @@ class WerewolfUnit(BaseEnemyUnit):
 		self.height = 160 #self.anim_standing[0].get_rect().size[1]
 		self.health_max = 1000
 		self.health = self.health_max
-		self.step_horz = 8
-		self.step_vert = 8
+		self.step_horz = 16
+		self.step_vert = 16
 
 		#self.AI = AI(self,[])
 
