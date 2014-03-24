@@ -17,8 +17,8 @@ class BaseEnemyUnit(BaseUnit):
 		self.anim_death = LoadImages(dirr, []).sequence	
 		self.AI = AI(self,[])
 		self.AI.sequence.append([self.Approach])
-		self.AI.sequence.append([self.queue_warn1, self.queue_warn1, self.queue_attack1])
-		self.AI.sequence.append([self.queue_warn1, self.queue_warn1, self.queue_attack1])
+		self.AI.sequence.append([self.queue_warn1,self.queue_attack1])
+		self.AI.sequence.append([self.queue_warn1,self.queue_attack1])
 
 		#self.ai_Attack
 		#self.ai_sequence0 = [self.move_right, self.move_right, self.move_right, self.queue_warn1, self.queue_warn1, self.queue_attack1]
@@ -47,7 +47,7 @@ class BaseEnemyUnit(BaseUnit):
 
 	def draw_warn1(self, screen):
 		#Stab 
-		rate = 4
+		rate = 10
 		Animation(screen, self, 0, self.anim_warn1, rate).animate()
 		#Animation(screen, self, self.width, self.stab_effect, rate).animate()
 		if self.anim_warn1[-2] == len(self.anim_warn1) - 3 and self.anim_warn1[-1] == rate-1:
@@ -97,24 +97,7 @@ class BaseEnemyUnit(BaseUnit):
 		y2_attk_rng = self.attacks_dict["two"]["y_range"]
 		offset = 0.5
 
-
-		#Check if short attack in range:
-		if (x2_attk_rng*offset >= pl_to_enm_right and unit_x >= pl_x):
-
-			if y2_attk_rng*offset >= pl_to_enm_bottom and unit_y > pl_y:
-				return True
-			
-			elif y2_attk_rng*offset >= pl_to_enm_top and unit_y < pl_y:
-				return True
-
-		elif (x2_attk_rng*offset >= pl_to_enm_left and unit_x <= pl_x):
-
-			if y2_attk_rng*offset >= pl_to_enm_bottom and unit_y > pl_y:
-				return True
-			
-			elif y2_attk_rng*offset >= pl_to_enm_top and unit_y < pl_y:
-				return True
-		return False
+		return engine.in_range_cross(self, player_ofa, x2_attk_rng, y2_attk_rng, self.direction)
 
 
 	def Attack1(self):
