@@ -23,10 +23,28 @@ class ENGINE(object):
 		except:
 			pass
 
+	def Check_game_over(self):
+
+			game_over = True
+
+			for Players in self.unit_roster.get("Players"):
+
+				if Players.dead == False:
+					game_over = False
+			
+
+			if game_over:
+
+				pygame.time.wait(50000000)
+
+
 	def update_logic(self):
 		pygame.time.wait(int(1000/self.FPS))
 
 		#Check if current grid quests are complete, if yes then allow scroll
+		
+		self.Check_game_over()
+
 		self.script.update_script()
 
 		for player in self.unit_roster.get("Players"):
@@ -50,6 +68,7 @@ class ENGINE(object):
 					player.dmg_dealt = True
 			else:
 				player.dead = True
+
 
 		for unit in self.unit_roster.get("Enemies"):
 			#current_time  = pygame.time.get_ticks()

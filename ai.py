@@ -25,10 +25,14 @@ class AI(object):
 		dist_enm_to_player = {}
 		unit_x,unit_y = self.unit.get_position()
 
+
 		for player in self.unit.unit_roster.get("Players"):
-			pl_x, pl_y = player.get_position()
-			dist = engine.straight_line_dist(unit_x, unit_y, pl_x, pl_y)
-			dist_enm_to_player[dist] = player
+			if player.dead == True:
+				dist_enm_to_player[float('inf')] = player
+			else:
+				pl_x, pl_y = player.get_position()
+				dist = engine.straight_line_dist(unit_x, unit_y, pl_x, pl_y)
+				dist_enm_to_player[dist] = player
 		return dist_enm_to_player[min(dist_enm_to_player.keys())]
 
 	
