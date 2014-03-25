@@ -27,7 +27,6 @@ class ENGINE(object):
 
 	def update_logic(self):
 		pygame.time.wait(int(1000/self.FPS))
-
 		#Check if current grid quests are complete, if yes then allow scroll
 		self.game_over = True
 		for Players in self.unit_roster.get("Players"):
@@ -137,9 +136,7 @@ class ENGINE(object):
 
 	def draw_players(self, player):
 
-		if not player.dead:
-
-			
+		if not player.dead:			
 
 			if player.attack_status == "none" and player.is_walking == 0:
 				
@@ -148,7 +145,7 @@ class ENGINE(object):
 				#Uncomment for hitbox
 
 				#pygame.draw.rect(self.screen, (200, 200, 200), ((player.xpos, player.ypos-player.height), (player.width, player.height)), 0)
-				#pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
+				pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
 				#grid = player.generate_unit_grid_frame(0, 0)
 				#for i in grid:
 				#	pygame.draw.rect(self.screen, (100, 100, 200), (i, (3,3)), 0)
@@ -318,12 +315,13 @@ def in_range_cross(unit, target, range_x, range_y, direction):
 				if xdist < range_x + target.width:
 					return True
 				return False
+	return False
 
 def detect_collision(unit, objects):
 	for obj in objects:
-	 	if obj != unit:
-	 		return in_range_cross(unit, obj, 0, 40, unit.direction)
-	 	return False
+	 	if unit != obj:
+	 		return not in_range_cross(unit, obj, 0, 40, unit.direction)
+	return False
 
 def straight_line_dist(x1, y1, x2, y2):
 	return ((x2-x1)**2 + (y2-y1)**2)**0.5
