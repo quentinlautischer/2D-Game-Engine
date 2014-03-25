@@ -99,8 +99,8 @@ class Maps(object):
 	def scroll_map_right(self):
 		for i in range(64):
 			self.sky_draw()
-			self.screen.blit(self.bg, (0-i*16, 150))
-			self.screen.blit(self.bg1, (1024-i*16, 150))
+			self.screen.blit(self.bg, (0-i*16, 0))
+			self.screen.blit(self.bg1, (1024-i*16, 0))
 			pygame.display.update()
 		self.is_map_scrolling = 0
 		self.current_bg_index += 1
@@ -109,3 +109,4 @@ class Maps(object):
 
 		self.current_grid += 1
 		self.current_grid %= len(self.map_grids.get("map1"))
+		

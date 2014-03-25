@@ -11,6 +11,7 @@ class ENGINE(object):
 		self.gui = gui
 		self.maps = maps
 		self.script = script
+		self.game_over = True
 
 		self.FPS = 25
 		self.controllers = [Controller1(unit_roster.get("Players")[0])]
@@ -22,33 +23,21 @@ class ENGINE(object):
 			self.controllers.append(Controller3(unit_roster.get("Players")[2]))
 		except:
 			pass
-
-	def Check_game_over(self):
-
-			game_over = True
-
-			for Players in self.unit_roster.get("Players"):
-
-				if Players.dead == False:
-					game_over = False
-			
-
-			if game_over:
-
-				pygame.time.wait(50000000)
-
+	
 
 	def update_logic(self):
 		pygame.time.wait(int(1000/self.FPS))
 
 		#Check if current grid quests are complete, if yes then allow scroll
-		
-		self.Check_game_over()
+		self.game_over = True
+		for Players in self.unit_roster.get("Players"):
+			if Players.dead == False:
+				self.game_over = False
 
 		self.script.update_script()
 
 		for player in self.unit_roster.get("Players"):
-			if player.xpos > 800 and self.script.scroll_available:
+			if player.xpos > 900 and self.script.scroll_available:
 				self.maps.is_map_scrolling = 1
 				player.xpos = 80
 
@@ -101,17 +90,13 @@ class ENGINE(object):
 		pygame.draw.rect(self.screen, (200, 50, 50), (unit.xpos, unit.ypos-unit.height-bar_height, unit.width, bar_height), 0)
 		pygame.draw.rect(self.screen, (0, 200, 50), (unit.xpos, unit.ypos-unit.height-bar_height, (unit.health / unit.health_max)*unit.width, bar_height), 0)
 		unit.last_health = unit.health
+	
 	def update_draw(self):
 
 		self.maps.sky_draw()
 		self.screen.blit(self.maps.current_bg, (0, 0))
 
 		#self.maps.draw_grid()
-
-		if self.script.scroll_available:
-			print("Hello, why u no draw?")
-			arrow = pygame.image.load("images/arrow_scroll.png")
-			self.screen.blit(arrow, (975, 300))
 
 		for player in self.unit_roster.get("Players"):
 			if player.dead:
@@ -137,6 +122,12 @@ class ENGINE(object):
 			if unit.name == 'enemy':
 				self.draw_overhead_health(unit)
 
+		if self.script.scroll_available:
+			arrow = pygame.image.load("images/arrow_scroll.png")
+			self.screen.blit(arrow, (975, 300))
+
+		if self.game_over:
+			self.gui.gameover_draw()
 
 		#self.draw_players(self.unit_roster[0])
 		#self.draw_players(self.unit_roster[1])
@@ -157,10 +148,10 @@ class ENGINE(object):
 				#Uncomment for hitbox
 
 				#pygame.draw.rect(self.screen, (200, 200, 200), ((player.xpos, player.ypos-player.height), (player.width, player.height)), 0)
-				pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
-				grid = player.generate_unit_grid_frame(0, 0)
-				for i in grid:
-					pygame.draw.rect(self.screen, (100, 100, 200), (i, (3,3)), 0)
+				#pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
+				#grid = player.generate_unit_grid_frame(0, 0)
+				#for i in grid:
+				#	pygame.draw.rect(self.screen, (100, 100, 200), (i, (3,3)), 0)
 				#self.screen.blit(player.anim_standing[0], (player.xpos, player.ypos-player.height))
 				Animation(self.screen, player, 0, player.anim_standing, 10).animate()
 			
