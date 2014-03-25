@@ -109,6 +109,7 @@ class ENGINE(object):
 		#self.maps.draw_grid()
 
 		if self.script.scroll_available:
+			print("Hello, why u no draw?")
 			arrow = pygame.image.load("images/arrow_scroll.png")
 			self.screen.blit(arrow, (975, 300))
 
@@ -118,6 +119,7 @@ class ENGINE(object):
 
 		if self.maps.is_map_scrolling:
 			self.maps.scroll_map_right()
+			self.script.update_quest()
 		
 		# Draw GUI
 		self.gui.draw(self.unit_roster)

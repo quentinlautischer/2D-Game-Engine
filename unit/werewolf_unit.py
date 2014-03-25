@@ -16,7 +16,7 @@ class WerewolfUnit(BaseEnemyUnit):
 		self.anim_warn1 = LoadImages(dirr, ["Slash0_Frame0.png","Slash0_Frame1.png","Slash0_Frame2.png","Slash0_Frame3.png","Slash0_Frame3.png","Slash0_Frame4.png","Slash0_Frame3.png","Slash0_Frame4.png","Slash0_Frame3.png","Slash0_Frame4.png","Slash0_Frame3.png","Slash0_Frame4.png"]).sequence 
 		self.anim_atk1 = LoadImages(dirr, ["Slash0_Frame5.png","Slash0_Frame6.png","Slash0_Frame7.png","Slash0_Frame8.png","Slash0_Frame9.png"]).sequence
 		self.anim_death = LoadImages(dirr, ["death_frame0.png","death_frame1.png","death_frame2.png","death_frame3.png","death_frame4.png","death_frame5.png","death_frame6.png","death_frame7.png"]).sequence	
-		self.attacks_dict = {"one": {"energy": 10, "dmg": 50, "x_range": 150, "y_range": 120},
+		self.attacks_dict = {"one": {"energy": 10, "dmg": 10, "x_range": 60, "y_range": 120},
 						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 40},
 						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
 
@@ -24,8 +24,8 @@ class WerewolfUnit(BaseEnemyUnit):
 		self.height = 160 #self.anim_standing[0].get_rect().size[1]
 		self.health_max = 1000
 		self.health = self.health_max
-		self.step_horz = 16
-		self.step_vert = 16
+		self.step_horz = 32
+		self.step_vert = 32
 
 		#self.AI = AI(self,[])
 
