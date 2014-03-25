@@ -320,11 +320,10 @@ def in_range_cross(unit, target, range_x, range_y, direction):
 				return False
 
 def detect_collision(unit, objects):
-	# for obj in objects:
-	# 	if obj != unit:
-	# 		return in_range_cross(unit, obj, 0, 40, unit.direction)
-	# 	return False
-	pass
+	for obj in objects:
+	 	if obj != unit:
+	 		return in_range_cross(unit, obj, 0, 40, unit.direction)
+	 	return False
 
 def straight_line_dist(x1, y1, x2, y2):
 	return ((x2-x1)**2 + (y2-y1)**2)**0.5

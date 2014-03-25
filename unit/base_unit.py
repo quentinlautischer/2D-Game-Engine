@@ -53,6 +53,7 @@ class BaseUnit(object):
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 
 		if engine.is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(-self.step_horz, 0)):
+			#if engine.detect_collision(self, self.unit_roster.get("Players") + self.unit_roster.get("Enemies")):
 			self.xpos -= self.step_horz
 
 	def move_right(self):
