@@ -134,12 +134,12 @@ class BaseUnit(object):
 		y_range = self.attacks_dict.get(self.attack_status).get("y_range")
 
 		for enemy in roster:
-				if engine.in_range_cross(self, enemy, x_range, y_range, self.direction):
-					enemy.lose_health(self.attacks_dict.get(self.attack_status).get("dmg"))
-					return self.attacks_dict.get(self.attack_status).get("dmg")
+			if engine.in_range_cross(self, enemy, x_range, y_range, self.direction):
+				enemy.lose_health(self.attacks_dict.get(self.attack_status).get("dmg"))
+		return self.attacks_dict.get(self.attack_status).get("dmg")
 
 	def draw_walking(self, screen):
-		rate = 5
+		rate = 1
 		Animation(screen, self, 0, self.anim_walking, rate).animate()
 		if self.anim_walking[-2] == len(self.anim_walking) - 3 and self.anim_walking[-1] == rate-1:
 			Animation(screen, self, 0, self.anim_walking, 5).animate()

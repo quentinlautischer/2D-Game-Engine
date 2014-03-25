@@ -8,6 +8,7 @@ class GUI(object):
 		self.unit_roster = unit_roster
 		self.health_bar_len = 200
 		self.panel = pygame.image.load("images/panel1.png")
+		self.gameover_img = pygame.image.load("images/Game_over.png")
 
 	def draw(self, unit_roster):
 		#pygame.draw.rect(self.screen, (200, 200, 200), (0, 0, self.screen.get_size()[0] , 150), 0)
@@ -29,3 +30,6 @@ class GUI(object):
 
 			pygame.draw.rect(self.screen, (0, 0, 0), (200+(225*(member.number-1)), 52, self.health_bar_len, 10), 0)
 			pygame.draw.rect(self.screen, (250, 250, 0), (200+(225*(member.number-1)), 52, (member.energy / member.energy_max)*self.health_bar_len, 10), 0)
+
+	def gameover_draw(self):
+		self.screen.blit(self.gameover_img, (0,0))
