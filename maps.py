@@ -37,12 +37,12 @@ class Maps(object):
 	def __init__(self, screen):
 		self.screen = screen
 		self.grid_size = 8
-		self.bg = pygame.image.load("images/BackgroundCastle2.png")
+		self.bg = pygame.image.load("images/Forest_Floor.png")
 		self.bg1 = pygame.transform.flip(self.bg,True,False)
 
 		self.backgrounds = {"map1": [self.bg, self.bg1]}
 
-		self.sky = pygame.image.load("images/sky2.png")
+		self.sky = pygame.image.load("images/Forest_Back.png")
 		self.sky_pos = [0, -1024]
 		self.sky_speed = 1
 		self.sky_color_default = (100, 100, 200)
@@ -109,4 +109,3 @@ class Maps(object):
 
 		self.current_grid += 1
 		self.current_grid %= len(self.map_grids.get("map1"))
-		

@@ -14,7 +14,7 @@ class Script(object):
 		self.scroll_available = 0
 	
 
-		self.current_grid_quests = {0: [(self.release_wave_6,"release wave", 2), (None, "defeat wave")],
+		self.current_grid_quests = {0: [(self.release_wave_6,"release wave", 1), (None, "defeat wave")],
 		1: [(self.release_wave_6,"release wave", 8), (None, "defeat wave")]}
 
 		self.quest = self.current_grid_quests.get(self.maps.current_grid)
