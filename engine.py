@@ -70,6 +70,7 @@ class ENGINE(object):
 				if not unit.dead:
 					unit.dead_time = pygame.time.get_ticks()
 				unit.dead = True
+				unit.is_passable = 1
 				if unit.dead_time + 4000 < pygame.time.get_ticks():
 					self.unit_roster.get("Enemies").remove(unit)
 
@@ -315,13 +316,29 @@ def in_range_cross(unit, target, range_x, range_y, direction):
 				if xdist < range_x + target.width:
 					return True
 				return False
+	
+	if xdist < range_x:
+		if target.ypos > unit.ypos:
+			if range_y + unit.width > abs(ydist) :
+				return True
+			return False
+
+		if target.ypos < unit.ypos:
+			if ydist < range_y + target.width:
+				return True
+			return False
+	
 	return False
 
 def detect_collision(unit, objects):
+
 	for obj in objects:
-	 	if unit != obj:
-	 		return not in_range_cross(unit, obj, 0, 40, unit.direction)
-	return False
+		if unit != obj:
+			if not obj.is_passable:
+	 			return not in_range_cross(unit, obj, 0, 40, unit.direction)
+			elif obj.is_passable:
+				return True
+	return True
 
 def straight_line_dist(x1, y1, x2, y2):
 	return ((x2-x1)**2 + (y2-y1)**2)**0.5

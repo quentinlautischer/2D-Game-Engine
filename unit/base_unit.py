@@ -17,6 +17,7 @@ class BaseUnit(object):
 		self.ypos = ypos
 		self.number = number
 		self.width = 64
+		self.is_passable = 0
 		self.maps = maps
 		self.scroll_available = 1
 		self.step_vert = 16
@@ -34,8 +35,8 @@ class BaseUnit(object):
 		self.dmg_dealt = True
 		self.dmg_done_to_me = []
 		self.attack_status = "none"
-		self.attacks_dict = {"one": {"energy": 10, "dmg": 10, "x_range": 60, "y_range": 40},
-						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 40},
+		self.attacks_dict = {"one": {"energy": 10, "dmg": 10, "x_range": 10, "y_range": 40},
+						"two": {"energy": 10, "dmg": 10, "x_range": 10, "y_range": 40},
 						"DOOM": {"energy": 0, "dmg": 100}}
 		self.block_img = pygame.image.load("images/sheild_block.png")
 
