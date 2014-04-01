@@ -26,7 +26,8 @@ def menu_screen(screen):
 	control = Controller(None)
 	game_mode_text_pos = (700, 100)
 
-	mode = [[highlight, init_1p], [default, init_2p], [default, init_3p], [default, init_1v1]]
+	#mode = [[highlight, init_1p], [default, init_2p], [default, init_3p], [default, init_1v1]]
+	mode = [[highlight, init_1p], [default, init_2p]]
 	current_mode = 0
 
 
@@ -39,8 +40,8 @@ def menu_screen(screen):
 		screen.blit(font.render("Game Mode", 1, default[0]), game_mode_text_pos)
 		screen.blit(font.render("1 Player", 1, mode[0][0][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+50))
 		screen.blit(font.render("2 Player", 1,mode[1][0][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+100))
-		screen.blit(font.render("3 Player", 1,mode[2][0][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+150))
-		screen.blit(font.render("1v1 Duel", 1,mode[3][0][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+200))
+		#screen.blit(font.render("3 Player", 1,mode[2][0][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+150))
+		#screen.blit(font.render("1v1 Duel", 1,mode[3][0][0]), (game_mode_text_pos[0], game_mode_text_pos[1]+200))
 
 		pygame.display.update()
 
@@ -72,7 +73,7 @@ def init_3p(screen, unit_roster, maps):
 
 def init_2p(screen, unit_roster, maps):
 	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 64, 512, "Switch", 1, "images/player1/", "Good", maps))
-	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 128, 512, "If", 2, "images/player2/", "Good", maps))
+	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 136, 512, "If", 2, "images/player2/", "Good", maps))
 	#random.randint(350, 600)%8
 	#unit_roster.get("Enemies").append(WerewolfUnit(unit_roster, 512, 512, "enemy", -2, "images/werewolf/", "Bad", maps))
 
@@ -97,7 +98,7 @@ def main():
 	
 	gui = GUI(screen, unit_roster)
 
-	script = Script(unit_roster, maps)
+	script = Script(unit_roster, maps, screen)
 	
 	engine = ENGINE(screen, gui, unit_roster, maps, script)
 

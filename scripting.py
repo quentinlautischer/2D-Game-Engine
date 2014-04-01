@@ -8,14 +8,17 @@ from unit.goblin_unit import GoblinUnit
 
 class Script(object):
 
-	def __init__(self, unit_roster, maps):
+	def __init__(self, unit_roster, maps, screen):
 		self.unit_roster = unit_roster
+		self.screen = screen
 		self.maps = maps
 		self.scroll_available = 0
+		self.text_print = 1
+		self.quest_text = ""
 	
 
-		self.current_grid_quests = {0: [(self.release_wave_6,"release wave", 1), (None, "defeat wave")],
-		1: [(self.release_wave_6,"release wave", 8), (None, "defeat wave")]}
+		self.current_grid_quests = {0: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 2), (None, "defeat wave"),("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 2),(None, "defeat wave"),("You May Advance...", "quest text")],
+		1: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 4), (None, "defeat wave")]}
 
 		self.quest = self.current_grid_quests.get(self.maps.current_grid)
 
@@ -30,11 +33,26 @@ class Script(object):
 					pass
 				else:
 					self.quest.pop(0)
+			elif self.quest[0][1] == "quest text":
+				self.quest_text, b = self.quest.pop(0)
+				self.text_timer = pygame.time.get_ticks()
+				self.text_print = 1
 		else:
 			self.scroll_available = 1
-	def release_wave_6(self, enemy_type, enemy_img, num):
-		for i in range(num):
-			engine.spawn_enemy_specified_loc(self.unit_roster, self.maps, enemy_type, 1, enemy_img, 800, 400+(i*16))
+
+		if pygame.time.get_ticks() > self.text_timer + 4000:
+			self.text_print = 0
+			self.quest_text = "" 
+
+	def release_wave(self, enemy_type, enemy_img, num):
+		#Only allows 4 mobs at a time.
+		for i in range(num%5):
+			engine.spawn_enemy_specified_loc(self.unit_roster, self.maps, enemy_type, 1, enemy_img, 800, 400+(i*64))
 		
 	def update_quest(self):
 		self.quest = self.current_grid_quests.get(self.maps.current_grid)
+
+	def update_quest_text(self):
+		font = pygame.font.SysFont("monospace", 50)
+		label = font.render(self.quest_text, 1, (255, 255, 255))
+		self.screen.blit(label, (100, 125))		

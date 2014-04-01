@@ -1,5 +1,6 @@
 import pygame, unit#, effects
 import engine
+import box
 from animation import Animation
 
 class BaseUnit(object):
@@ -17,6 +18,7 @@ class BaseUnit(object):
 		self.ypos = ypos
 		self.number = number
 		self.width = 64
+		self.is_passable = 0
 		self.maps = maps
 		self.scroll_available = 1
 		self.step_vert = 16
@@ -25,6 +27,8 @@ class BaseUnit(object):
 		self.position = self.position_update()
 		self.is_walking = 0
 		self.direction = 'left'
+		self.unit_box = self.update_box()
+
 		self.dead_time = 0
 		self.defending = 0
 		self.armor = 1
@@ -34,17 +38,21 @@ class BaseUnit(object):
 		self.dmg_dealt = True
 		self.dmg_done_to_me = []
 		self.attack_status = "none"
-		self.attacks_dict = {"one": {"energy": 10, "dmg": 10, "x_range": 60, "y_range": 40},
-						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 40},
+		self.attacks_dict = {"one": {"energy": 10, "dmg": 10, "x_range": 10, "y_range": 40},
+						"two": {"energy": 10, "dmg": 10, "x_range": 10, "y_range": 40},
 						"DOOM": {"energy": 0, "dmg": 100}}
 		self.block_img = pygame.image.load("images/sheild_block.png")
 
+	def update_box(self):
+		return box.Box(self.xpos,self.ypos-self.height/2,self.xpos+self.width,self.ypos)
+	
 	def get_position(self):
 		return self.xpos, self.ypos
 	
 	def position_update(self):
 		self.position = pygame.Rect(self.xpos, self.ypos-self.height, self.width, self.height)
-	
+		self.unit_box = self.update_box()
+
 	def move_left(self):
 		self.is_walking = 1
 		self.direction = 'left'
@@ -53,7 +61,7 @@ class BaseUnit(object):
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 
 		if engine.is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(-self.step_horz, 0)):
-			if engine.detect_collision(self, self.unit_roster.get("Enemies")) and engine.detect_collision(self, self.unit_roster.get("Players")):
+			if not engine.detect_collision(self, self.unit_roster.get("Players")+self.unit_roster.get("Enemies"), -self.step_horz, 0):
 				self.xpos -= self.step_horz
 
 	def move_right(self):
@@ -64,7 +72,7 @@ class BaseUnit(object):
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 		
 		if engine.is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(self.step_horz, 0)):
-			if engine.detect_collision(self, self.unit_roster.get("Enemies")) and engine.detect_collision(self, self.unit_roster.get("Players")):
+			if not engine.detect_collision(self, self.unit_roster.get("Players")+self.unit_roster.get("Enemies"), self.step_horz, 0):
 				self.xpos += self.step_horz
 
 	def move_down(self):
@@ -74,7 +82,8 @@ class BaseUnit(object):
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 
 		if engine.is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(0, self.step_vert)):
-			self.ypos += self.step_vert
+			if not engine.detect_collision(self, self.unit_roster.get("Players")+self.unit_roster.get("Enemies"), 0, self.step_vert):
+				self.ypos += self.step_vert
 
 	def move_up(self):
 		self.is_walking = 1
@@ -83,7 +92,8 @@ class BaseUnit(object):
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 
 		if engine.is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(0, -self.step_vert)):
-			self.ypos -= self.step_vert
+			if not engine.detect_collision(self, self.unit_roster.get("Players")+self.unit_roster.get("Enemies"), 0, -self.step_vert):
+				self.ypos -= self.step_vert
 
 	def is_walking(self):
 
@@ -182,3 +192,4 @@ class BaseUnit(object):
 			for j in range(self.ypos-self.height,self.ypos,self.maps.grid_size):
 				unit_grid.append((i+xoffset, j+yoffset))
 		return unit_grid
+
