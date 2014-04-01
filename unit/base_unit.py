@@ -75,7 +75,8 @@ class BaseUnit(object):
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 
 		if engine.is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(0, self.step_vert)):
-			self.ypos += self.step_vert
+			if engine.detect_collision(self, self.unit_roster.get("Enemies")) and engine.detect_collision(self, self.unit_roster.get("Players")):
+				self.ypos += self.step_vert
 
 	def move_up(self):
 		self.is_walking = 1
@@ -84,7 +85,8 @@ class BaseUnit(object):
 		grid_get_vert = self.maps.map_grids.get(self.maps.map_list[self.maps.current_map])[self.maps.current_grid][2]
 
 		if engine.is_grid(grid_graph, grid_get_vert, self.generate_unit_grid_frame(0, -self.step_vert)):
-			self.ypos -= self.step_vert
+			if engine.detect_collision(self, self.unit_roster.get("Enemies")) and engine.detect_collision(self, self.unit_roster.get("Players")):
+				self.ypos -= self.step_vert
 
 	def is_walking(self):
 
@@ -183,3 +185,4 @@ class BaseUnit(object):
 			for j in range(self.ypos-self.height,self.ypos,self.maps.grid_size):
 				unit_grid.append((i+xoffset, j+yoffset))
 		return unit_grid
+

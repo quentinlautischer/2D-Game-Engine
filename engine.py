@@ -147,9 +147,9 @@ class ENGINE(object):
 
 				#pygame.draw.rect(self.screen, (200, 200, 200), ((player.xpos, player.ypos-player.height), (player.width, player.height)), 0)
 				pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
-				#grid = player.generate_unit_grid_frame(0, 0)
-				#for i in grid:
-				#	pygame.draw.rect(self.screen, (100, 100, 200), (i, (3,3)), 0)
+				grid = player.generate_unit_grid_frame(0, 0)
+				for i in grid:
+					pygame.draw.rect(self.screen, (100, 100, 200), (i, (3,3)), 0)
 				#self.screen.blit(player.anim_standing[0], (player.xpos, player.ypos-player.height))
 				Animation(self.screen, player, 0, player.anim_standing, 10).animate()
 			
@@ -316,17 +316,6 @@ def in_range_cross(unit, target, range_x, range_y, direction):
 				if xdist < range_x + target.width:
 					return True
 				return False
-	
-	if xdist < range_x:
-		if target.ypos > unit.ypos:
-			if range_y + unit.width > abs(ydist) :
-				return True
-			return False
-
-		if target.ypos < unit.ypos:
-			if ydist < range_y + target.width:
-				return True
-			return False
 	
 	return False
 
