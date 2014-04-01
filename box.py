@@ -38,39 +38,15 @@ class Box(object):
             self._yb += dy
 
     def contains(self, x, y):
-        return (self._xl <= x <= self._xr) and (self._yt <= y self._yb):
-
+        return (self._xl <= x <= self._xr) and (self._yt <= y <= self._yb)
         #check if point (x, y) is inside the box b
         #if not ((self.cxl <= x <= self.cxr) and (self.cyt <= y <= self.cyb)):
         #    return False
         #return True
 
-    def collidesWith(self, b1):
+    def collidesWith(self, b1, offsetx, offsety):
         #check if a box b is touching or overlapping another box b1
         # Check to see if self contains any points within b1.
         #### DONT USE RANGE BECASUE INTEGERS COULD BE FLOATS ####
-        for x in range(b1.cxl,b1.cxr+1):
-            for y in range(b1.cyt,b1.cyb+1):
-                if self.contains(x, y):
-                    return True
-        return False
-
-        return ((self._xr >= b1._xl) and (b1._xr >= self._xl)...
-
-    def unionWith(self, b1):
-        # Find the largest 
-        # min()
-        top = b1.cyt if b1.cyt < self.cyt else self.cyt
-        bttm = b1.cyb if b1.cyb > self.cyb else self.cyb
-        left = b1.cxl if b1.cxl < self.cxl else self.cxl
-        right = b1.cxr if b1.cxr > self.cxr else self.cxr
-
-        new_b = Box(left, top, right, bttm)
-        return new_b
-
-
-
-
-
-
-
+      
+        return ((self._xr+offsetx >= b1._xl) and (b1._xr >= self._xl+offsetx)) and ((b1._yb >= self._yt+offsety) and (self._yb+offsety >= b1._yt))

@@ -37,6 +37,7 @@ class ENGINE(object):
 
 		for player in self.unit_roster.get("Players"):
 			if player.xpos > 900 and self.script.scroll_available:
+				self.script.text_print = 0
 				self.maps.is_map_scrolling = 1
 				player.xpos = 80
 
@@ -126,6 +127,9 @@ class ENGINE(object):
 			arrow = pygame.image.load("images/arrow_scroll.png")
 			self.screen.blit(arrow, (975, 300))
 
+		if self.script.text_print:
+			self.script.update_quest_text()
+
 		if self.game_over:
 			self.gui.gameover_draw()
 
@@ -133,24 +137,33 @@ class ENGINE(object):
 		#self.draw_players(self.unit_roster[1])
 		#Update whole screen
 		#pygame.transform.scale2x()
+
+
+
 		pygame.display.update()
 
 	def draw_players(self, player):
 
 		if not player.dead:			
-
+			player.position_update()
 			if player.attack_status == "none" and player.is_walking == 0:
 				
-				player.position_update()
+				
 				
 				#Uncomment for hitbox
 
 				#pygame.draw.rect(self.screen, (200, 200, 200), ((player.xpos, player.ypos-player.height), (player.width, player.height)), 0)
-				pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
-				grid = player.generate_unit_grid_frame(0, 0)
-				for i in grid:
-					pygame.draw.rect(self.screen, (100, 100, 200), (i, (3,3)), 0)
+				#pygame.draw.rect(self.screen, (100, 100, 200), ((player.xpos, player.ypos), (3, 3)), 0)
+				#grid = player.generate_unit_grid_frame(0, 0)
+				#for i in grid:
+				#	pygame.draw.rect(self.screen, (100, 100, 200), (i, (3,3)), 0)
 				#self.screen.blit(player.anim_standing[0], (player.xpos, player.ypos-player.height))
+				
+				pygame.draw.rect(self.screen, (100, 100, 200), ((player.unit_box._xl, player.unit_box._yt), (3,3)), 0)
+				pygame.draw.rect(self.screen, (100, 100, 200), ((player.unit_box._xl, player.unit_box._yb), (3,3)), 0)
+				pygame.draw.rect(self.screen, (100, 100, 200), ((player.unit_box._xr, player.unit_box._yt), (3,3)), 0)
+				pygame.draw.rect(self.screen, (100, 100, 200), ((player.unit_box._xr, player.unit_box._yb), (3,3)), 0)
+
 				Animation(self.screen, player, 0, player.anim_standing, 10).animate()
 			
 			if player.is_walking and player.attack_status == "none" :
@@ -319,15 +332,13 @@ def in_range_cross(unit, target, range_x, range_y, direction):
 	
 	return False
 
-def detect_collision(unit, objects):
+def detect_collision(unit, objects, offsetx, offsety):
 
 	for obj in objects:
 		if unit != obj:
-			if not obj.is_passable:
-	 			return not in_range_cross(unit, obj, 0, 40, unit.direction)
-			elif obj.is_passable:
+			if unit.unit_box.collidesWith(obj.unit_box, offsetx, offsety):
 				return True
-	return True
+	return False
 
 def straight_line_dist(x1, y1, x2, y2):
 	return ((x2-x1)**2 + (y2-y1)**2)**0.5
