@@ -41,7 +41,7 @@ class Maps(object):
 
 
 		self.backgrounds = {"map1": [l("images/Demo_1.png"), l("images/Demo_2.png"), l("images/Demo_3.png"),l("images/Demo_4.png"),l("images/Demo_5.png"),l("images/Demo_6.png")]}
-		self.foregrounds = {"map1": [l("images/transparent.png"), l("images/transparent.png"), l("images/Demo_3.5.png"), l("images/transparent.png"), l("images/Demo_5.5.png"), l("images/transparent.png")]}
+		self.foregrounds = {"map1": [l("images/def_fore.png"), l("images/def_fore.png"), l("images/Demo_35.png"), l("images/def_fore.png"), l("images/Demo_5.5.png"), l("images/def_fore.png")]}
 
 
 		self.sky = pygame.image.load("images/sky2.png")
@@ -110,6 +110,7 @@ class Maps(object):
 		self.current_bg_index += 1
 		self.current_bg_index %= len(self.backgrounds.get("map1"))
 		self.current_bg = self.backgrounds.get("map1")[self.current_bg_index]
+		self.current_fg = self.foregrounds.get("map1")[self.current_bg_index]
 
 		self.current_grid += 1
 		self.current_grid %= len(self.map_grids.get("map1"))
