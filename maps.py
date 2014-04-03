@@ -37,10 +37,10 @@ class Maps(object):
 	def __init__(self, screen):
 		self.screen = screen
 		self.grid_size = 8
-		self.bg = pygame.image.load("images/Forest_Floor.png")
-		self.bg1 = pygame.transform.flip(self.bg,True,False)
+		l = pygame.image.load
 
-		self.backgrounds = {"map1": [self.bg, self.bg1]}
+
+		self.backgrounds = {"map1": [l("images/Forest_Floor.png"), l("images/Forest_Floor.png"), l("images/Forest_Floor.png")]}
 
 		self.sky = pygame.image.load("images/Forest_Back.png")
 		self.sky_pos = [0, -1024]
@@ -55,7 +55,7 @@ class Maps(object):
 		self.current_map = 0
 
 		self.current_grid = 0
-		self.map_grids = {"map1": [self.load_map_grid("map1_grid1.txt"), self.load_map_grid("map1_grid2.txt")],"map2": []}
+		self.map_grids = {"map1": [self.load_map_grid("map1_grid1.txt"), self.load_map_grid("map1_grid2.txt"), self.load_map_grid("map1_grid1.txt")],"map2": []}
 		
 	def update_sky(self):
 
@@ -99,8 +99,8 @@ class Maps(object):
 	def scroll_map_right(self):
 		for i in range(64):
 			self.sky_draw()
-			self.screen.blit(self.bg, (0-i*16, 0))
-			self.screen.blit(self.bg1, (1024-i*16, 0))
+			self.screen.blit(self.backgrounds.get(self.map_list[self.current_map])[self.current_grid], (0-i*16, 0))
+			self.screen.blit(self.backgrounds.get(self.map_list[self.current_map])[self.current_grid+1], (1024-i*16, 0))
 			pygame.display.update()
 		self.is_map_scrolling = 0
 		self.current_bg_index += 1

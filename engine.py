@@ -72,7 +72,7 @@ class ENGINE(object):
 					unit.dead_time = pygame.time.get_ticks()
 				unit.dead = True
 				unit.is_passable = 1
-				if unit.dead_time + 4000 < pygame.time.get_ticks():
+				if unit.dead_time + 2000 < pygame.time.get_ticks():
 					self.unit_roster.get("Enemies").remove(unit)
 
 	def draw_overhead_health(self, unit):

@@ -17,8 +17,9 @@ class Script(object):
 		self.quest_text = ""
 	
 
-		self.current_grid_quests = {0: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 2), (None, "defeat wave"),("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 2),(None, "defeat wave"),("You May Advance...", "quest text")],
-		1: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 4), (None, "defeat wave")]}
+		self.current_grid_quests = {0: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 2, GoblinUnit, "images/enemy/"), (None, "defeat wave"),("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 2, GoblinUnit, "images/enemy/"),(None, "defeat wave"),("You May Advance...", "quest text")],
+		1: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 4, GoblinUnit, "images/enemy/"), (None, "defeat wave")],
+		2: [("A stronger enemy approaches...", "quest text"), (self.release_wave, "release wave", 2, WerewolfUnit, "images/werewolf/")]}
 
 		self.quest = self.current_grid_quests.get(self.maps.current_grid)
 
@@ -26,8 +27,8 @@ class Script(object):
 		if self.quest:
 			self.scroll_available = 0
 			if self.quest[0][1] == "release wave":
-				a,b,c = self.quest.pop(0)
-				a(GoblinUnit, "images/enemy/", c)
+				a,b,c,d,e = self.quest.pop(0)
+				a(d, e, c)
 			elif self.quest[0][1] == "defeat wave":
 				if self.unit_roster.get("Enemies"):
 					pass
