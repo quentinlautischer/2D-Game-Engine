@@ -189,7 +189,7 @@ class BaseUnit(object):
 	def generate_unit_grid_frame(self, xoffset, yoffset):
 		unit_grid = []
 		for i in range(self.xpos,self.xpos+self.width,self.maps.grid_size):
-			for j in range(self.ypos-self.height,self.ypos,self.maps.grid_size):
+			for j in range(self.ypos-(self.height//2),self.ypos,self.maps.grid_size):
 				unit_grid.append((i+xoffset, j+yoffset))
 		return unit_grid
 

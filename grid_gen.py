@@ -13,7 +13,7 @@ def generate_data(filename, array, RESOLUTION_X, RESOLUTION_Y, grid_delta):
 	vert_id = 0
 	for x in range(RESOLUTION_X//grid_delta):
 		for y in range(RESOLUTION_Y//grid_delta):
-			if array[y][x] == 0:
+			if array[y][x] == 1:
 
 				TL = (x*grid_delta, y*grid_delta)
 				TR = (x*grid_delta+grid_delta, y*grid_delta)
@@ -51,22 +51,44 @@ def generate_data(filename, array, RESOLUTION_X, RESOLUTION_Y, grid_delta):
 	
 	return vertices, vert_id_to_coord, edges
 
-def select_square(screen, surface, array, grid_delta, grid_bg):
+def select_square(screen, surface, array, grid_delta, grid_bg, brush_size):
 	x, y = pygame.mouse.get_pos()
 	x //= grid_delta
 	y //= grid_delta
 
-	rect = (x*grid_delta, y*grid_delta, grid_delta, grid_delta)
-	pygame.draw.rect(surface, (0, 255, 0), rect)
-	rect = (x*grid_delta, y*grid_delta, grid_delta-1, grid_delta-1)
-	pygame.draw.rect(surface, (0, 255, 0), rect)
+	for i in range(brush_size):
+		rect = ((x+i)*grid_delta, (y+i)*grid_delta, grid_delta, grid_delta)
+		pygame.draw.rect(surface, (0, 255, 0), rect)
+		rect = ((x+i)*grid_delta, (y+i)*grid_delta, grid_delta-1, grid_delta-1)
+		pygame.draw.rect(surface, (0, 255, 0), rect)
+		try:
+			array[y+i][x+i] = 1
+		except:
+			pass
 
-	array[y][x] = 1
+		rect = ((x+i+1)*grid_delta, (y+i)*grid_delta, grid_delta, grid_delta)
+		pygame.draw.rect(surface, (0, 255, 0), rect)
+		rect = ((x+i+1)*grid_delta, (y+i)*grid_delta, grid_delta-1, grid_delta-1)
+		pygame.draw.rect(surface, (0, 255, 0), rect)
+		try:
+			array[y+i][x+i+1] = 1
+		except:
+			pass
+
+		rect = ((x+i)*grid_delta, (y+i+1)*grid_delta, grid_delta, grid_delta)
+		pygame.draw.rect(surface, (0, 255, 0), rect)
+		rect = ((x+i)*grid_delta, (y+i+1)*grid_delta, grid_delta-1, grid_delta-1)
+		pygame.draw.rect(surface, (0, 255, 0), rect)
+		try:
+			array[y+i+1][x+i] = 1
+		except:
+			pass
+
 
 	screen.blit(grid_bg, (0, 0))
 	screen.blit(surface, (0, 0))
 
-def desel_square(screen, surface, array, grid_delta, grid_bg):
+def desel_square(screen, surface, array, grid_delta, grid_bg, brush_size):
 	x, y = pygame.mouse.get_pos()
 	x //= grid_delta
 	y //= grid_delta
@@ -95,6 +117,7 @@ def main():
 	pygame.init()
 	screen = pygame.display.set_mode((RESOLUTION_X, RESOLUTION_Y))
 	
+	brush_size = 1
 	screen.blit(grid_bg, (0, 0))
 
 	background = pygame.Surface(screen.get_size())
@@ -116,9 +139,9 @@ def main():
 			if event.type == QUIT:
 				return
 			if pygame.mouse.get_pressed() == (1, 0, 0):
-				select_square(screen, background, array, grid_delta, grid_bg)
+				select_square(screen, background, array, grid_delta, grid_bg, brush_size)
 			if pygame.mouse.get_pressed() == (0, 0, 1):
-				desel_square(screen, background, array, grid_delta, grid_bg) 
+				desel_square(screen, background, array, grid_delta, grid_bg, brush_size) 
 			keys = pygame.key.get_pressed()
 			if  keys[pygame.K_LEFT]:
 				vert, vertId_cord, edges = generate_data(grid_name, array, RESOLUTION_X, RESOLUTION_Y, grid_delta)
@@ -127,6 +150,14 @@ def main():
 					pygame.draw.line(background, (255, 0, 0), vertId_cord[id1], vertId_cord[id2], 5)
 				screen.blit(background, (0, 0))
 				return
+			if  keys[pygame.K_UP]:
+				if brush_size < 1000:
+					brush_size += 1
+					print(brush_size)
+			if  keys[pygame.K_DOWN]:
+				if brush_size > 1:
+					brush_size -= 1
+					print(brush_size)
 		pygame.display.update()
 
 		#EVENT WHEN MOUSE CLICK DRAW RECT AND CHANGE ARRAY

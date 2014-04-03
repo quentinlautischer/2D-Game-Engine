@@ -39,7 +39,11 @@ class ENGINE(object):
 			if player.xpos > 900 and self.script.scroll_available:
 				self.script.text_print = 0
 				self.maps.is_map_scrolling = 1
-				player.xpos = 80
+				player_reposition = 360
+				for player in self.unit_roster.get("Players"):
+					player.xpos = 80
+					player.ypos = player_reposition
+					player_reposition += 64
 
 
 			#current_time  = pygame.time.get_ticks()
@@ -122,6 +126,8 @@ class ENGINE(object):
 			self.draw_players(unit)
 			if unit.name == 'enemy':
 				self.draw_overhead_health(unit)
+
+		self.screen.blit(self.maps.current_fg, (0, 0))
 
 		if self.script.scroll_available:
 			arrow = pygame.image.load("images/arrow_scroll.png")
