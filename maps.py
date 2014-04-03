@@ -40,9 +40,11 @@ class Maps(object):
 		l = pygame.image.load
 
 
-		self.backgrounds = {"map1": [l("images/Forest_Floor.png"), l("images/Forest_Floor.png"), l("images/Forest_Floor.png")]}
+		self.backgrounds = {"map1": [l("images/Demo_1.png"), l("images/Demo_2.png"), l("images/Demo_3.png"),l("images/Demo_4.png"),l("images/Demo_5.png"),l("images/Demo_6.png")]}
+		self.foregrounds = {"map1": [l("images/transparent.png"), l("images/transparent.png"), l("images/Demo_3.5.png"), l("images/transparent.png"), l("images/Demo_5.5.png"), l("images/transparent.png")]}
 
-		self.sky = pygame.image.load("images/Forest_Back.png")
+
+		self.sky = pygame.image.load("images/sky2.png")
 		self.sky_pos = [0, -1024]
 		self.sky_speed = 1
 		self.sky_color_default = (100, 100, 200)
@@ -50,12 +52,14 @@ class Maps(object):
 		self.is_map_scrolling = 0
 		self.current_bg_index = 0
 		self.current_bg = self.backgrounds.get("map1")[self.current_bg_index]
-		#graph, location, streetnames = load_edmonton_road_map("edmonton_roads.txt")
+		self.current_fg = self.foregrounds.get("map1")[self.current_bg_index]
 		self.map_list = ["map1","map2"]
 		self.current_map = 0
 
 		self.current_grid = 0
-		self.map_grids = {"map1": [self.load_map_grid("map1_grid1.txt"), self.load_map_grid("map1_grid2.txt"), self.load_map_grid("map1_grid1.txt")],"map2": []}
+		self.map_grids = {"map1": [self.load_map_grid("Grid_Demo_1.txt"), self.load_map_grid("Grid_Demo_2.txt"), self.load_map_grid("Grid_Demo_1.txt"),
+							self.load_map_grid("Grid_Demo_1.txt"),self.load_map_grid("Grid_Demo_1.txt"),self.load_map_grid("Grid_Demo_1.txt")],
+						"map2": []}
 		
 	def update_sky(self):
 
@@ -109,3 +113,9 @@ class Maps(object):
 
 		self.current_grid += 1
 		self.current_grid %= len(self.map_grids.get("map1"))
+
+		if self.current_grid == 4:
+			self.sky_speed = 0
+			self.sky = pygame.image.load("images/Forest_Back.png")
+			self.sky_pos = [0, -1024]
+
