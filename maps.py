@@ -41,7 +41,7 @@ class Maps(object):
 
 
 		self.backgrounds = {"map1": [l("images/Demo_1.png"), l("images/Demo_2.png"), l("images/Demo_3.png"),l("images/Demo_4.png"),l("images/Demo_5.png"),l("images/Demo_6.png")]}
-		self.foregrounds = {"map1": [l("images/def_fore.png"), l("images/def_fore.png"), l("images/Demo_35.png"), l("images/def_fore.png"), l("images/Demo_5.5.png"), l("images/def_fore.png")]}
+		self.foregrounds = {"map1": [l("images/def_fore.png"), l("images/def_fore.png"), l("images/Demo_3.5.png"), l("images/def_fore.png"), l("images/Demo_5.5.png"), l("images/def_fore.png")]}
 
 
 		self.sky = pygame.image.load("images/sky2.png")
