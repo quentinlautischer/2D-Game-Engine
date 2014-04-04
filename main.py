@@ -1,6 +1,6 @@
 # Main File
 
-import pygame, random
+import pygame, random, sys
 from pygame.locals import *
 from gui import GUI
 from engine import ENGINE, Controller
@@ -88,6 +88,8 @@ def init_1v1(screen, unit_roster, maps):
 def main():
 	# Initialise screen
 	pygame.init()
+	pygame.mixer.pre_init(22050, -16, 2, 512) # Small buffer for less sound lag
+
 	screen = pygame.display.set_mode((RESOLUTION_X, RESOLUTION_Y))
 	pygame.display.set_caption('Switch & If')
 

@@ -57,8 +57,8 @@ class Maps(object):
 		self.current_map = 0
 
 		self.current_grid = 0
-		self.map_grids = {"map1": [self.load_map_grid("Grid_Demo_1.txt"), self.load_map_grid("Grid_Demo_2.txt"), self.load_map_grid("Grid_Demo_1.txt"),
-							self.load_map_grid("Grid_Demo_1.txt"),self.load_map_grid("Grid_Demo_1.txt"),self.load_map_grid("Grid_Demo_1.txt")],
+		self.map_grids = {"map1": [self.load_map_grid("Grid_Demo_1.txt"), self.load_map_grid("Grid_Demo_2.txt"), self.load_map_grid("Grid_Demo_3.txt"),
+							self.load_map_grid("Grid_Demo_2.txt"),self.load_map_grid("Grid_Demo_2.txt"),self.load_map_grid("Grid_Demo_2.txt")],
 						"map2": []}
 		
 	def update_sky(self):

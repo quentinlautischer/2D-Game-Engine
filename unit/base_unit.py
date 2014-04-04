@@ -29,6 +29,8 @@ class BaseUnit(object):
 		self.direction = 'left'
 		self.unit_box = self.update_box()
 
+		self.defend_sound = "ArtilleryFire"
+
 		self.dead_time = 0
 		self.defending = 0
 		self.armor = 1

@@ -2,6 +2,7 @@ import sys, pygame, random
 from animation import Animation
 from operator import itemgetter, attrgetter
 from scripting import Script
+from sounds import SoundManager
 
 class ENGINE(object):
 
@@ -52,6 +53,7 @@ class ENGINE(object):
 				self.controllers[player.number-1].update(player)
 				if player.defending:
 					player.defend_spell()
+					SoundManager.play(player.defend_sound)
 				else:
 					player.armor = 1
 				player.gain_energy(0.3)

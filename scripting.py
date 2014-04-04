@@ -3,6 +3,7 @@ import math
 from graph_module import Graph
 from animation import *
 import engine
+from unit.teddyghost_unit import TeddyGhostUnit
 from unit.werewolf_unit import WerewolfUnit
 from unit.goblin_unit import GoblinUnit
 
@@ -17,9 +18,13 @@ class Script(object):
 		self.quest_text = ""
 	
 
-		self.current_grid_quests = {0: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 2, GoblinUnit, "images/enemy/"), (None, "defeat wave"),("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 2, GoblinUnit, "images/enemy/"),(None, "defeat wave"),("You May Advance...", "quest text")],
+		self.current_grid_quests = {0: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 1, TeddyGhostUnit, "images/teddyghost/"), (None, "defeat wave"),("You May Advance...", "quest text")],
 		1: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 4, GoblinUnit, "images/enemy/"), (None, "defeat wave")],
-		2: [("A stronger enemy approaches...", "quest text"), (self.release_wave, "release wave", 2, WerewolfUnit, "images/werewolf/")]}
+		2: [("A stronger enemy approaches...", "quest text"), (self.release_wave, "release wave", 2, WerewolfUnit, "images/werewolf/")],
+		3: [("Keep Going", "quest text")],
+		4: [("Keep Going", "quest text")],
+		5: [("Keep Going", "STALL FULLER")]
+		}
 
 		self.quest = self.current_grid_quests.get(self.maps.current_grid)
 
