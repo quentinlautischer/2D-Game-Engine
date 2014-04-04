@@ -28,9 +28,9 @@ class BaseEnemyUnit(BaseUnit):
 	
 	def draw_walking(self, screen):
 		rate = 5
-		Animation(screen, self, 0, self.anim_walking, rate).animate()
+		Animation(screen, self, 0,0, self.anim_walking, rate).animate()
 		if self.anim_walking[-2] == len(self.anim_walking) - 3 and self.anim_walking[-1] == rate-1:
-			Animation(screen, self, 0, self.anim_walking, 5).animate()
+			Animation(screen, self, 0,0, self.anim_walking, 5).animate()
 			self.anim_walking[-2] = 0
 			self.is_walking = 0
 
@@ -38,20 +38,20 @@ class BaseEnemyUnit(BaseUnit):
 	def draw_atk1(self, screen):
 		#Stab
 		rate = 1
-		Animation(screen, self, 0, self.anim_atk1, rate).animate()
+		Animation(screen, self, 0,0, self.anim_atk1, rate).animate()
 		#Animation(screen, self, self.width, self.stab_effect, rate).animate()
 		if self.anim_atk1[-2] == len(self.anim_atk1) - 3 and self.anim_atk1[-1] == rate-1:
-			Animation(screen, self, 0, self.anim_atk1, 5).animate()
+			Animation(screen, self, 0,0, self.anim_atk1, 5).animate()
 			self.anim_atk1[-2] = 0
 			self.attack_status = "none"
 
 	def draw_warn1(self, screen):
 		#Stab 
 		rate = 10
-		Animation(screen, self, 0, self.anim_warn1, rate).animate()
+		Animation(screen, self, 0,0, self.anim_warn1, rate).animate()
 		#Animation(screen, self, self.width, self.stab_effect, rate).animate()
 		if self.anim_warn1[-2] == len(self.anim_warn1) - 3 and self.anim_warn1[-1] == rate-1:
-			Animation(screen, self, 0, self.anim_warn1, 5).animate()
+			Animation(screen, self, 0,0, self.anim_warn1, 5).animate()
 			self.anim_warn1[-2] = 0
 			self.attack_status = "none"
 
@@ -59,10 +59,10 @@ class BaseEnemyUnit(BaseUnit):
 	def draw_atk2(self, screen):
 		#slash
 		rate = 3
-		Animation(screen, self, 0, self.anim_atk2, rate).animate()
+		Animation(screen, self, 0,0, self.anim_atk2, rate).animate()
 		Animation(screen, self, self.width, self.slash_effect, rate).animate()
 		if self.anim_atk2[-2] == len(self.anim_atk2) - 3 and self.anim_atk2[-1] == rate-1:
-			Animation(screen, self, 0, self.anim_atk2, 5).animate()
+			Animation(screen, self, 0,0, self.anim_atk2, 5).animate()
 			self.anim_atk2[-2] = 0
 			self.attack_status = "none"
 

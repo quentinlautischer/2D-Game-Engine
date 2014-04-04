@@ -2,12 +2,13 @@ import pygame
 
 class Animation(object):
 
-	def __init__(self, screen, player, offset, sequence, rate):
+	def __init__(self, screen, player, offsetx, offsety, sequence, rate):
 		self.sequence = sequence
 		self.rate = rate
 		self.player = player
 		self.screen = screen
-		self.offset = offset
+		self.offsetx = offsetx
+		self.offsety = offsety
 
 	def animate(self):
 
@@ -17,10 +18,10 @@ class Animation(object):
 
 		#Image Orientation
 		if self.player.direction == 'left':
-			self.screen.blit(self.sequence[self.sequence[-2]], (self.player.xpos-x_delta-self.offset, self.player.ypos-self.player.height-y_delta))
+			self.screen.blit(self.sequence[self.sequence[-2]], (self.player.xpos-x_delta-self.offsetx, self.player.ypos-self.player.height-y_delta-self.offsety))
 		else:
 			flip_img = pygame.transform.flip(self.sequence[self.sequence[-2]],True,False)
-			self.screen.blit(flip_img, (self.player.xpos-x_delta+self.offset, self.player.ypos-self.player.height-y_delta))
+			self.screen.blit(flip_img, (self.player.xpos-x_delta+self.offsetx, self.player.ypos-self.player.height-y_delta-self.offsety))
 		
 		#Controls the framerate
 		if self.sequence[-1] == 0:

@@ -40,20 +40,20 @@ class WerewolfUnit(BaseEnemyUnit):
 	def draw_atk1(self, screen):
 		#Stab
 		rate = 1
-		Animation(screen, self, 0, self.anim_atk1, rate).animate()
+		Animation(screen, self, 0,0, self.anim_atk1, rate).animate()
 		#Animation(screen, self, self.width, self.stab_effect, rate).animate()
 		if self.anim_atk1[-2] == len(self.anim_atk1) - 3 and self.anim_atk1[-1] == rate-1:
-			Animation(screen, self, 0, self.anim_atk1, 5).animate()
+			Animation(screen, self, 0,0, self.anim_atk1, 5).animate()
 			self.anim_atk1[-2] = 0
 			self.attack_status = "none"
 
 	def draw_warn1(self, screen):
 		#Stab
 		rate = 4
-		Animation(screen, self, 0, self.anim_warn1, rate).animate()
+		Animation(screen, self, 0,0, self.anim_warn1, rate).animate()
 		#Animation(screen, self, self.width, self.stab_effect, rate).animate()
 		if self.anim_warn1[-2] == len(self.anim_warn1) - 3 and self.anim_warn1[-1] == rate-1:
-			Animation(screen, self, 0, self.anim_warn1, 5).animate()
+			Animation(screen, self, 0,0, self.anim_warn1, 5).animate()
 			self.anim_warn1[-2] = 0
 			self.attack_status = "none"
 
@@ -61,10 +61,10 @@ class WerewolfUnit(BaseEnemyUnit):
 	def draw_atk2(self, screen):
 		#slash
 		rate = 3
-		Animation(screen, self, 0, self.anim_atk2, rate).animate()
-		Animation(screen, self, self.width, self.slash_effect, rate).animate()
+		Animation(screen, self, 0,0, self.anim_atk2, rate).animate()
+		Animation(screen, self, self.width,0, self.slash_effect, rate).animate()
 		if self.anim_atk2[-2] == len(self.anim_atk2) - 3 and self.anim_atk2[-1] == rate-1:
-			Animation(screen, self, 0, self.anim_atk2, 5).animate()
+			Animation(screen, self, 0,0, self.anim_atk2, 5).animate()
 			self.anim_atk2[-2] = 0
 			self.attack_status = "none"
 

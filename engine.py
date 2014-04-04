@@ -2,6 +2,7 @@ import sys, pygame, random
 from animation import Animation
 from operator import itemgetter, attrgetter
 from scripting import Script
+from sounds import SoundManager
 
 class ENGINE(object):
 
@@ -39,11 +40,7 @@ class ENGINE(object):
 			if player.xpos > 900 and self.script.scroll_available:
 				self.script.text_print = 0
 				self.maps.is_map_scrolling = 1
-				player_reposition = 360
-				for player in self.unit_roster.get("Players"):
-					player.xpos = 80
-					player.ypos = player_reposition
-					player_reposition += 64
+				spawn_players(self.unit_roster.get("Players"))
 
 
 			#current_time  = pygame.time.get_ticks()
@@ -57,6 +54,7 @@ class ENGINE(object):
 				player.gain_energy(0.3)
 				player.gain_health(0.1)
 				if not player.dmg_dealt:
+					SoundManager.play(player.atk1_sound)
 					player.check_dmg_done(self.unit_roster.get("Enemies"))
 					player.dmg_dealt = True
 			else:
@@ -67,8 +65,10 @@ class ENGINE(object):
 			#current_time  = pygame.time.get_ticks()
 			if unit.get_health() > 0:	
 				unit.gain_energy(0.3)
-				unit.AI_update()
+				unit.AI_update(self.screen)
+
 				if not unit.dmg_dealt:
+					SoundManager.play(unit.atk1_sound)
 					unit.check_dmg_done(self.unit_roster.get("Players"))
 					unit.dmg_dealt = True
 			else:
@@ -170,7 +170,7 @@ class ENGINE(object):
 				pygame.draw.rect(self.screen, (100, 100, 200), ((player.unit_box._xr, player.unit_box._yt), (3,3)), 0)
 				pygame.draw.rect(self.screen, (100, 100, 200), ((player.unit_box._xr, player.unit_box._yb), (3,3)), 0)
 
-				Animation(self.screen, player, 0, player.anim_standing, 10).animate()
+				Animation(self.screen, player, 0,0, player.anim_standing, 10).animate()
 			
 			if player.is_walking and player.attack_status == "none" :
 				player.draw_walking(self.screen)
@@ -182,7 +182,10 @@ class ENGINE(object):
 				player.draw_atk2(self.screen)
 			
 			if player.attack_status == "warn1":
-				player.draw_warn1(self.screen)	
+				player.draw_warn1(self.screen)
+
+			if player.attack_status == "special":
+				player.special_atk(self.screen)
 
 			if player.defending:
 				self.screen.blit(player.block_img, (player.xpos-player.width/2, player.ypos-player.height))
@@ -354,6 +357,13 @@ def is_grid(grid_graph, grid_verts, points):
 		if not grid_graph.is_vertex(grid_verts.get(i)):
 			return False
 	return True
+
+def spawn_players(player_roster):
+	player_reposition = 360
+	for player in player_roster:
+		player.xpos = 80
+		player.ypos = player_reposition
+		player_reposition += 64
 
 def spawn_enemy_specified_loc(unit_roster, maps, enemy_type, number, enemy_sprites, xpos, ypos):
 		for i in range(number):

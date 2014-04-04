@@ -1,4 +1,4 @@
-import pygame, unit#, effects
+import pygame, unit, sys
 import engine
 import box
 from animation import Animation
@@ -28,6 +28,9 @@ class BaseUnit(object):
 		self.is_walking = 0
 		self.direction = 'left'
 		self.unit_box = self.update_box()
+
+		self.defend_sound = "ArtilleryFire"
+		self.atk1_sound = "bow_sound"
 
 		self.dead_time = 0
 		self.defending = 0
@@ -152,34 +155,34 @@ class BaseUnit(object):
 
 	def draw_walking(self, screen):
 		rate = 1
-		Animation(screen, self, 0, self.anim_walking, rate).animate()
+		Animation(screen, self, 0,0, self.anim_walking, rate).animate()
 		if self.anim_walking[-2] == len(self.anim_walking) - 3 and self.anim_walking[-1] == rate-1:
-			Animation(screen, self, 0, self.anim_walking, 5).animate()
+			Animation(screen, self, 0,0, self.anim_walking, 5).animate()
 			self.anim_walking[-2] = 0
 		self.is_walking = 0
 
 	def draw_atk1(self, screen):
 		rate = 3
-		Animation(screen, self, 0, self.anim_atk1, rate).animate()
+		Animation(screen, self, 0,0, self.anim_atk1, rate).animate()
 		if self.anim_atk1[-2] == len(self.anim_atk1) - 3 and self.anim_atk1[-1] == rate-1:
-			Animation(screen, self, 0, self.anim_atk1, 5).animate()
+			Animation(screen, self, 0,0, self.anim_atk1, 5).animate()
 			self.anim_atk1[-2] = 0
 			self.attack_status = "none"
 
 	def draw_atk2(self, screen):
 		rate = 3
-		Animation(screen, self, 0, self.anim_atk2, rate).animate()
+		Animation(screen, self, 0,0, self.anim_atk2, rate).animate()
 		if self.anim_atk2[-2] == len(self.anim_atk2) - 3 and self.anim_atk2[-1] == rate-1:
-			Animation(screen, self, 0, self.anim_atk2, 5).animate()
+			Animation(screen, self, 0,0, self.anim_atk2, 5).animate()
 			self.anim_atk2[-2] = 0
 			self.attack_status = "none"
 
 	def draw_death(self, screen):
 		#Stab
 		rate = 10
-		Animation(screen, self, 0, self.anim_death, rate).animate()
+		Animation(screen, self, 0,0, self.anim_death, rate).animate()
 		if self.anim_death[-2] == len(self.anim_death) - 3 and self.anim_death[-1] == rate-1:
-			Animation(screen, self, 0, self.anim_death, 5).animate()
+			Animation(screen, self, 0,0, self.anim_death, 5).animate()
 			self.anim_death[-2] = 0
 
 	def queue_attack1(self):
