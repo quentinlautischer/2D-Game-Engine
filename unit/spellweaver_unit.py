@@ -21,11 +21,11 @@ class SpellWeaverUnit(BaseUnit):
 	def draw_atk1(self, screen):
 		#Bow
 		rate = 2
-		Animation(screen, self, 0, self.anim_atk1, rate).animate()
-		Animation(screen, self, self.width + self.firearrow_move, self.firearrow_effect, rate).animate()
+		Animation(screen, self, 0,0, self.anim_atk1, rate).animate()
+		Animation(screen, self, self.width + self.firearrow_move,0, self.firearrow_effect, rate).animate()
 		self.firearrow_move += 60
 		if self.anim_atk1[-2] == len(self.anim_atk1) - 3 and self.anim_atk1[-1] == rate-1:
-			Animation(screen, self, 0, self.anim_atk1, 5).animate()
+			Animation(screen, self, 0,0, self.anim_atk1, 5).animate()
 			self.anim_atk1[-2] = 0
 			self.attack_status = "none"
 			self.firearrow_move = -20
@@ -33,9 +33,9 @@ class SpellWeaverUnit(BaseUnit):
 	def draw_atk2(self, screen):
 		#Spell Sweep
 		rate = 5
-		Animation(screen, self, 0, self.anim_atk2, rate).animate()
+		Animation(screen, self, 0,0, self.anim_atk2, rate).animate()
 		if self.anim_atk2[-2] == len(self.anim_atk2) - 3 and self.anim_atk2[-1] == rate-1:
-			Animation(screen, self, 0, self.anim_atk2, 5).animate()
+			Animation(screen, self, 0,0, self.anim_atk2, 5).animate()
 			self.anim_atk2[-2] = 0
 			self.attack_status = "none"
 
