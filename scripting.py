@@ -19,7 +19,7 @@ class Script(object):
 	
 
 		self.current_grid_quests = {
-			0: [("Welcome to the game", "quest text"),(self.release_wave,"release wave", 1, TeddyGhostUnit, "images/teddyghost/")],
+			0: [("Welcome to the game", "quest text")],#,(self.release_wave,"release wave", 1, TeddyGhostUnit, "images/teddyghost/"),(None, "defeat wave")],
 			1: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 4, GoblinUnit, "images/enemy/"), (None, "defeat wave")],
 			2: [("Keep Going", "quest text")],
 			3: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 4, GoblinUnit, "images/enemy/"), (None, "defeat wave")],

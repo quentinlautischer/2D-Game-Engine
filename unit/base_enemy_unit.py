@@ -107,7 +107,7 @@ class BaseEnemyUnit(BaseUnit):
 	def Attack2(self):
 		return [self.queue_warn1, self.queue_warn1, self.queue_attack1]
 
-	def AI_update(self):
+	def AI_update(self, screen):
 		#self.attack_status = "one"
 		#self.check_dmg_done(self.unit_roster)
 		if self.check_attack_2():
