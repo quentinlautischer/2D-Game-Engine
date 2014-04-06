@@ -31,7 +31,7 @@ class SoundManager:
                 return
         
         # Play the sound, no extra args needed, defaults are fine
-        SoundManager._sounds[sound_name].play()
+        #SoundManager._sounds[sound_name].play()
     
     @staticmethod
     def _load(name):
