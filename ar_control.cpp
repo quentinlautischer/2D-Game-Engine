@@ -1,14 +1,20 @@
 #include <Arduino.h>
 
-const int HORPIN = 3;
-const int VERTPIN = 2;
+const int HORPIN = 0; //3
+const int VERTPIN = 1; //2
 const int SEL = 5;
 const int SPEAK = 6;
 const int BUTT_A = 2;
 const int BUTT_B = 3;
 const int BUTT_C = 4;
 
+int offset = 40; // Joystick offset for sensitivity issues
+int vert_def = 521; // default vert position
+int hor_def = 510; // default horizontal position
+
 void setup() {
+
+    //Pin Inits
     pinMode(BUTT_A, INPUT);
     pinMode(BUTT_B, INPUT);
     pinMode(BUTT_C, INPUT);
@@ -18,71 +24,57 @@ void setup() {
     digitalWrite(BUTT_B, HIGH);
     digitalWrite(BUTT_C, HIGH);
     digitalWrite(SEL, HIGH);
-    Serial.begin(9600);
 
+    //Universal Joystick Calibration
+
+    int vert_def = analogRead(VERTPIN); // default vert position
+    int hor_def = analogRead(HORPIN); // default horizontal position
+
+    Serial.begin(9600);
 }
 
 void loop(){ 
+    //while(!Serial.available()) { } // Wait until we have a connection, send an arbitary character thrrough
 
-int offset = 40; // Joystick offset for sensitivity issues
-int vert_def = 521; // default vert position
-int hor_def = 510; // default horizontal position
+    Serial.read(); // Clear the buffer
 
+    while(1) {
 
+        int curser_vert = analogRead(VERTPIN); // Get the curser vert
+        int curser_hor = analogRead(HORPIN); // Get the curser hor
 
-while(!serial.available()) {} // Wait until we have a connection, send an arbitary character thrrough
+        delay(130); //Reduce Serial send rate, its too fast
+        if(digitalRead(BUTT_A) == 0) {Serial.write("A ");} // Pressed A aka attack 1
 
+        if(digitalRead(BUTT_B) == 0) {Serial.write("B ");} // Pressed B aka attack 2
 
+        if((digitalRead(BUTT_C) == 0) && (curser_hor == hor_def) && (curser_vert == vert_def)) {Serial.write("C");} 
+        // Pressed C aka sheild but you cant sheild if your moving (can be changed)
 
-seraial.Read(); // Clear the buffer
+        if(curser_vert > (vert_def + offset)){
+            Serial.write("D "); // Move down
+            Serial.print("D");
+        }
 
-while(1) {
-int curser_vert = analogRead(VERTPIN); // Get the curser vert
-int curser_hor = analogRead(HORPIN); // Get the curser hor
+        else if(curser_vert < (vert_def - offset)){
+            Serial.write("U "); // Move up
+            Serial.print("U");
+        }
 
-delay(130); //Reduce serial send rate, its too fast
-if(digitalRead(BUTT_A) == 0) {Serial.write("A");} // Pressed A aka attack 1
+        else{} // Do nothing
 
-if(digitalRead(BUTT_B) == 0) {Serial.write("B");} // Pressed B aka attack 2
+        if(curser_hor > (hor_def + offset)){
+            Serial.write("R "); // Move right
+            Serial.print("R");
+        }
 
-if((digitalRead(BUTT_C) == 0) && (curser_hor == hor_def) && (curser_vert == vert_def)) {Serial.write("C");} 
-// Pressed C aka sheild but you cant sheild if your moving (can be changed)
+        else if(curser_hor < (hor_def - offset)){
+            Serial.write("L "); // Move left
+            Serial.print("L");
+        }
 
-
-
-
-if(curser_vert > (vert_def + offset)){
-
-    Serial.write("D"); // Move down
-}
-
-else if(curser_vert < (vert_def - offset)){
-
-    Serial.write("U"); // Move up
-}
-
-else{} // Do nothing
-
-
-
-
-if(curser_hor > (hor_def + offset)){
-
-    Serial.write("R"); // Move right
-}
-
-else if(curser_hor < (hor_def - offset)){
-
-    Serial.write("L"); // Move left
-}
-
-else{} // Do nothing
-
-
-
-
-}
-
+        else{} // Do nothing
+    }
 }
  
 
