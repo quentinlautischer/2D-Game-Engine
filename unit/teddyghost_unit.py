@@ -34,6 +34,7 @@ class TeddyGhostUnit(BaseEnemyUnit):
 		self.special_counter = pygame.time.get_ticks()
 		self.atk1_sound = "death_beam_sound"
 		self.special_offset = 50
+		self.special_dmg = 3
 		self.AI = AI(self,[])
 		self.AI.sequence.append([self.Approach])
 		self.AI.sequence.append([self.queue_special])
@@ -76,7 +77,7 @@ class TeddyGhostUnit(BaseEnemyUnit):
 			#check for dmgs.
 			for unit in self.unit_roster.get("Players"):
 				if engine.detect_collision(unit, self.special_missles_box, 0, 0):
-					unit.lose_health(1)
+					unit.lose_health(self.special_dmg)
 
 			if pygame.time.get_ticks() > self.special_cast_time + 20000:
 				self.special_casting = 0
