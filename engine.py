@@ -16,15 +16,9 @@ class ENGINE(object):
 		self.game_over = True
 
 		self.FPS = 25
-		self.controllers = [Controller1(unit_roster.get("Players")[0]),Controller2(unit_roster.get("Players")[1])]
-		try:
-			self.controllers.append(Controller_Arduino(unit_roster.get("Players")[0], "COM3"))
-		except:
-			print("COM3 NOT WORKING")
-		try:
-			self.controllers.append(Controller_Arduino(unit_roster.get("Players")[1],"COM4"))
-		except:
-			print("COM4 NOT WORKING")
+		#self.controllers = [Controller_Arduino(unit_roster.get("Players")[0], "COM3"),Controller_Arduino(unit_roster.get("Players")[1], "COM4")]
+		#self.controllers = [Controller1(unit_roster.get("Players")[0]),Controller2(unit_roster.get("Players")[1])]
+		self.controllers = [Controller_Arduino(unit_roster.get("Players")[0], "COM4"),Controller1(unit_roster.get("Players")[1])]
 
 	def update_logic(self):
 		pygame.time.wait(int(1000/self.FPS))
@@ -46,7 +40,9 @@ class ENGINE(object):
 			#current_time  = pygame.time.get_ticks()
 			if player.get_health() > 0:	
 				#player.lose_health(0.1)
-				self.controllers[player.number-1].update(player)
+				for control in self.controllers:
+					if control.player == player:
+						control.update()
 				if player.defending:
 					player.defend_spell()
 				else:
@@ -202,16 +198,17 @@ def initialize_serial(port, speed):
 		
 class Controller(object):
 	def __init__(self, player):
+		self.player = player
 		pass
 		
-	def update(self, player):
+	def update(self):
 	#KEY DOWN REPEAT MOVES
 		keys = pygame.key.get_pressed()
-		self._LEFT(keys, player)
-		self._RIGHT(keys, player)
-		self._DOWN(keys, player)
-		self._UP(keys, player)
-		self._ENTER(keys, player)
+		self._LEFT(keys, self.player)
+		self._RIGHT(keys, self.player)
+		self._DOWN(keys, self.player)
+		self._UP(keys, self.player)
+		self._ENTER(keys, self.player)
 
 	def _LEFT(self, keys, player):
 		if keys[self.K_LEFT]:
@@ -241,26 +238,26 @@ class Controller1(object):
 		
 	def __init__(self, player):
 		self.player = player
-		self.K_LEFT = pygame.K_LEFT
-		self.K_RIGHT = pygame.K_RIGHT
-		self.K_DOWN = pygame.K_DOWN
-		self.K_UP = pygame.K_UP
+		self.K_LEFT = pygame.K_a
+		self.K_RIGHT = pygame.K_d
+		self.K_DOWN = pygame.K_s
+		self.K_UP = pygame.K_w
 
-		self.K_1 = pygame.K_1
-		self.K_2 = pygame.K_2
-		self.K_3 = pygame.K_3
+		self.K_1 = pygame.K_e
+		self.K_2 = pygame.K_r
+		self.K_3 = pygame.K_q
 		
-	def update(self, player):
+	def update(self):
 			
 		#KEY DOWN REPEAT MOVES
 		keys = pygame.key.get_pressed()
-		self._LEFT(keys, player)
-		self._RIGHT(keys, player)
-		self._DOWN(keys, player)
-		self._UP(keys, player)
-		self._1(keys, player)
-		self._2(keys, player)
-		self._3(keys, player)
+		self._LEFT(keys, self.player)
+		self._RIGHT(keys, self.player)
+		self._DOWN(keys, self.player)
+		self._UP(keys, self.player)
+		self._1(keys, self.player)
+		self._2(keys, self.player)
+		self._3(keys, self.player)
 
 	def _LEFT(self, keys, player):
 		if keys[self.K_LEFT]:
@@ -301,9 +298,9 @@ class Controller2(Controller1):
 		self.K_DOWN = pygame.K_k
 		self.K_UP = pygame.K_i
 
-		self.K_1 = pygame.K_7
-		self.K_2 = pygame.K_8
-		self.K_3 = pygame.K_9
+		self.K_1 = pygame.K_o
+		self.K_2 = pygame.K_p
+		self.K_3 = pygame.K_u
 
 class Controller_Arduino(Controller1):
 	def __init__(self, player, port):
@@ -319,7 +316,7 @@ class Controller_Arduino(Controller1):
 		self.K_2 = pygame.K_8
 		self.K_3 = pygame.K_9
 
-	def update(self, player):
+	def update(self):
 		keyStroke = 'None'
 		if self.ser.inWaiting():
 			Arduino_input = self.ser.read()
@@ -329,22 +326,21 @@ class Controller_Arduino(Controller1):
 		#KEY DOWN REPEAT MOVES
 		current_action = keyStroke
 		
-		print(current_action)
 		if current_action == 'L':
-			player.move_left()
+			self.player.move_left()
 		elif current_action == 'R':
-			player.move_right()
+			self.player.move_right()
 		elif current_action == 'D':
-			player.move_down()
+			self.player.move_down()
 		elif current_action == 'U':
-			player.move_up()
+			self.player.move_up()
 
 		elif current_action == 'A':
-			player.attack_spell("one")
+			self.player.attack_spell("one")
 		elif current_action == 'B':
-			player.attack_spell("two")
+			self.player.attack_spell("two")
 		elif current_action == 'C':
-			player.defending = 1
+			self.player.defending = 1
 		try:
 			self.ser.flushInput()
 		except:

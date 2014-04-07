@@ -12,9 +12,9 @@ class SpellWeaverUnit(BaseUnit):
 		self.anim_walking = LoadImages(dirr, ["walk1_Frame_0.png","walk1_Frame_1.png","walk1_Frame_2.png","walk1_Frame_3.png"]).sequence
 		self.anim_death = LoadImages(dirr, ["rope_Frame_0.png"], 90).sequence
 		self.firearrow_effect = LoadImages("images/", ["firearrow.png","firearrow.png","firearrow.png","firearrow.png"]).sequence
-		self.firearrow_move = -20
-		self.attacks_dict = {"one": {"energy": 0, "dmg": 500, "x_range": 1000, "y_range": 70},
-						"two": {"energy": 0, "dmg": 70, "x_range": 70, "y_range": 100},
+		self.firearrow_move = -40
+		self.attacks_dict = {"one": {"energy": 5, "dmg": 40, "x_range": 1000, "y_range": 70},
+						"two": {"energy": 30, "dmg": 50, "x_range": 70, "y_range": 100},
 						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
 
 

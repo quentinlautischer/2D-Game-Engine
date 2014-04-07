@@ -65,8 +65,8 @@ def menu_screen(screen):
 
 
 def init_2p(screen, unit_roster, maps):
-	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 64, 512, "Switch", 1, "images/player1/", "Good", maps))
-	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 136, 512, "If", 2, "images/player2/", "Good", maps))
+	unit_roster.get("Players").append(GladiatorUnit(unit_roster, 64, 512, "Switch", 1, "images/Josh_Switch/", "Good", maps))
+	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 136, 512, "If", 2, "images/Quentin/", "Good", maps))
 
 def init_1p(screen, unit_roster, maps):
 	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 64, 512, "Switch", 1, "images/player2/", "Good", maps))	

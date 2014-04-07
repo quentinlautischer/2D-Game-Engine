@@ -108,8 +108,8 @@ class BaseUnit(object):
 	def gain_health(self, hp):
 		if self.health < self.health_max:
 			self.health += hp
-		if self.health > 100:
-			self.health = 100
+		if self.health > self.health_max:
+			self.health = self.health_max
 	
 	def lose_health(self, dmg):
 		if self.health > 0:

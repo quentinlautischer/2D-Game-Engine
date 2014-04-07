@@ -34,7 +34,7 @@ class TeddyGhostUnit(BaseEnemyUnit):
 		self.special_counter = pygame.time.get_ticks()
 		self.atk1_sound = "death_beam_sound"
 		self.special_offset = 50
-		self.special_dmg = 3
+		self.special_dmg = 1
 		self.AI = AI(self,[])
 		self.AI.sequence.append([self.Approach])
 		self.AI.sequence.append([self.queue_special])

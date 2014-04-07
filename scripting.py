@@ -23,7 +23,7 @@ class Script(object):
 			1: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 4, GoblinUnit, "images/enemy/"), (None, "defeat wave")],
 			2: [("Keep Going", "quest text")],
 			3: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 4, GoblinUnit, "images/enemy/"), (None, "defeat wave")],
-			4: [("A stronger enemy approaches...", "quest text"), (self.release_wave1, "release wave", 2, WerewolfUnit, "images/werewolf/")],
+			4: [("A stronger enemy approaches...", "quest text"), (self.release_wave1, "release wave", 2, WerewolfUnit, "images/werewolf/"), (None, "defeat wave")],
 			5: [("Death Teddy Asks that you leave...!", "quest text"),(self.release_wave,"release wave", 1, TeddyGhostUnit, "images/teddyghost/"), (None, "defeat wave"),("You Win", "quest text"),("Keep Going", "STALL FULLER")]
 		}
 
