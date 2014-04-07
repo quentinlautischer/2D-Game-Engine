@@ -63,6 +63,7 @@ def menu_screen(screen):
 				if m[0] == highlight:
 					return m[1]
 
+
 def init_2p(screen, unit_roster, maps):
 	unit_roster.get("Players").append(ArmsmenUnit(unit_roster, 64, 512, "Switch", 1, "images/player1/", "Good", maps))
 	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 136, 512, "If", 2, "images/player2/", "Good", maps))
