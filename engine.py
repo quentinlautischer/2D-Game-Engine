@@ -16,11 +16,8 @@ class ENGINE(object):
 		self.game_over = True
 
 		self.FPS = 25
-		self.controllers = [Controller1(unit_roster.get("Players")[0])]
-		try:
-			self.controllers.append(Controller_Arduino(unit_roster.get("Players")[1]))
-		except:
-			pass
+		self.controllers = [Controller1(unit_roster.get("Players")[0]),Controller_Arduino(unit_roster.get("Players")[1])]
+		
 	def update_logic(self):
 		pygame.time.wait(int(1000/self.FPS))
 		#Check if current grid quests are complete, if yes then allow scroll
