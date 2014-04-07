@@ -43,7 +43,7 @@ void loop(){
         int curser_vert = analogRead(VERTPIN); // Get the curser vert
         int curser_hor = analogRead(HORPIN); // Get the curser hor
 
-        delay(130); //Reduce Serial send rate, its too fast
+        delay(10); //Reduce Serial send rate, its too fast
         if(digitalRead(BUTT_A) == 0) {Serial.write("A ");} // Pressed A aka attack 1
 
         if(digitalRead(BUTT_B) == 0) {Serial.write("B ");} // Pressed B aka attack 2
@@ -73,7 +73,9 @@ void loop(){
             Serial.print("L");
         }
 
-        else{} // Do nothing
+        else{
+            Serial.write(" ");
+        } // Do nothing
     }
 }
  
