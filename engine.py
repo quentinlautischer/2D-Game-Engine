@@ -313,7 +313,7 @@ class Controller_Arduino(Controller1):
 
 	def update(self, player):
 		keyStroke = 'None'
-		if inWaiting():
+		if self.ser.inWaiting():
 			Arduino_input = self.ser.read()
 			keyStroke = Arduino_input.decode(encoding='UTF-8')
 			self.key_queue.append(keyStroke)
