@@ -1,27 +1,40 @@
-import pygame
-import tools
-import engine
+import pygame, engine
 
 class AI(object):
+	"""
+	This object in creted within any unit needing AI controls
+	self.method_sequence is a list of unit methods that will be executed 
+	sequencially.
+
+	"""
 
 	def __init__(self, unit, sequence_list):
 		self.unit = unit
 		self.set_time = 0
-		self.sequence = sequence_list
+		self.method_sequence = sequence_list #List of Unit Methods.
 		self.seq_count = 0
-		#MAKE A LIST CONTAINING AI MOVES
 
 	def seq_execute(self, seq_num):
+		"""
+		Iterates over the method sequence and executes if the given time
+		has been elapsed.
+		"""
+		SEQ_TIMER = 500
+
+		#Check time if greater than SEQ_TIMER then execute.
 		if self.set_time == 0:
 			self.set_time = pygame.time.get_ticks()
 
-		if pygame.time.get_ticks() > self.set_time + 500:
-			self.sequence[seq_num][self.seq_count]()
+		if pygame.time.get_ticks() > self.set_time + SEQ_TIMER:
+			self.method_sequence[seq_num][self.seq_count]()
 			self.seq_count += 1
-			self.seq_count %= len(self.sequence[seq_num])
+			self.seq_count %= len(self.method_sequence[seq_num])
 			self.set_time = 0
 
 	def find_closest_player(self):
+		"""
+		Returns closest unit object.
+		"""
 		dist_enm_to_player = {}
 		unit_x,unit_y = self.unit.get_position()
 
