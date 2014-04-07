@@ -1,7 +1,7 @@
 #include <Arduino.h>
 
-const int HORPIN = 0; //3
-const int VERTPIN = 1; //2
+const int HORPIN = 3; //3
+const int VERTPIN = 2; //2
 const int SEL = 5;
 const int SPEAK = 6;
 const int BUTT_A = 2;
@@ -74,7 +74,7 @@ void loop(){
         }
 
         else{
-            Serial.write(" ");
+            //Serial.write(" ");
         } // Do nothing
     }
 }

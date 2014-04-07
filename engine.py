@@ -312,10 +312,11 @@ class Controller_Arduino(Controller1):
 		self.K_3 = pygame.K_9
 
 	def update(self, player):
-		Arduino_input = self.ser.read()
-
-		keyStroke = Arduino_input.decode(encoding='UTF-8')
-		self.key_queue.append(keyStroke)
+		keyStroke = 'None'
+		if inWaiting():
+			Arduino_input = self.ser.read()
+			keyStroke = Arduino_input.decode(encoding='UTF-8')
+			self.key_queue.append(keyStroke)
 			
 		#KEY DOWN REPEAT MOVES
 		current_action = keyStroke
