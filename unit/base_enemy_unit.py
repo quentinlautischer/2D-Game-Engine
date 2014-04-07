@@ -16,9 +16,9 @@ class BaseEnemyUnit(BaseUnit):
 		self.anim_atk1 = LoadImages(dirr, []).sequence
 		self.anim_death = LoadImages(dirr, []).sequence	
 		self.AI = AI(self,[])
-		self.AI.sequence.append([self.Approach])
-		self.AI.sequence.append([self.queue_warn1,self.queue_attack1])
-		self.AI.sequence.append([self.queue_warn1,self.queue_attack1])
+		self.AI.method_sequence.append([self.Approach])
+		self.AI.method_sequence.append([self.queue_warn1,self.queue_attack1])
+		self.AI.method_sequence.append([self.queue_warn1,self.queue_attack1])
 
 		#self.ai_Attack
 		#self.ai_sequence0 = [self.move_right, self.move_right, self.move_right, self.queue_warn1, self.queue_warn1, self.queue_attack1]
