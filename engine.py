@@ -1,8 +1,9 @@
-import sys, pygame, random
+import sys, pygame, random, serial
 from animation import Animation
 from operator import itemgetter, attrgetter
 from scripting import Script
 from sounds import SoundManager
+
 
 class ENGINE(object):
 
@@ -15,16 +16,7 @@ class ENGINE(object):
 		self.game_over = True
 
 		self.FPS = 25
-		self.controllers = [Controller1(unit_roster.get("Players")[0])]
-		try:
-			self.controllers.append(Controller2(unit_roster.get("Players")[1]))
-		except:
-			pass
-		try:
-			self.controllers.append(Controller3(unit_roster.get("Players")[2]))
-		except:
-			pass
-	
+		self.controllers = [Controller1(unit_roster.get("Players")[0]),Controller_Arduino(unit_roster.get("Players")[1])]
 
 	def update_logic(self):
 		pygame.time.wait(int(1000/self.FPS))
@@ -194,6 +186,11 @@ class ENGINE(object):
 		else:
 			player.draw_death(self.screen)
 
+
+# Some little helper functions to help ease readability
+def initialize_serial(port, speed):
+    ser = serial.Serial(port, speed)
+    return ser
 		
 class Controller(object):
 	def __init__(self, player):
@@ -288,6 +285,8 @@ class Controller1(object):
 class Controller2(Controller1):
 #This is the arduino server controller
 	def __init__(self, player):
+		self.ser = initialize_serial("COM4", 9600)
+
 		self.player = player
 		self.K_LEFT = pygame.K_j
 		self.K_RIGHT = pygame.K_l
@@ -298,6 +297,49 @@ class Controller2(Controller1):
 		self.K_2 = pygame.K_8
 		self.K_3 = pygame.K_9
 
+class Controller_Arduino(Controller1):
+	def __init__(self, player):
+		self.ser = initialize_serial("COM4", 9600)
+		self.key_queue = []
+		self.player = player
+		self.K_LEFT = pygame.K_j
+		self.K_RIGHT = pygame.K_l
+		self.K_DOWN = pygame.K_k
+		self.K_UP = pygame.K_i
+
+		self.K_1 = pygame.K_7
+		self.K_2 = pygame.K_8
+		self.K_3 = pygame.K_9
+
+	def update(self, player):
+		Arduino_input = self.ser.read()
+
+		keyStroke = Arduino_input.decode(encoding='UTF-8')
+		self.key_queue.append(keyStroke)
+			
+		#KEY DOWN REPEAT MOVES
+		current_action = keyStroke
+		
+		print(current_action)
+		if current_action == 'L':
+			player.move_left()
+		elif current_action == 'R':
+			player.move_right()
+		elif current_action == 'D':
+			player.move_down()
+		elif current_action == 'U':
+			player.move_up()
+
+		elif current_action == 'A':
+			player.attack_spell("one")
+		elif current_action == 'B':
+			player.attack_spell("two")
+		elif current_action == 'C':
+			player.defending = 1
+		try:
+			self.ser.flushInput()
+		except:
+			pass
 
 class LoadImagesSheet(object):
 

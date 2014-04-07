@@ -8,9 +8,8 @@ def initialize_serial(port, speed):
 init_established = 0
 
 if __name__ == "__main__":
-
-	ser = initialize_serial("/dev/tty.usbmodem1411", 9600)
-	ser.write(bytes(str(0) + "\n", encoding="ASCII"))
+	print("yo")
+	ser = initialize_serial("Port_#0001.Hub_#0005", 9600)
     
 	while 1:
 		user_input = ser.read()
