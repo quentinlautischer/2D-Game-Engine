@@ -46,6 +46,11 @@ class ENGINE(object):
 				self.script.text_print = 0
 				self.maps.is_map_scrolling = 1
 				spawn_players(self.unit_roster.get("Players"))
+				#LAST MIN MOD
+				for unit in self.unit_roster.get("Players"):
+					if unit.dead:
+						self.unit_roster.get("Players").remove(unit)
+
 
 
 			#current_time  = pygame.time.get_ticks()
@@ -417,11 +422,13 @@ def is_grid(grid_graph, grid_verts, points):
 	return True
 
 def spawn_players(player_roster):
+	#Just modified this should cause player to not teleport when dead.
 	player_reposition = 360
 	for player in player_roster:
-		player.xpos = 80
-		player.ypos = player_reposition
-		player_reposition += 64
+		if not player.dead:
+			player.xpos = 80
+			player.ypos = player_reposition
+			player_reposition += 64
 
 def spawn_enemy_specified_loc(unit_roster, maps, enemy_type, number, enemy_sprites, xpos, ypos):
 		for i in range(number):
