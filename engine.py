@@ -20,11 +20,11 @@ class ENGINE(object):
 			#self.controllers = [Controller_Arduino(unit_roster.get("Players")[0], "COM3"),Controller_Arduino(unit_roster.get("Players")[1], "COM4")]
 			self.controllers = [Controller1(unit_roster.get("Players")[0]),Controller2(unit_roster.get("Players")[1])]
 			try:
-				self.controllers.append(Controller_Arduino(unit_roster.get("Players")[0], "COM3"))
+				self.controllers.append(Controller_Arduino(unit_roster.get("Players")[0], "COM4"))
 			except:
 				print("No COM3")
 			try:
-				self.controllers.append(Controller_Arduino(unit_roster.get("Players")[1], "COM4"))
+				self.controllers.append(Controller_Arduino(unit_roster.get("Players")[1], "COM3"))
 			except:
 				print("No COM4")
 

@@ -20,7 +20,7 @@ class TeddyGhostUnit(BaseEnemyUnit):
 		self.anim_death = LoadImages(dirr, ["die1.0.png","die1.1.png","die1.2.png","die1.3.png","die1.4.png"]).sequence
 		self.deathbeam_effect = LoadImages(dirr, ["Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png"]).sequence
 		self.special_atk1 = LoadImages("images/teddyghost/", ["skill.12111006.ball.0.png","skill.12111006.ball.1.png", "skill.12111006.ball.2.png","skill.12111006.ball.3.png","skill.12111006.ball.4.png", "skill.12111006.ball.5.png","skill.12111006.ball.6.png", "skill.12111006.ball.7.png"]).sequence
-		self.attacks_dict = {"one": {"energy": 10, "dmg": 3, "x_range": 1000, "y_range": 30},
+		self.attacks_dict = {"one": {"energy": 10, "dmg": 5, "x_range": 1000, "y_range": 30},
 						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 50},
 						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
 
@@ -34,7 +34,7 @@ class TeddyGhostUnit(BaseEnemyUnit):
 		self.special_counter = pygame.time.get_ticks() - 20000
 		self.atk1_sound = "death_beam_sound"
 		self.special_offset = 50
-		self.special_dmg = 1
+		self.special_dmg = 2
 		self.AI = AI(self,[[self.Approach],[self.queue_special],[self.queue_warn1]])
 		
 		self.wave_position = [300,375,450,525,600]
