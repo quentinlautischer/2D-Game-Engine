@@ -15,12 +15,12 @@ class TeddyGhostUnit(BaseEnemyUnit):
 		super().__init__(unit_roster, xpos, ypos, name, number, dirr, faction, maps, **keywords)
 		self.anim_standing = LoadImages(dirr, ["stand.0.png","stand.1.png", "stand.2.png","stand.3.png","stand.4.png", "stand.5.png"]).sequence
 		self.anim_walking = LoadImages(dirr, ["stand.0.png","stand.1.png", "stand.2.png","stand.3.png","stand.4.png", "stand.5.png"]).sequence
-		self.anim_atk1 = LoadImages(dirr, ["attack1.11.png","attack1.10.png", "attack1.9.png","attack1.8.png","attack1.7.png", "attack1.6.png","attack1.5.png","attack1.4.png", "attack1.3.png","attack1.2.png","attack1.1.png", "attack1.0.png"]).sequence
+		self.anim_atk = LoadImages(dirr, ["stand.0.png","stand.1.png", "stand.2.png","stand.3.png","stand.4.png", "stand.5.png","stand.0.png","stand.1.png", "stand.2.png","stand.3.png","stand.4.png", "stand.5.png","stand.0.png","stand.1.png", "stand.2.png","stand.3.png","stand.4.png", "stand.5.png"]).sequence
 		self.anim_warn1 = LoadImages(dirr, ["attack1.11.png","attack1.10.png", "attack1.9.png","attack1.8.png","attack1.7.png", "attack1.6.png","attack1.5.png","attack1.4.png", "attack1.3.png","attack1.2.png","attack1.1.png", "attack1.0.png"]).sequence
 		self.anim_death = LoadImages(dirr, ["die1.0.png","die1.1.png","die1.2.png","die1.3.png","die1.4.png"]).sequence
-		self.deathbeam_effect = LoadImages(dirr, ["Deathbeam.png","Deathbeam.png","Deathbeam.png","Deathbeam.png","Deathbeam.png","Deathbeam.png","Deathbeam.png","Deathbeam.png","Deathbeam.png","Deathbeam.png","Deathbeam.png","Deathbeam.png","Deathbeam.png"]).sequence
+		self.deathbeam_effect = LoadImages(dirr, ["Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png"]).sequence
 		self.special_atk1 = LoadImages("images/teddyghost/", ["skill.12111006.ball.0.png","skill.12111006.ball.1.png", "skill.12111006.ball.2.png","skill.12111006.ball.3.png","skill.12111006.ball.4.png", "skill.12111006.ball.5.png","skill.12111006.ball.6.png", "skill.12111006.ball.7.png"]).sequence
-		self.attacks_dict = {"one": {"energy": 10, "dmg": 10, "x_range": 1000, "y_range": 50},
+		self.attacks_dict = {"one": {"energy": 10, "dmg": 3, "x_range": 1000, "y_range": 30},
 						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 50},
 						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
 
@@ -31,15 +31,11 @@ class TeddyGhostUnit(BaseEnemyUnit):
 		self.step_horz = 32
 		self.step_vert = 32
 		self.special_casting = 0
-		self.special_counter = pygame.time.get_ticks()
+		self.special_counter = pygame.time.get_ticks() - 20000
 		self.atk1_sound = "death_beam_sound"
 		self.special_offset = 50
 		self.special_dmg = 1
-		self.AI = AI(self,[])
-		self.AI.sequence.append([self.Approach])
-		self.AI.sequence.append([self.queue_special])
-		self.AI.sequence.append([self.queue_warn1, self.queue_attack1])
-		self.AI.sequence.append([self.queue_warn1, self.queue_attack1])
+		self.AI = AI(self,[[self.Approach],[self.queue_special],[self.queue_warn1]])
 		
 		self.wave_position = [300,375,450,525,600]
 		self.temp_wave = []
@@ -98,32 +94,41 @@ class TeddyGhostUnit(BaseEnemyUnit):
 
 
 	def AI_update(self, screen):
+	
 		if not self.special_casting:
-			if self.special_counter + 7000 < pygame.time.get_ticks():
-				self.special_counter = pygame.time.get_ticks()
-				self.AI.seq_execute(1)
-			else:
-				pass
+			if self.attack_status == "none":
+				if self.special_counter + 30000 < pygame.time.get_ticks():
+					self.special_counter = pygame.time.get_ticks()
+					self.queue_special()
+				else:
+					if self.check_attack_1():
+						self.AI.seq_execute(2)
+					else:
+						self.attack_status = "none"
+						self.AI.seq_count = 0
+						self.AI.seq_execute(0)
+
 
 	def draw_atk1(self, screen):
 		#Stab
-		rate = 20
-		Animation(screen, self, 0,0, self.anim_atk1, rate).animate()
-		Animation(screen, self, 550, 0, self.deathbeam_effect, 10).animate()
-		if self.anim_atk1[-2] == len(self.anim_atk1) - 3 and self.anim_atk1[-1] == rate-1:
-			Animation(screen, self, 0,0, self.anim_atk1, 5).animate()
-			self.anim_atk1[-2] = 0
+		self.dmg_dealt = False
+		rate = 1
+		Animation(screen, self, 0,0, self.anim_atk, 1).animate()
+		Animation(screen, self, 550, 0, self.deathbeam_effect, rate).animate()
+		if self.deathbeam_effect[-2] == len(self.deathbeam_effect) - 3 and self.deathbeam_effect[-1] == rate-1:
+			Animation(screen, self, 550,0, self.deathbeam_effect, 5).animate()
+			self.deathbeam_effect[-2] = 0
 			self.attack_status = "none"
+			self.dmg_dealt = True
 
 	def draw_warn1(self, screen):
 		#Stab
 		rate = 4
 		Animation(screen, self, 0,0, self.anim_warn1, rate).animate()
-		#Animation(screen, self, self.width, self.stab_effect, rate).animate()
 		if self.anim_warn1[-2] == len(self.anim_warn1) - 3 and self.anim_warn1[-1] == rate-1:
 			Animation(screen, self, 0,0, self.anim_warn1, 5).animate()
 			self.anim_warn1[-2] = 0
-			self.attack_status = "none"
+			self.attack_status = "one"
 
 
 	def draw_atk2(self, screen):

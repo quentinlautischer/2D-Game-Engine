@@ -16,10 +16,21 @@ class ENGINE(object):
 		self.game_over = True
 
 		self.FPS = 25
-		#self.controllers = [Controller_Arduino(unit_roster.get("Players")[0], "COM3"),Controller_Arduino(unit_roster.get("Players")[1], "COM4")]
-		#self.controllers = [Controller1(unit_roster.get("Players")[0]),Controller2(unit_roster.get("Players")[1])]
-		self.controllers = [Controller_Arduino(unit_roster.get("Players")[0], "COM4"),Controller1(unit_roster.get("Players")[1])]
+		if len(self.unit_roster.get("Players")) > 1:
+			#self.controllers = [Controller_Arduino(unit_roster.get("Players")[0], "COM3"),Controller_Arduino(unit_roster.get("Players")[1], "COM4")]
+			self.controllers = [Controller1(unit_roster.get("Players")[0]),Controller2(unit_roster.get("Players")[1])]
+			try:
+				self.controllers.append(Controller_Arduino(unit_roster.get("Players")[0], "COM3"))
+			except:
+				print("No COM3")
+			try:
+				self.controllers.append(Controller_Arduino(unit_roster.get("Players")[1], "COM4"))
+			except:
+				print("No COM4")
 
+			#self.controllers = [Controller_Arduino(unit_roster.get("Players")[0], "COM4"),Controller1(unit_roster.get("Players")[1])]
+		else:
+			self.controllers = [Controller1(unit_roster.get("Players")[0])]
 	def update_logic(self):
 		pygame.time.wait(int(1000/self.FPS))
 		#Check if current grid quests are complete, if yes then allow scroll
@@ -52,6 +63,8 @@ class ENGINE(object):
 				if not player.dmg_dealt:
 					SoundManager.play(player.atk1_sound)
 					player.check_dmg_done(self.unit_roster.get("Enemies"))
+					if self.script.duel_mode:
+						player.check_dmg_done(self.unit_roster.get("Players"))
 					player.dmg_dealt = True
 			else:
 				player.dead = True
@@ -290,8 +303,6 @@ class Controller1(object):
 class Controller2(Controller1):
 #This is the arduino server controller
 	def __init__(self, player):
-		self.ser = initialize_serial("COM4", 9600)
-
 		self.player = player
 		self.K_LEFT = pygame.K_j
 		self.K_RIGHT = pygame.K_l

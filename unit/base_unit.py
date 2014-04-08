@@ -17,7 +17,7 @@ class BaseUnit(object):
 		self.xpos = xpos
 		self.ypos = ypos
 		self.number = number
-		self.width = 64
+		self.width = 40
 		self.is_passable = 0
 		self.maps = maps
 		self.scroll_available = 1

@@ -16,26 +16,17 @@ class WerewolfUnit(BaseEnemyUnit):
 		self.anim_warn1 = LoadImages(dirr, ["Slash0_Frame0.png","Slash0_Frame1.png","Slash0_Frame2.png","Slash0_Frame3.png","Slash0_Frame3.png","Slash0_Frame4.png","Slash0_Frame3.png","Slash0_Frame4.png","Slash0_Frame3.png","Slash0_Frame4.png","Slash0_Frame3.png","Slash0_Frame4.png"]).sequence 
 		self.anim_atk1 = LoadImages(dirr, ["Slash0_Frame5.png","Slash0_Frame6.png","Slash0_Frame7.png","Slash0_Frame8.png","Slash0_Frame9.png"]).sequence
 		self.anim_death = LoadImages(dirr, ["death_frame0.png","death_frame1.png","death_frame2.png","death_frame3.png","death_frame4.png","death_frame5.png","death_frame6.png","death_frame7.png"]).sequence	
-		self.attacks_dict = {"one": {"energy": 10, "dmg": 10, "x_range": 60, "y_range": 120},
+		self.attacks_dict = {"one": {"energy": 10, "dmg": 40, "x_range": 60, "y_range": 120},
 						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 40},
 						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
 
-		self.width = 136  #self.anim_standing[0].get_rect().size[0] 
+		self.width = 120  #self.anim_standing[0].get_rect().size[0] 
 		self.height = 160 #self.anim_standing[0].get_rect().size[1]
 		self.health_max = 500
 		self.health = self.health_max
 		self.step_horz = 32
 		self.step_vert = 32
-
-		#self.AI = AI(self,[])
-
-		#self.AI.sequence.append([self.Approach])
-
-		#self.ai_Attack
-		#self.ai_sequence0 = [self.move_right, self.move_right, self.move_right, self.queue_warn1, self.queue_warn1, self.queue_attack1]
-		#self.ai_sequence1 = [self.move_left, self.move_left, self.move_left]
-
-		#self.AI = AI(self, [self.ai_sequence0, self.ai_sequence1,self.ai_Approach])
+		self.intelligence = 50
 	
 	def draw_atk1(self, screen):
 		#Stab
@@ -46,16 +37,18 @@ class WerewolfUnit(BaseEnemyUnit):
 			Animation(screen, self, 0,0, self.anim_atk1, 5).animate()
 			self.anim_atk1[-2] = 0
 			self.attack_status = "none"
+			self.dmg_dealt = True
 
 	def draw_warn1(self, screen):
 		#Stab
-		rate = 4
+		rate = 1
 		Animation(screen, self, 0,0, self.anim_warn1, rate).animate()
 		#Animation(screen, self, self.width, self.stab_effect, rate).animate()
 		if self.anim_warn1[-2] == len(self.anim_warn1) - 3 and self.anim_warn1[-1] == rate-1:
 			Animation(screen, self, 0,0, self.anim_warn1, 5).animate()
 			self.anim_warn1[-2] = 0
-			self.attack_status = "none"
+			self.attack_status = "one"
+			self.dmg_dealt = False
 
 
 	def draw_atk2(self, screen):
@@ -67,11 +60,6 @@ class WerewolfUnit(BaseEnemyUnit):
 			Animation(screen, self, 0,0, self.anim_atk2, 5).animate()
 			self.anim_atk2[-2] = 0
 			self.attack_status = "none"
-
-	def special_atk1(self, screen):
-		# extra fog rolls in boss disapears claws attack
-		pass
-
 
 	def queue_warn1(self):
 		self.attack_status = "warn1"

@@ -16,15 +16,16 @@ class Script(object):
 		self.scroll_available = 0
 		self.text_print = 1
 		self.quest_text = ""
+		self.duel_mode = 0
 	
 
 		self.current_grid_quests = {
-			0: [("Welcome to the game", "quest text")],#,(self.release_wave,"release wave", 1, TeddyGhostUnit, "images/teddyghost/"),(None, "defeat wave")],
+			0: [("Welcome to the game", "quest text")], #(self.release_wave,"release wave", 1, TeddyGhostUnit, "images/teddyghost/"),(None, "defeat wave")],
 			1: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 4, GoblinUnit, "images/enemy/"), (None, "defeat wave")],
 			2: [("Keep Going", "quest text")],
 			3: [("Defeat the Monsters!", "quest text"),(self.release_wave,"release wave", 4, GoblinUnit, "images/enemy/"), (None, "defeat wave")],
-			4: [("A stronger enemy approaches...", "quest text"), (self.release_wave1, "release wave", 2, WerewolfUnit, "images/werewolf/"), (None, "defeat wave")],
-			5: [("Death Teddy Asks that you leave...!", "quest text"),(self.release_wave,"release wave", 1, TeddyGhostUnit, "images/teddyghost/"), (None, "defeat wave"),("You Win", "quest text"),("Keep Going", "STALL FULLER")]
+			4: [("A stronger enemy approaches...", "quest text"), (self.release_wave1, "release wave", 1, WerewolfUnit, "images/werewolf/"), (None, "defeat wave")],
+			5: [("Death Teddy Asks that you leave...!", "quest text"),(self.release_wave,"release wave", 1, TeddyGhostUnit, "images/teddyghost/"), (None, "defeat wave"),("Only One Can Be Champion...", "quest text"),("duel", "duel"),("End Quest", "End Quest")]
 		}
 
 		self.quest = self.current_grid_quests.get(self.maps.current_grid)
@@ -44,6 +45,8 @@ class Script(object):
 				self.quest_text, b = self.quest.pop(0)
 				self.text_timer = pygame.time.get_ticks()
 				self.text_print = 1
+			elif self.quest[0][1] == "duel":
+				self.duel_mode = 1
 		else:
 			self.scroll_available = 1
 

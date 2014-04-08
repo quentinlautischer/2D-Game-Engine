@@ -4,7 +4,7 @@ from unit.base_unit import BaseUnit
 from animation import Animation
 import unit
 from ai import AI
-import engine
+import engine, random
 
 class BaseEnemyUnit(BaseUnit):
 
@@ -19,6 +19,7 @@ class BaseEnemyUnit(BaseUnit):
 		self.AI.sequence.append([self.Approach])
 		self.AI.sequence.append([self.queue_warn1,self.queue_attack1])
 		self.AI.sequence.append([self.queue_warn1,self.queue_attack1])
+		self.intelligence = 25
 
 		#self.ai_Attack
 		#self.ai_sequence0 = [self.move_right, self.move_right, self.move_right, self.queue_warn1, self.queue_warn1, self.queue_attack1]
@@ -53,7 +54,8 @@ class BaseEnemyUnit(BaseUnit):
 		if self.anim_warn1[-2] == len(self.anim_warn1) - 3 and self.anim_warn1[-1] == rate-1:
 			Animation(screen, self, 0,0, self.anim_warn1, 5).animate()
 			self.anim_warn1[-2] = 0
-			self.attack_status = "none"
+			self.attack_status = "one"
+			self.dmg_dealt = False
 
 
 	def draw_atk2(self, screen):
@@ -99,24 +101,23 @@ class BaseEnemyUnit(BaseUnit):
 
 		return engine.in_range_cross(self, player_ofa, x2_attk_rng, y2_attk_rng, self.direction)
 
-
-	def Attack1(self):
-
-		return [self.queue_warn1, self.queue_warn1, self.queue_attack1]
-
-	def Attack2(self):
-		return [self.queue_warn1, self.queue_warn1, self.queue_attack1]
-
 	def AI_update(self, screen):
-		#self.attack_status = "one"
-		#self.check_dmg_done(self.unit_roster)
-		if self.check_attack_2():
-			self.AI.seq_execute(2)
-		elif self.check_attack_1():
-			self.AI.seq_execute(1)
-		else:
-			self.AI.seq_count = 0
-			self.AI.seq_execute(0)
+
+		# if self.check_attack_2():
+		# 	self.AI.seq_execute(2)
+		# elif self.check_attack_1():
+		# 	self.AI.seq_execute(1)
+		# else:
+		# 	self.AI.seq_count = 0
+		# 	self.AI.seq_execute(0)
+		if self.attack_status == "none":
+				if self.check_attack_1():
+					self.queue_warn1()
+				else:
+					self.attack_status = "none"
+					self.AI.seq_count = 0
+					if random.randint(0,100) < self.intelligence:
+						self.Approach()
 
 	def queue_warn1(self):
 		self.attack_status = "warn1"
