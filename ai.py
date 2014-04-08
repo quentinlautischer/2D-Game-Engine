@@ -21,7 +21,7 @@ class AI(object):
 		"""
 		SEQ_TIMER = 500
 
-		#Check time if greater than SEQ_TIMER then execute.
+		#If current time greater than SEQ_TIMER then execute and advance the sequence frame.
 		if self.set_time == 0:
 			self.set_time = pygame.time.get_ticks()
 
@@ -40,16 +40,12 @@ class AI(object):
 
 
 		for player in self.unit.unit_roster.get("Players"):
+			#Identifies Dead players as farthest
 			if player.dead == True:
 				dist_enm_to_player[float('inf')] = player
 			else:
 				pl_x, pl_y = player.get_position()
 				dist = engine.straight_line_dist(unit_x, unit_y, pl_x, pl_y)
 				dist_enm_to_player[dist] = player
+				
 		return dist_enm_to_player[min(dist_enm_to_player.keys())]
-
-	
-
-
-
-	#def Attack(self):

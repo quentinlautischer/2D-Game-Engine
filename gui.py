@@ -2,6 +2,10 @@ import sys, pygame
 import random
 
 class GUI(object):
+	"""
+	An object that deals with the game interface. Basically just a fancy bar that holds the health bar.
+	This really doesnt do much more than draw deal with that. Oh and it deals with gameover... because why not?
+	"""
 
 	def __init__(self, screen, unit_roster):
 		self.screen = screen
@@ -11,13 +15,19 @@ class GUI(object):
 		self.gameover_img = pygame.image.load("images/Game_over.png")
 
 	def draw(self, unit_roster):
-		#pygame.draw.rect(self.screen, (200, 200, 200), (0, 0, self.screen.get_size()[0] , 150), 0)
-		self.screen.blit(self.panel, (0, -40))
+		"""
+		Draws inteface based on player information.
+		"""
+		#Draw Interface Panel
+		self.screen.blit(self.panel, (0, -40)) #-40 cause the image wasnt cut proper.
+		
 		# initialize font; must be called after 'pygame.init()' to avoid 'Font not Initialized' error
 		myfont = pygame.font.SysFont("Times New Roman", 25)
 
+		# Draw moving part (Health bars)
 		self.draw_update(unit_roster)
 
+		#Print Player names
 		for member in unit_roster.get("Players"):
 			label = myfont.render(member.name, 1, (100,100,100))
 			self.screen.blit(label, (200+(225*(member.number-1)), 20))
@@ -32,4 +42,5 @@ class GUI(object):
 			pygame.draw.rect(self.screen, (250, 250, 0), (200+(225*(member.number-1)), 52, (member.energy / member.energy_max)*self.health_bar_len, 10), 0)
 
 	def gameover_draw(self):
+		# Draw an opaque gameover screen
 		self.screen.blit(self.gameover_img, (0,0))
