@@ -2,13 +2,13 @@ from animation import LoadImages
 from unit.base_unit import BaseUnit
 from unit.base_enemy_unit import BaseEnemyUnit
 from animation import Animation
-import unit
 from ai import AI
-import engine
-import box
-import pygame
-import random
+import engine, box, pygame, random, unit
+
 class TeddyGhostUnit(BaseEnemyUnit):
+	"""
+	Final Boss AI. Contains a few special attacks that make for a challanging fight.
+	"""
 
 	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, maps, **keywords):
 		
@@ -20,9 +20,8 @@ class TeddyGhostUnit(BaseEnemyUnit):
 		self.anim_death = LoadImages(dirr, ["die1.0.png","die1.1.png","die1.2.png","die1.3.png","die1.4.png"]).sequence
 		self.deathbeam_effect = LoadImages(dirr, ["Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png","Deathbeam.png","Deathbeam1.png"]).sequence
 		self.special_atk1 = LoadImages("images/teddyghost/", ["skill.12111006.ball.0.png","skill.12111006.ball.1.png", "skill.12111006.ball.2.png","skill.12111006.ball.3.png","skill.12111006.ball.4.png", "skill.12111006.ball.5.png","skill.12111006.ball.6.png", "skill.12111006.ball.7.png"]).sequence
-		self.attacks_dict = {"one": {"energy": 10, "dmg": 5, "x_range": 1000, "y_range": 30},
-						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 50},
-						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
+		self.attacks_dict = {"one": {"energy": 10, "dmg": 5, "x_range": 1000, "y_range": 50},
+						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 50}}
 
 		self.width = 136  #self.anim_attack1ing[0].get_rect().size[0] 
 		self.height = 160 #self.anim_skill.12111006.balling[0].get_rect().size[1]
@@ -44,7 +43,11 @@ class TeddyGhostUnit(BaseEnemyUnit):
 			self.temp_wave.append(random.sample(self.wave_position, len(self.wave_position)-1))
 	
 	def special_atk(self, screen):
-		#Fire Wall
+		"""
+		Spawns players at one side of map and himself at the other then
+		creates waves of fire missles that must be dodged by the players.
+
+		"""
 		if not self.special_casting:
 			engine.spawn_players(self.unit_roster.get("Players"))
 			self.xpos = 750
@@ -62,13 +65,6 @@ class TeddyGhostUnit(BaseEnemyUnit):
 			for missle in self.special_missles_box:
 				Animation(screen, missle , 0,0, self.special_atk1, 10).animate()
 				missle.move_left()
-
-				#pygame.draw.rect(screen, (100, 100, 200), ((missle.unit_box._xl, missle.unit_box._yt), (3,3)), 0)
-				#pygame.draw.rect(screen, (100, 100, 200), ((missle.unit_box._xl, missle.unit_box._yb), (3,3)), 0)
-				#pygame.draw.rect(screen, (100, 100, 200), ((missle.unit_box._xr, missle.unit_box._yt), (3,3)), 0)
-				#pygame.draw.rect(screen, (100, 100, 200), ((missle.unit_box._xr, missle.unit_box._yb), (3,3)), 0)
-
-
 
 			#check for dmgs.
 			for unit in self.unit_roster.get("Players"):
@@ -144,22 +140,6 @@ class TeddyGhostUnit(BaseEnemyUnit):
 	def queue_warn1(self):
 		self.attack_status = "warn1"
 
-	def Approach(self):
-
-		unit_x,unit_y = self.get_position()
-		player_ofa = self.AI.find_closest_player()
-		pl_x, pl_y = player_ofa.get_position()
-
-		if unit_x < pl_x:
-			self.move_right()
-		elif unit_x > pl_x:
-			self.move_left()
-
-		if unit_y < pl_y:
-			self.move_down()
-		elif unit_y > pl_y:
-			self.move_up()
-
 	def queue_special(self):
 		self.attack_status = "special"
 		engine.spawn_players(self.unit_roster.get("Players"))
@@ -173,6 +153,10 @@ class TeddyGhostUnit(BaseEnemyUnit):
 				self.special_missles_box.append(self.FireMissle(self.unit_roster, 900+(j*300), self.temp_wave[j][i]))
 
 	class FireMissle(object):
+		"""
+		The Fire missles are objects with hitboxes used to determine
+		collision with opposing players.
+		"""
 
 		def __init__(self, unit_roster, xpos, ypos):
 			self.unit_roster = unit_roster

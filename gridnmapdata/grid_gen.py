@@ -2,9 +2,18 @@
 import pygame
 from pygame.locals import *
 
+"""
+	Creates a visual grid that you can color in. Colored squares will upon saving
+	be generated into graph data that can be loaded using Load_Graph_Data.
+
+	This isnt really part of the project just  a tool I develloped on the side
+	to assit with generating grids in our game.
+"""
+
 def generate_data(filename, array, RESOLUTION_X, RESOLUTION_Y, grid_delta):
-	#V, ID, locx, locy
-	#E, ID1, ID2, desc
+	"""
+	for each colored box write the Vertices and Edge data into a file.
+	"""
 
 	vertices = {}
 	vert_id_to_coord = {}
@@ -52,6 +61,9 @@ def generate_data(filename, array, RESOLUTION_X, RESOLUTION_Y, grid_delta):
 	return vertices, vert_id_to_coord, edges
 
 def select_square(screen, surface, array, grid_delta, grid_bg, brush_size):
+	"""
+	Color the grid square and indicated on the array that the square is filled.
+	"""
 	x, y = pygame.mouse.get_pos()
 	x //= grid_delta
 	y //= grid_delta
@@ -89,6 +101,9 @@ def select_square(screen, surface, array, grid_delta, grid_bg, brush_size):
 	screen.blit(surface, (0, 0))
 
 def desel_square(screen, surface, array, grid_delta, grid_bg, brush_size):
+	"""
+	Remove Color the grid square and indicated on the array that the square is empty.
+	"""
 	x, y = pygame.mouse.get_pos()
 	x //= grid_delta
 	y //= grid_delta
@@ -138,8 +153,10 @@ def main():
 		for event in pygame.event.get():
 			if event.type == QUIT:
 				return
+			#Color Square. Mark as 4 verts with edges between
 			if pygame.mouse.get_pressed() == (1, 0, 0):
 				select_square(screen, background, array, grid_delta, grid_bg, brush_size)
+			#Remove Square. 
 			if pygame.mouse.get_pressed() == (0, 0, 1):
 				desel_square(screen, background, array, grid_delta, grid_bg, brush_size) 
 			keys = pygame.key.get_pressed()
@@ -150,6 +167,7 @@ def main():
 					pygame.draw.line(background, (255, 0, 0), vertId_cord[id1], vertId_cord[id2], 5)
 				screen.blit(background, (0, 0))
 				return
+			#Increase Brush Size
 			if  keys[pygame.K_UP]:
 				if brush_size < 1000:
 					brush_size += 1
@@ -159,7 +177,5 @@ def main():
 					brush_size -= 1
 					print(brush_size)
 		pygame.display.update()
-
-		#EVENT WHEN MOUSE CLICK DRAW RECT AND CHANGE ARRAY
 
 if __name__ == '__main__': main()

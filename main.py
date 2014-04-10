@@ -8,7 +8,6 @@ from unit.spellweaver_unit import SpellWeaverUnit
 from unit.armsmen_unit import ArmsmenUnit
 from unit.gladiator_unit import GladiatorUnit
 from unit.werewolf_unit import WerewolfUnit
-from unit.cleric_unit import ClericUnit
 from maps import Maps
 from scripting import Script
 
@@ -40,7 +39,7 @@ def main():
 	
 	engine = ENGINE(screen, gui, unit_roster, maps, script)
 
-	#init
+	#init gui interface
 	gui.draw(unit_roster)
 
 	# Event loop
@@ -98,10 +97,12 @@ def menu_screen(screen):
 
 
 def init_2p(screen, unit_roster, maps):
-	unit_roster.get("Players").append(GladiatorUnit(unit_roster, 64, 512, "Switch", 1, "images/Josh_Switch/", "Good", maps))
+	#Adds players to unit roster
+	unit_roster.get("Players").append(GladiatorUnit(unit_roster, 64, 512, "Switch", 1, "images/Josh/", "Good", maps))
 	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 136, 512, "If", 2, "images/Quentin/", "Good", maps))
 
 def init_1p(screen, unit_roster, maps):
+	#Adds player to unit roster
 	unit_roster.get("Players").append(SpellWeaverUnit(unit_roster, 64, 512, "Switch", 1, "images/Quentin/", "Good", maps))	
 
 if __name__ == '__main__': main()

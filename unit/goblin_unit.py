@@ -15,11 +15,10 @@ class GoblinUnit(BaseEnemyUnit):
 		self.anim_atk2 = LoadImages(dirr, ["swingO1_Frame_0.png","swingO1_Frame_1.png","swingO1_Frame_2.png","swingO1_Frame_2.png"]).sequence
 		self.anim_warn1 = LoadImages(dirr, ["swingO1_Frame_0.png","swingO1_Frame_1.png","swingO1_Frame_0.png","swingO1_Frame_1.png"]).sequence 
 		self.anim_walking = LoadImages(dirr, ["walk1_Frame_0.png","walk1_Frame_1.png","walk1_Frame_2.png","walk1_Frame_3.png"]).sequence
-		self.slash_effect = LoadImages("images/", ["sword_effect.png","sword_effect.png","sword_effect.png"]).sequence
-		self.stab_effect = LoadImages("images/", ["stab_effect.png","stab_effect.png","stab_effect.png"]).sequence
+		self.slash_effect = LoadImages(dirr, ["sword_effect.png","sword_effect.png","sword_effect.png"]).sequence
+		self.stab_effect = LoadImages(dirr, ["stab_effect.png","stab_effect.png","stab_effect.png"]).sequence
 		self.anim_death = LoadImages(dirr, ["rope_Frame_0.png"], 90).sequence
 		self.attacks_dict = {"one": {"energy": 0, "dmg": 20, "x_range": 60, "y_range": 40},
-						"two": {"energy": 0, "dmg": 50, "x_range": 40, "y_range": 40},
-						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
+						"two": {"energy": 0, "dmg": 50, "x_range": 40, "y_range": 40}}
 
 unit.unit_types["GoblinUnit"] = GoblinUnit

@@ -7,6 +7,9 @@ from ai import AI
 import engine, random
 
 class BaseEnemyUnit(BaseUnit):
+	"""
+	Base AI Unit.
+	"""
 
 	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, maps, **keywords):
 		
@@ -19,13 +22,8 @@ class BaseEnemyUnit(BaseUnit):
 		self.AI.sequence.append([self.Approach])
 		self.AI.sequence.append([self.queue_warn1,self.queue_attack1])
 		self.AI.sequence.append([self.queue_warn1,self.queue_attack1])
-		self.intelligence = 25
+		self.intelligence = 25 # 0 - 100 higher the greater chance he has to execute methods()
 
-		#self.ai_Attack
-		#self.ai_sequence0 = [self.move_right, self.move_right, self.move_right, self.queue_warn1, self.queue_warn1, self.queue_attack1]
-		#self.ai_sequence1 = [self.move_left, self.move_left, self.move_left]
-
-		#self.AI = AI(self, [self.ai_sequence0, self.ai_sequence1,self.ai_Approach])
 	
 	def draw_walking(self, screen):
 		rate = 5
@@ -69,6 +67,10 @@ class BaseEnemyUnit(BaseUnit):
 			self.attack_status = "none"
 
 	def check_attack_1(self):
+		"""
+		Check if another targeted unit is within range of attack
+		"""
+
 		unit_x,unit_y = self.get_position()
 		player_ofa = self.AI.find_closest_player()
 		pl_x, pl_y = player_ofa.get_position()
@@ -86,6 +88,9 @@ class BaseEnemyUnit(BaseUnit):
 		return engine.in_range_cross(self, player_ofa, x1_attk_rng, y1_attk_rng, self.direction)
 
 	def check_attack_2(self):
+		"""
+		Check if another targeted unit is within range of attack
+		"""
 
 		unit_x,unit_y = self.get_position()
 		player_ofa = self.AI.find_closest_player()
@@ -102,14 +107,10 @@ class BaseEnemyUnit(BaseUnit):
 		return engine.in_range_cross(self, player_ofa, x2_attk_rng, y2_attk_rng, self.direction)
 
 	def AI_update(self, screen):
-
-		# if self.check_attack_2():
-		# 	self.AI.seq_execute(2)
-		# elif self.check_attack_1():
-		# 	self.AI.seq_execute(1)
-		# else:
-		# 	self.AI.seq_count = 0
-		# 	self.AI.seq_execute(0)
+		"""
+		Logic behind AI decisions
+		Based on certain criteria executes methods()
+		"""
 		if self.attack_status == "none":
 				if self.check_attack_1():
 					self.queue_warn1()
@@ -124,6 +125,10 @@ class BaseEnemyUnit(BaseUnit):
 
 
 	def Approach(self):
+		"""
+		Checks for closest player and then
+		makes a move toward them
+		"""
 
 		unit_x,unit_y = self.get_position()
 		player_ofa = self.AI.find_closest_player()

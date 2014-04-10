@@ -7,6 +7,10 @@ import unit
 from ai import AI
 
 class WerewolfUnit(BaseEnemyUnit):
+	"""
+	A very quick and highly aggressive AI
+	"""
+
 
 	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, maps, **keywords):
 		
@@ -17,8 +21,7 @@ class WerewolfUnit(BaseEnemyUnit):
 		self.anim_atk1 = LoadImages(dirr, ["Slash0_Frame5.png","Slash0_Frame6.png","Slash0_Frame7.png","Slash0_Frame8.png","Slash0_Frame9.png"]).sequence
 		self.anim_death = LoadImages(dirr, ["death_frame0.png","death_frame1.png","death_frame2.png","death_frame3.png","death_frame4.png","death_frame5.png","death_frame6.png","death_frame7.png"]).sequence	
 		self.attacks_dict = {"one": {"energy": 10, "dmg": 40, "x_range": 60, "y_range": 120},
-						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 40},
-						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
+						"two": {"energy": 10, "dmg": 10, "x_range": 40, "y_range": 40}}
 
 		self.width = 120  #self.anim_standing[0].get_rect().size[0] 
 		self.height = 160 #self.anim_standing[0].get_rect().size[1]
@@ -32,7 +35,6 @@ class WerewolfUnit(BaseEnemyUnit):
 		#Stab
 		rate = 1
 		Animation(screen, self, 0,0, self.anim_atk1, rate).animate()
-		#Animation(screen, self, self.width, self.stab_effect, rate).animate()
 		if self.anim_atk1[-2] == len(self.anim_atk1) - 3 and self.anim_atk1[-1] == rate-1:
 			Animation(screen, self, 0,0, self.anim_atk1, 5).animate()
 			self.anim_atk1[-2] = 0
@@ -40,10 +42,12 @@ class WerewolfUnit(BaseEnemyUnit):
 			self.dmg_dealt = True
 
 	def draw_warn1(self, screen):
-		#Stab
+		"""
+		Draws a warning animation once this animation is complete
+		sets attack_status to attack
+		"""
 		rate = 1
 		Animation(screen, self, 0,0, self.anim_warn1, rate).animate()
-		#Animation(screen, self, self.width, self.stab_effect, rate).animate()
 		if self.anim_warn1[-2] == len(self.anim_warn1) - 3 and self.anim_warn1[-1] == rate-1:
 			Animation(screen, self, 0,0, self.anim_warn1, 5).animate()
 			self.anim_warn1[-2] = 0
@@ -63,23 +67,5 @@ class WerewolfUnit(BaseEnemyUnit):
 
 	def queue_warn1(self):
 		self.attack_status = "warn1"
-
-
-	def Approach(self):
-
-		unit_x,unit_y = self.get_position()
-		player_ofa = self.AI.find_closest_player()
-		pl_x, pl_y = player_ofa.get_position()
-
-		if unit_x < pl_x:
-			self.move_right()
-		elif unit_x > pl_x:
-			self.move_left()
-
-		if unit_y < pl_y:
-			self.move_down()
-		elif unit_y > pl_y:
-			self.move_up()
-
 
 unit.unit_types["WerewolfUnit"] = WerewolfUnit

@@ -1,5 +1,11 @@
 #include <Arduino.h>
 
+/*
+    Upload this cpp to an arduino with the pin setup described by the below declarations.
+    This will send data as to what buttons are pressed over the serial lines and the python
+    server running in the main game engine will interpret the data.
+*/
+
 const int HORPIN = 3; //3
 const int VERTPIN = 2; //2
 const int SEL = 5;
@@ -44,6 +50,7 @@ void loop(){
         int curser_hor = analogRead(HORPIN); // Get the curser hor
 
         delay(10); //Reduce Serial send rate, its too fast
+
         if(digitalRead(BUTT_A) == 0) {Serial.write("A ");} // Pressed A aka attack 1
 
         if(digitalRead(BUTT_B) == 0) {Serial.write("B ");} // Pressed B aka attack 2
@@ -73,9 +80,8 @@ void loop(){
             Serial.print("L");
         }
 
-        else{
-            //Serial.write(" ");
-        } // Do nothing
+        else{// Do nothing
+        } 
     }
 }
  

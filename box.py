@@ -1,4 +1,3 @@
-# python reindent 
 class Box(object):
 
     def __init__(self, xl, yt, xr, yb):
@@ -11,23 +10,6 @@ class Box(object):
         self._yt = yt
         self._xr = xr 
         self._yb = yb
-
-        def xl(self):
-            return self._xl
-
-        def moveBy(self, dx, dy):
-            #move the (x, y), position of the box b to new position (x+dx, y+dy)
-            self._xl += dx
-            self._xr += dx
-
-            self._yt += dy
-            self._yb += dy
-
-#    def contains(self, x, y):
-#        """
-#        Check if one box is within another (Good for collision)
-#        """
-#        return (self._xl <= x <= self._xr) and (self._yt <= y <= self._yb)
 
     def collidesWith(self, b1, offsetx, offsety):
         """

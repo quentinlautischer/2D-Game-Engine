@@ -3,6 +3,9 @@ from unit.base_unit import BaseUnit
 from animation import Animation
 import unit, pygame
 class SpellWeaverUnit(BaseUnit):
+	"""
+	Ranged unit with low health and high dmg.
+	"""
 
 	def __init__(self, unit_roster, xpos, ypos, name, number, dirr, faction, maps,  **keywords):
 		super().__init__(unit_roster, xpos, ypos, name, number, dirr, faction, maps, **keywords)
@@ -11,18 +14,17 @@ class SpellWeaverUnit(BaseUnit):
 		self.anim_atk2 = LoadImages(dirr, ["swingO3_Frame_0.png","swingO3_Frame_1.png","swingO3_Frame_2.png"]).sequence
 		self.anim_walking = LoadImages(dirr, ["walk1_Frame_0.png","walk1_Frame_1.png","walk1_Frame_2.png","walk1_Frame_3.png"]).sequence
 		self.anim_death = LoadImages(dirr, ["rope_Frame_0.png"], 90).sequence
-		self.firearrow_effect = LoadImages("images/", ["firearrow.png","firearrow.png","firearrow.png","firearrow.png"]).sequence
+		self.firearrow_effect = LoadImages(dirr, ["firearrow.png","firearrow.png","firearrow.png","firearrow.png"]).sequence
 		self.firearrow_move = -40
-		self.attacks_dict = {"one": {"energy": 5, "dmg": 50, "x_range": 1000, "y_range": 70},
-						"two": {"energy": 30, "dmg": 50, "x_range": 70, "y_range": 100},
-						"DOOM": {"energy": 0, "dmg": 100, "x_range": 50, "y_range": 50}}
+		self.attacks_dict = {"one": {"energy": 20, "dmg": 50, "x_range": 1000, "y_range": 70},
+						"two": {"energy": 30, "dmg": 80, "x_range": 70, "y_range": 100}}
 
 
 	def draw_atk1(self, screen):
 		#Bow
 		rate = 2
 		Animation(screen, self, 0,0, self.anim_atk1, rate).animate()
-		Animation(screen, self, self.width + self.firearrow_move,0, self.firearrow_effect, rate).animate()
+		Animation(screen, self, self.width + self.firearrow_move,-17, self.firearrow_effect, rate).animate()
 		self.firearrow_move += 60
 		if self.anim_atk1[-2] == len(self.anim_atk1) - 3 and self.anim_atk1[-1] == rate-1:
 			Animation(screen, self, 0,0, self.anim_atk1, 5).animate()
